@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hydroBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F1F6F3" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#E8EFEA" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="aquiferGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0EBE5" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#C2D7CC" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="deepAquifer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D6E3DC" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#B8D0C3" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#hydroBg)"/>
+
+  <!-- Topographic Ground Surface Profile -->
+  <path d="M0 260 C380 200, 760 320, 1140 240 C1520 160, 1720 280, 1920 220 L1920 1080 L0 1080 Z" fill="#F4EFE6" fill-opacity="0.75"/>
+
+  <!-- Phreatic Surface / Water Table Line (Dashed Hydraulic Potential) -->
+  <path d="M0 340 C360 300, 740 390, 1120 330 C1500 270, 1710 350, 1920 310" stroke="#46735E" stroke-width="2.5" stroke-dasharray="10 5" fill="none" stroke-opacity="0.6"/>
+
+  <!-- Unconfined Alluvial Aquifer Zone -->
+  <path d="M0 340 C360 300, 740 390, 1120 330 C1500 270, 1710 350, 1920 310 L1920 540 C1400 500, 900 560, 0 510 Z" fill="url(#aquiferGrad)"/>
+
+  <!-- Subsurface Groundwater Hydraulic Streamlines (Flow vectors) -->
+  <path d="M120 380 Q450 360 850 430 T1600 390" stroke="#5C8F77" stroke-width="1.5" stroke-opacity="0.4" fill="none"/>
+  <path d="M80 430 Q500 410 950 470 T1700 440" stroke="#5C8F77" stroke-width="1.5" stroke-opacity="0.4" fill="none"/>
+  <path d="M150 480 Q550 450 1000 510 T1800 480" stroke="#5C8F77" stroke-width="1.5" stroke-opacity="0.4" fill="none"/>
+
+  <!-- Confining Aquitard (Dense Clay & Silt Layer) -->
+  <path d="M0 510 C900 560, 1400 500, 1920 540 L1920 660 C1300 620, 800 680, 0 630 Z" fill="#D2DDD6" fill-opacity="0.85"/>
+  <path d="M0 570 C850 610, 1350 560, 1920 600" stroke="#8A9E93" stroke-width="1.2" stroke-dasharray="6 4" fill="none" stroke-opacity="0.5"/>
+
+  <!-- Confined Deep Regional Aquifer Formation -->
+  <path d="M0 630 C800 680, 1300 620, 1920 660 L1920 920 C1400 870, 700 930, 0 880 Z" fill="url(#deepAquifer)"/>
+  
+  <!-- Deep Hydraulic Flow Curves -->
+  <path d="M100 700 Q600 730 1100 680 T1900 720" stroke="#46735E" stroke-width="1.8" stroke-opacity="0.45" fill="none"/>
+  <path d="M50 760 Q550 800 1050 750 T1850 780" stroke="#46735E" stroke-width="1.8" stroke-opacity="0.45" fill="none"/>
+  <path d="M120 820 Q620 860 1150 810 T1920 840" stroke="#46735E" stroke-width="1.8" stroke-opacity="0.45" fill="none"/>
+
+  <!-- Impervious Bedrock Basement -->
+  <path d="M0 880 C700 930, 1400 870, 1920 920 L1920 1080 L0 1080 Z" fill="#B9C7BE" fill-opacity="0.9"/>
+
+  <!-- Equipotential Head Contours (Transverse Hydrological Grid) -->
+  <line x1="380" y1="240" x2="350" y2="880" stroke="#7CA893" stroke-width="1" stroke-dasharray="8 6" stroke-opacity="0.35"/>
+  <line x1="750" y1="280" x2="720" y2="890" stroke="#7CA893" stroke-width="1" stroke-dasharray="8 6" stroke-opacity="0.35"/>
+  <line x1="1150" y1="220" x2="1120" y2="870" stroke="#7CA893" stroke-width="1" stroke-dasharray="8 6" stroke-opacity="0.35"/>
+  <line x1="1540" y1="240" x2="1510" y2="890" stroke="#7CA893" stroke-width="1" stroke-dasharray="8 6" stroke-opacity="0.35"/>
+</svg>

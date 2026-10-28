@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="portraitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EFF4F1"/>
+      <stop offset="50%" stop-color="#E5ECE7"/>
+      <stop offset="100%" stop-color="#D9E4DD"/>
+    </linearGradient>
+    <radialGradient id="sealGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#EFF4F1" stop-opacity="0.2"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="500" fill="url(#portraitBg)"/>
+  <circle cx="200" cy="200" r="140" fill="url(#sealGlow)"/>
+
+  <!-- Academic Geological Seal Borders -->
+  <circle cx="200" cy="200" r="110" fill="none" stroke="#7CA893" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <circle cx="200" cy="200" r="100" fill="#FFFFFF" fill-opacity="0.6" stroke="#46735E" stroke-width="1.5"/>
+
+  <!-- Academic Monogram / Seal -->
+  <text x="200" y="195" font-family="'Cormorant Garamond', Georgia, serif" font-size="52" font-weight="600" fill="#141714" text-anchor="middle" letter-spacing="2">PA</text>
+  <text x="200" y="225" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#46735E" text-anchor="middle" letter-spacing="3">PARVEZ AHMED</text>
+
+  <!-- Geological Compass Motif -->
+  <path d="M200 125 L204 142 L200 138 L196 142 Z" fill="#294237"/>
+  <path d="M200 275 L204 258 L200 262 L196 258 Z" fill="#7CA893"/>
+  <path d="M125 200 L142 196 L138 200 L142 204 Z" fill="#7CA893"/>
+  <path d="M275 200 L258 196 L262 200 L258 204 Z" fill="#7CA893"/>
+
+  <!-- Subtitle Bar -->
+  <rect x="50" y="360" width="300" height="85" rx="4" fill="#FFFFFF" fill-opacity="0.9" stroke="#D8D2C5" stroke-width="1"/>
+  <text x="200" y="388" font-family="'Cormorant Garamond', Georgia, serif" font-size="16" font-weight="600" fill="#141714" text-anchor="middle">Department of Geology and Mining</text>
+  <text x="200" y="408" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#46735E" text-anchor="middle">University of Rajshahi • Bangladesh</text>
+  <text x="200" y="428" font-family="monospace" font-size="9.5" fill="#626561" text-anchor="middle">PORTRAIT ASSET SLOT • REPLACE WITH PHOTO</text>
+</svg>

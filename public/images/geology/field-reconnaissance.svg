@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="traverseBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EFF5F1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F6F3EC" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#traverseBg)"/>
+
+  <!-- Field Mapping Grid Coordinates -->
+  <g stroke="#9EC0AF" stroke-width="0.75" stroke-opacity="0.2" stroke-dasharray="10 6">
+    <line x1="300" y1="0" x2="300" y2="1080"/>
+    <line x1="700" y1="0" x2="700" y2="1080"/>
+    <line x1="1100" y1="0" x2="1100" y2="1080"/>
+    <line x1="1500" y1="0" x2="1500" y2="1080"/>
+  </g>
+
+  <!-- Geological Outcrop Escarpment Exposure -->
+  <path d="M120 450 Q480 380 920 420 T1800 360 L1920 1080 L0 1080 L0 520 Z" fill="#E8ECE7" fill-opacity="0.75"/>
+  <path d="M0 620 Q560 560 1140 600 T1920 540 L1920 1080 L0 1080 Z" fill="#DDE6E0" fill-opacity="0.85"/>
+
+  <!-- Outcrop Strike and Dip Measurement Stations -->
+  <!-- Station 01 -->
+  <g transform="translate(480, 520)">
+    <!-- Strike line (N 45 W) -->
+    <line x1="-40" y1="20" x2="40" y2="-20" stroke="#294237" stroke-width="2.5"/>
+    <!-- Dip line (perpendicular, down-dip) -->
+    <line x1="0" y1="0" x2="18" y2="36" stroke="#294237" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="3" fill="#294237"/>
+    <text x="26" y="42" font-family="monospace" font-size="14" fill="#375A4A" font-weight="600">22°</text>
+  </g>
+
+  <!-- Station 02 -->
+  <g transform="translate(1180, 480)">
+    <line x1="-45" y1="15" x2="45" y2="-15" stroke="#294237" stroke-width="2.5"/>
+    <line x1="0" y1="0" x2="15" y2="40" stroke="#294237" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="3" fill="#294237"/>
+    <text x="22" y="45" font-family="monospace" font-size="14" fill="#375A4A" font-weight="600">18°</text>
+  </g>
+
+  <!-- Station 03 -->
+  <g transform="translate(1560, 620)">
+    <line x1="-35" y1="25" x2="35" y2="-25" stroke="#294237" stroke-width="2.5"/>
+    <line x1="0" y1="0" x2="25" y2="30" stroke="#294237" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="3" fill="#294237"/>
+    <text x="32" y="35" font-family="monospace" font-size="14" fill="#375A4A" font-weight="600">30°</text>
+  </g>
+
+  <!-- Field Traverse GPS Track Route (Waypoints & Segment Polyline) -->
+  <polyline points="220,720 480,520 860,610 1180,480 1560,620 1820,530" fill="none" stroke="#5C8F77" stroke-width="2" stroke-dasharray="8 4" stroke-opacity="0.6"/>
+
+  <circle cx="220" cy="720" r="5" fill="#46735E"/>
+  <circle cx="860" cy="610" r="5" fill="#46735E"/>
+  <circle cx="1820" cy="530" r="5" fill="#46735E"/>
+
+  <!-- Compass Rose Azimuth Reticle -->
+  <g transform="translate(1700, 220)" stroke="#5C8F77" stroke-opacity="0.4" fill="none">
+    <circle cx="0" cy="0" r="60" stroke-width="1.2"/>
+    <circle cx="0" cy="0" r="50" stroke-width="0.8" stroke-dasharray="4 4"/>
+    <line x1="0" y1="-70" x2="0" y2="70" stroke-width="1.5"/>
+    <line x1="-70" y1="0" x2="70" y2="0" stroke-width="1.5"/>
+    <!-- North arrow -->
+    <polygon points="0,-70 -6,-50 6,-50" fill="#294237" stroke="none"/>
+    <text x="-4" y="-76" font-family="sans-serif" font-size="12" font-weight="bold" fill="#294237" stroke="none">N</text>
+  </g>
+</svg>

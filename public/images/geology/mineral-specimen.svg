@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <radialGradient id="mineralBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#EAF0EC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F2EFE8" stop-opacity="0.9"/>
+    </radialGradient>
+    <pattern id="cleavagePattern" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="15" x2="30" y2="15" stroke="#46735E" stroke-width="0.7" stroke-opacity="0.3"/>
+    </pattern>
+    <pattern id="albiteTwinning" width="16" height="40" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="8" height="40" fill="#E2ECE6" fill-opacity="0.5"/>
+      <rect x="8" y="0" width="8" height="40" fill="#D3E1DA" fill-opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#mineralBg)"/>
+
+  <!-- Petrographic Thin-Section Grain Boundaries (Interlocking Mineral Crystals) -->
+  <!-- Quartz Crystal 1 -->
+  <polygon points="280,180 540,120 680,310 490,460 220,380" fill="#FFFFFF" fill-opacity="0.75" stroke="#7CA893" stroke-width="1.5" stroke-opacity="0.5"/>
+  
+  <!-- Plagioclase Feldspar (Polysynthetic Twinning) -->
+  <polygon points="540,120 890,90 1040,280 820,440 680,310" fill="url(#albiteTwinning)" stroke="#7CA893" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Microcline (Cross-Hatch Cleavage) -->
+  <polygon points="1040,280 1380,220 1520,450 1250,560 820,440" fill="#F0ECE4" fill-opacity="0.7" stroke="#7CA893" stroke-width="1.5" stroke-opacity="0.5"/>
+  <polygon points="1040,280 1380,220 1520,450 1250,560 820,440" fill="url(#cleavagePattern)"/>
+
+  <!-- Biotite Mica Sheet (Strong Pleochroic Cleavage) -->
+  <polygon points="490,460 820,440 940,680 610,750" fill="#D9D0C3" fill-opacity="0.75" stroke="#5C8F77" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="530" y1="520" x2="880" y2="480" stroke="#8C7A68" stroke-width="1.2" stroke-opacity="0.45"/>
+  <line x1="560" y1="580" x2="910" y2="540" stroke="#8C7A68" stroke-width="1.2" stroke-opacity="0.45"/>
+  <line x1="590" y1="640" x2="930" y2="600" stroke="#8C7A68" stroke-width="1.2" stroke-opacity="0.45"/>
+
+  <!-- Hornblende Amphibole (120-degree Cleavage Prisms) -->
+  <polygon points="820,440 1250,560 1160,820 890,790 940,680" fill="#C6D7CE" fill-opacity="0.8" stroke="#375A4A" stroke-width="1.5" stroke-opacity="0.6"/>
+  <polygon points="820,440 1250,560 1160,820 890,790 940,680" fill="url(#cleavagePattern)"/>
+
+  <!-- Quartz Crystal 2 -->
+  <polygon points="1250,560 1620,510 1780,740 1480,880 1160,820" fill="#FFFFFF" fill-opacity="0.85" stroke="#7CA893" stroke-width="1.5" stroke-opacity="0.5"/>
+
+  <!-- Surrounding Groundmass Grains -->
+  <polygon points="220,380 490,460 610,750 350,860 120,620" fill="#E8E2D8" fill-opacity="0.6" stroke="#8C8B88" stroke-width="1.2" stroke-opacity="0.4"/>
+  <polygon points="610,750 890,790 820,1020 480,1040 350,860" fill="url(#albiteTwinning)" stroke="#7CA893" stroke-width="1.2" stroke-opacity="0.5"/>
+  <polygon points="890,790 1160,820 1280,1050 960,1080 820,1020" fill="#E8F1EC" fill-opacity="0.75" stroke="#7CA893" stroke-width="1.2" stroke-opacity="0.5"/>
+
+  <!-- Circular Polarizing Field Reticle Ring -->
+  <circle cx="960" cy="540" r="500" fill="none" stroke="#5C8F77" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="16 8"/>
+  <circle cx="960" cy="540" r="504" fill="none" stroke="#294237" stroke-width="0.75" stroke-opacity="0.15"/>
+</svg>

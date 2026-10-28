@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <radialGradient id="contourCenter" cx="65%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#E2EDE7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#EFF5F1" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FAF8F5" stop-opacity="0.9"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#contourCenter)"/>
+
+  <!-- GIS Geographic Graticule Coordinate Lines -->
+  <g stroke="#9EC0AF" stroke-width="0.75" stroke-opacity="0.25" stroke-dasharray="8 8">
+    <line x1="240" y1="0" x2="240" y2="1080"/>
+    <line x1="560" y1="0" x2="560" y2="1080"/>
+    <line x1="880" y1="0" x2="880" y2="1080"/>
+    <line x1="1200" y1="0" x2="1200" y2="1080"/>
+    <line x1="1520" y1="0" x2="1520" y2="1080"/>
+    <line x1="1840" y1="0" x2="1840" y2="1080"/>
+    <line x1="0" y1="180" x2="1920" y2="180"/>
+    <line x1="0" y1="360" x2="1920" y2="360"/>
+    <line x1="0" y1="540" x2="1920" y2="540"/>
+    <line x1="0" y1="720" x2="1920" y2="720"/>
+    <line x1="0" y1="900" x2="1920" y2="900"/>
+  </g>
+
+  <!-- Topographic Elevation Contours (Concentric Ridge & Valley Network) -->
+  <g fill="none" stroke="#46735E" stroke-opacity="0.32">
+    <!-- Outer Valley Contour (100m) -->
+    <path d="M-80 600 C300 750, 700 820, 1100 700 C1500 580, 1800 750, 2040 680" stroke-width="1.2"/>
+    <path d="M-50 520 C320 680, 720 740, 1120 620 C1520 500, 1820 670, 2020 600" stroke-width="1"/>
+    
+    <!-- Hill Complex 1 (Northeast Crest) -->
+    <path d="M750 350 C950 220, 1350 210, 1550 340 C1650 420, 1580 560, 1400 620 C1200 680, 900 650, 800 530 C720 440, 700 380, 750 350 Z" stroke-width="1.6"/>
+    <path d="M840 370 C1000 260, 1300 250, 1460 360 C1540 430, 1480 530, 1340 570 C1180 610, 950 580, 880 490 C830 420, 810 390, 840 370 Z" stroke-width="1.2"/>
+    <path d="M930 390 C1050 300, 1250 290, 1370 380 C1430 440, 1380 500, 1280 530 C1160 560, 1000 530, 960 460 C930 420, 910 400, 930 390 Z" stroke-width="1.8"/>
+    <path d="M1020 410 C1100 340, 1200 330, 1280 400 C1320 450, 1280 480, 1220 500 C1140 520, 1050 490, 1030 445 Z" stroke-width="1.2"/>
+    <path d="M1100 425 C1140 385, 1180 380, 1210 420 C1230 450, 1200 470, 1170 475 C1130 480, 1100 455, 1100 425 Z" stroke-width="2"/>
+
+    <!-- Hill Complex 2 (Southwest Ridge) -->
+    <path d="M120 720 C280 560, 580 590, 680 730 C740 820, 640 920, 500 950 C360 980, 180 940, 100 850 C60 790, 70 740, 120 720 Z" stroke-width="1.5"/>
+    <path d="M200 735 C320 620, 520 640, 590 740 C630 810, 550 880, 450 900 C350 920, 230 880, 180 820 C150 780, 160 750, 200 735 Z" stroke-width="1.2"/>
+    <path d="M280 750 C360 680, 460 690, 500 760 C520 810, 460 850, 390 860 C320 870, 260 840, 250 800 Z" stroke-width="1.8"/>
+
+    <!-- River Valley Channel Contours (Incised Fluvial Lineaments) -->
+    <path d="M500 120 Q650 320 550 520 T700 820 Q800 960 920 1080" stroke="#375A4A" stroke-width="2.2" stroke-opacity="0.4"/>
+    <path d="M480 120 Q630 320 530 520 T680 820 Q780 960 900 1080" stroke="#7CA893" stroke-width="1" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- Spot Elevation Benchmark Points -->
+  <circle cx="1155" cy="450" r="3.5" fill="#294237" fill-opacity="0.6"/>
+  <circle cx="375" cy="805" r="3" fill="#294237" fill-opacity="0.6"/>
+</svg>

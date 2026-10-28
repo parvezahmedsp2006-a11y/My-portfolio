@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm-ivory: #FBF9F5;
+  --color-warm-ivory-dark: #F3EFE6;
+  --color-surface-white: #FFFFFF;
+  
+  --color-sage-50: #F1F5F3;
+  --color-sage-100: #E0EBE5;
+  --color-sage-200: #C2D7CC;
+  --color-sage-300: #9EC0AF;
+  --color-sage-400: #7CA893;
+  --color-sage-500: #5C8F77;
+  --color-sage-600: #46735E;
+  --color-sage-700: #375A4A;
+  --color-sage-800: #294237;
+  --color-sage-900: #1B2C24;
+
+  --color-charcoal-50: #F7F7F7;
+  --color-charcoal-100: #EDEDED;
+  --color-charcoal-200: #D8D9D8;
+  --color-charcoal-300: #B8B9B7;
+  --color-charcoal-400: #888B87;
+  --color-charcoal-500: #626561;
+  --color-charcoal-600: #484B47;
+  --color-charcoal-700: #333632;
+  --color-charcoal-800: #212421;
+  --color-charcoal-900: #141714;
+  --color-charcoal-950: #0A0C0A;
+
+  --color-earth-sand: #E7DFD5;
+  --color-earth-stone: #D1C7BA;
+  --color-earth-ochre: #9B6E43;
+  --color-border-subtle: #E8E4DA;
+  --color-border-medium: #D8D2C5;
+
+  --font-serif: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root {
+  --background: var(--color-warm-ivory);
+  --foreground: var(--color-charcoal-900);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Accessible Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-charcoal-900);
+  color: #FFFFFF;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Subtle focus indicators */
+*:focus-visible {
+  outline: 2px solid var(--color-sage-600);
+  outline-offset: 2px;
+}
+
+/* Editorial Typography */
+h1, h2, h3, h4, .font-serif-heading {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
+}
+
+/* Subtle card shadow */
+.academic-card {
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(27, 30, 28, 0.03), 0 1px 2px rgba(27, 30, 28, 0.02);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.academic-card:hover {
+  border-color: var(--color-sage-300);
+  box-shadow: 0 8px 24px rgba(27, 30, 28, 0.06), 0 2px 6px rgba(27, 30, 28, 0.03);
+}
+
+/* Geological contour pattern overlay */
+.geological-contours {
+  background-image: radial-gradient(circle at 10% 20%, rgba(74, 109, 93, 0.04) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(155, 110, 67, 0.03) 0%, transparent 45%);
+}
+
+/* Purposeful, Subtle Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-hero-fade {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-hero-1 {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+.animate-hero-2 {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+.animate-hero-3 {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.animate-hero-4 {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+.animate-hero-5 {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+/* Intersection observer reveal helper */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Word-by-word editorial text reveal */
+.word-token {
+  display: inline-block;
+  opacity: 0.15;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+.word-token.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-token {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Subtle, Slow Ken Burns Drift for Background Geological Imagery */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.035);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 12s cubic-bezier(0.2, 0.8, 0.4, 1) infinite alternate;
+  will-change: transform;
+}
+
+/* Subtle, Restrained Scientific Plate Floating Animation */
+@keyframes plateFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-plate-float {
+  animation: plateFloat 8s cubic-bezier(0.4, 0, 0.2, 1) infinite ease-in-out;
+}
+
