@@ -33,15 +33,15 @@ export function AcademicDevelopment() {
 
           <h2
             id="goals-heading"
-            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
           >
             Academic Development &amp; Future Goals
           </h2>
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
-          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-            A transparent academic trajectory outlining immediate undergraduate milestones, MSc scholarship targets, and long-term scientific objectives.
+          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+            Academic roadmap outlining near-term undergraduate milestones, international MSc scholarship targets, and long-term scientific objectives.
           </p>
         </div>
 
@@ -71,24 +71,24 @@ export function AcademicDevelopment() {
 
                       <h3
                         id={`goal-heading-${idx}`}
-                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#F3F0E8] font-normal tracking-tight leading-snug pt-1"
+                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-snug pt-1"
                       >
                         {goal.title}
                       </h3>
 
-                      <p className="text-[11px] font-mono text-[#7E7A72] tracking-wide pt-1">
+                      <p className="text-xs font-mono text-[#9C988F] tracking-wide pt-1">
                         {horizonLabel}
                       </p>
                     </div>
 
                     {/* Right Column: Narrative Description & Deliverables */}
                     <div className="lg:col-span-7 space-y-6 lg:pl-6 lg:border-l lg:border-white/[0.07]">
-                      <p className="text-sm sm:text-[15px] font-sans text-[#B8B4AA] leading-relaxed font-light">
+                      <p className="text-[15px] sm:text-base font-sans text-[#D4CDBC] leading-[1.65] font-normal">
                         {goal.description}
                       </p>
 
                       <div className="pt-4 border-t border-white/[0.06]">
-                        <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-[#7E7A72] mb-3.5">
+                        <div className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] mb-3.5 font-medium">
                           Target Milestones &amp; Key Deliverables
                         </div>
 
@@ -96,7 +96,7 @@ export function AcademicDevelopment() {
                           {goal.keyDeliverables.map((item, dIdx) => (
                             <li
                               key={dIdx}
-                              className="flex items-start gap-3 text-xs sm:text-[13.5px] font-sans text-[#E6E1D3] font-light leading-relaxed"
+                              className="flex items-start gap-3 text-sm sm:text-[14.5px] font-sans text-[#FAF8F5] font-normal leading-relaxed"
                             >
                               <span
                                 className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]/80 shrink-0 mt-2"

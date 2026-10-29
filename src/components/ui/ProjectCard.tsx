@@ -37,33 +37,33 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
 
             {/* Project Title */}
-            <h3 className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal leading-[1.12] tracking-tight">
+            <h3 className="font-serif text-3xl sm:text-4xl lg:text-[46px] text-[#FAF8F5] font-medium sm:font-semibold leading-[1.15] tracking-tight">
               {project.title}
             </h3>
 
             {/* Subtitle */}
-            <p className="font-serif italic text-sm sm:text-base text-[#D4AF37] mt-1.5 font-light">
+            <p className="font-serif italic text-base sm:text-lg text-[#D4AF37] mt-1.5 font-normal">
               {project.subtitle}
             </p>
           </div>
 
           {/* Problem Statement & Overview */}
           <div className="space-y-3">
-            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
               <span>Project Overview &amp; Context</span>
             </h4>
-            <p className="text-sm sm:text-[15px] font-sans text-[#E6E1D3] leading-relaxed font-light">
+            <p className="text-[15px] sm:text-base font-sans text-[#FAF8F5] leading-[1.65] font-normal">
               {project.description}
             </p>
-            <p className="text-xs sm:text-[13.5px] font-sans text-[#9C988F] leading-relaxed font-light border-l-2 border-[#D4AF37]/40 pl-3.5 my-2">
+            <p className="text-sm sm:text-[14.5px] font-sans text-[#D4CDBC] leading-[1.6] border-l-2 border-[#D4AF37]/50 pl-3.5 my-2 font-normal">
               {project.problemStatement}
             </p>
           </div>
 
           {/* Key Architectural Highlights */}
           <div className="space-y-3 pt-1">
-            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2 font-medium">
               <Layers className="w-4 h-4 text-[#D4AF37]" />
               <span>Verified Engineering Contributions</span>
             </h4>
@@ -76,10 +76,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-serif text-[#F3F0E8] text-sm font-normal block leading-snug">
+                      <span className="font-serif text-[#FAF8F5] text-base font-medium block leading-snug">
                         {contrib.title}
                       </span>
-                      <p className="text-[11.5px] font-sans text-[#9C988F] leading-relaxed font-light mt-1">
+                      <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] leading-[1.55] font-normal mt-1">
                         {contrib.description}
                       </p>
                     </div>
@@ -91,7 +91,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           {/* Technology Stack Tags */}
           <div className="space-y-3 pt-1">
-            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2 font-medium">
               <Database className="w-4 h-4 text-[#D4AF37]" />
               <span>Verified Technology Stack</span>
             </h4>
@@ -99,7 +99,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {project.technologies.flatMap((t) => t.stack).map((tech, idx) => (
                 <span
                   key={idx}
-                  className="text-[11px] font-mono px-3 py-1 rounded-sm bg-white/[0.04] text-[#E6E1D3] border border-white/[0.08]"
+                  className="text-xs font-mono px-3 py-1 rounded-sm bg-white/[0.04] text-[#FAF8F5] border border-white/10 font-medium"
                 >
                   {tech}
                 </span>
@@ -112,15 +112,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className="flex items-start gap-3">
               <ShieldCheck className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-0.5 text-[11px] font-medium">
+                <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-0.5 text-xs font-semibold">
                   Automated Test Verification:
                 </span>
-                <span className="text-[#E6E1D3] font-light text-xs">
+                <span className="text-[#FAF8F5] font-normal text-xs sm:text-[13px]">
                   {project.testSuiteEvidence}
                 </span>
               </div>
             </div>
-            <span className="shrink-0 font-mono text-[10.5px] text-[#D4AF37] bg-[#D4AF37]/15 px-3 py-1 rounded-full border border-[#D4AF37]/35 font-medium self-start sm:self-center">
+            <span className="shrink-0 font-mono text-xs text-[#D4AF37] bg-[#D4AF37]/15 px-3 py-1 rounded-full border border-[#D4AF37]/35 font-semibold self-start sm:self-center">
               20 Vitest Suites (153 Tests)
             </span>
           </div>
@@ -144,10 +144,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
 
             {/* Deployment Transparency Disclosure */}
-            <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs font-sans text-[#9C988F] flex items-start gap-2.5">
+            <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs font-sans text-[#D4CDBC] flex items-start gap-2.5">
               <Info className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
-              <p className="font-light leading-relaxed">
-                <strong className="text-[#F3F0E8] font-medium mr-1.5">Deployment Transparency:</strong>
+              <p className="font-normal leading-relaxed text-xs sm:text-[13px]">
+                <strong className="text-[#FAF8F5] font-medium mr-1.5">Deployment Transparency:</strong>
                 {project.statusNote}
               </p>
             </div>

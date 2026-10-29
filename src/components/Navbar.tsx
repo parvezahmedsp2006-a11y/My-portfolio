@@ -103,10 +103,10 @@ export function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`text-xs sm:text-[13px] font-sans tracking-wide transition-colors duration-200 select-none ${
+                  className={`text-xs sm:text-[13.5px] font-sans tracking-wide transition-colors duration-200 select-none font-medium ${
                     isActive
-                      ? "text-[#D4AF37] font-medium"
-                      : "text-[#9C988F] hover:text-[#F3F0E8] font-normal"
+                      ? "text-[#D4AF37]"
+                      : "text-[#D4CDBC] hover:text-[#FAF8F5]"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >

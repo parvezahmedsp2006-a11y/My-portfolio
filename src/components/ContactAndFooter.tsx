@@ -53,15 +53,15 @@ export function ContactAndFooter() {
 
           <h2
             id="contact-heading"
-            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
           >
             Academic Dialogue &amp; Opportunities
           </h2>
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
-          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-            I welcome communication from faculty mentors, prospective MSc research supervisors, and fellow geoscientists regarding academic research, graduate opportunities, or open academic software development.
+          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+            I welcome academic correspondence from faculty mentors, prospective MSc research supervisors, and fellow geoscientists regarding graduate inquiry and open software collaboration.
           </p>
         </div>
 
@@ -71,27 +71,27 @@ export function ContactAndFooter() {
           <div className="lg:col-span-5">
             <ScrollReveal>
               <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 space-y-5 transition-colors duration-300 hover:border-white/[0.14]">
-                <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-wider text-[#D4AF37]">
+                <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-wider text-[#D4AF37] font-medium">
                   <Landmark className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
                   <span>Institutional Affiliation &amp; Base</span>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-serif text-2xl text-[#F3F0E8] font-normal leading-snug">
+                  <h3 className="font-serif text-2xl text-[#FAF8F5] font-medium sm:font-semibold leading-snug">
                     {personal.institution}
                   </h3>
-                  <p className="text-xs sm:text-[13px] font-sans text-[#E6E1D3] font-light leading-relaxed">
+                  <p className="text-sm sm:text-[14.5px] font-sans text-[#D4CDBC] font-normal leading-relaxed">
                     {personal.department}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2.5 text-xs font-sans text-[#9C988F]">
+                <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2.5 text-sm font-sans text-[#FAF8F5]">
                   <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0" aria-hidden="true" />
                   <span>{personal.location}</span>
                 </div>
 
-                <p className="pt-2 text-[11.5px] font-sans text-[#7E7A72] leading-relaxed font-light">
-                  Active B.Sc. (Hons.) candidate connecting field geology with computational research. Available for research collaboration inquiries and academic correspondence.
+                <p className="pt-2 text-xs sm:text-[13px] font-sans text-[#9C988F] leading-relaxed font-normal">
+                  Active B.Sc. (Hons.) candidate connecting observational field geology with computational research. Available for research inquiries and academic correspondence.
                 </p>
               </div>
             </ScrollReveal>
@@ -104,17 +104,17 @@ export function ContactAndFooter() {
               <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 transition-colors duration-300 hover:border-[#D4AF37]/40">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="space-y-1.5">
-                    <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37]">
+                    <span className="block text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
                       Direct Academic Email
                     </span>
                     <a
                       href={`mailto:${personal.email}`}
-                      className="text-sm sm:text-base font-mono text-[#F3F0E8] hover:text-[#D4AF37] transition-colors break-all"
+                      className="text-[15px] sm:text-base font-mono text-[#FAF8F5] font-medium hover:text-[#D4AF37] transition-colors break-all"
                     >
                       {personal.email}
                     </a>
-                    <p className="text-[11.5px] font-sans text-[#7E7A72] font-light leading-relaxed pt-1">
-                      Direct inquiries regarding MSc scholarship opportunities, academic research, and collaboration.
+                    <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] font-normal leading-relaxed pt-1">
+                      Direct channel for MSc scholarship inquiries, graduate research opportunities, and academic collaboration.
                     </p>
                   </div>
 
@@ -156,14 +156,14 @@ export function ContactAndFooter() {
               <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 transition-colors duration-300 hover:border-white/[0.14]">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="space-y-1.5">
-                    <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37]">
+                    <span className="block text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
                       Verified Source &amp; Codebase
                     </span>
-                    <span className="text-sm sm:text-base font-mono text-[#F3F0E8]">
+                    <span className="text-[15px] sm:text-base font-mono text-[#FAF8F5] font-medium">
                       {personal.githubUsername}
                     </span>
-                    <p className="text-[11.5px] font-sans text-[#7E7A72] font-light leading-relaxed pt-1">
-                      Public repositories, test suites, and codebase for GeoMine Resource Hub and geological tooling.
+                    <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] font-normal leading-relaxed pt-1">
+                      Public repositories, test suites, and source code for GeoMine Resource Hub and academic tooling.
                     </p>
                   </div>
 
@@ -171,10 +171,10 @@ export function ContactAndFooter() {
                     href={personal.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center min-h-[36px] gap-1.5 px-3.5 py-1.5 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-[#E6E1D3] transition-colors shrink-0 pt-2 sm:pt-0"
+                    className="inline-flex items-center justify-center min-h-[36px] gap-1.5 px-3.5 py-1.5 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-[#FAF8F5] transition-colors shrink-0 pt-2 sm:pt-0"
                     aria-label="Visit GitHub Profile (opens in new tab)"
                   >
-                    <GithubIcon className="w-3.5 h-3.5 text-[#F3F0E8]" />
+                    <GithubIcon className="w-3.5 h-3.5 text-[#FAF8F5]" />
                     <span>Visit Profile</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
                   </a>
@@ -187,10 +187,10 @@ export function ContactAndFooter() {
 
       {/* Semantic Editorial Footer Bar */}
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-8 relative z-10">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#7E7A72]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-[13px] font-sans text-[#9C988F]">
           <div className="flex items-center gap-2.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
-            <span className="font-light">
+            <span className="font-normal">
               &copy; {new Date().getFullYear()} {personal.name}. Verified academic &amp; research portfolio · {personal.department}.
             </span>
           </div>
@@ -199,10 +199,10 @@ export function ContactAndFooter() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 text-[#9C988F] hover:text-[#D4AF37] transition-colors p-1.5 rounded focus-visible:outline-2 focus-visible:outline-[#D4AF37] cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-[#D4CDBC] hover:text-[#D4AF37] transition-colors p-1.5 rounded focus-visible:outline-2 focus-visible:outline-[#D4AF37] cursor-pointer"
               aria-label="Scroll back to top of page"
             >
-              <span className="font-light">Back to Top</span>
+              <span className="font-normal">Back to Top</span>
               <ArrowUp className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
             </button>
           </div>

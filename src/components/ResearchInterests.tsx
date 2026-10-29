@@ -30,13 +30,13 @@ export function ResearchInterests() {
             </p>
             <h2
               id="research-heading"
-              className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+              className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
             >
               Research Interests
             </h2>
             <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
-            <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-              Prospective research directions reflecting my undergraduate coursework in geology and mining, formulated to guide future MSc scholarship applications and supervised graduate inquiry.
+            <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+              Prospective research directions grounded in undergraduate geology and mining coursework, formulated for international MSc scholarship applications and graduate inquiry.
             </p>
           </div>
 
@@ -66,29 +66,29 @@ export function ResearchInterests() {
                         <IconComponent className="w-5 h-5" />
                       </div>
                       <div>
-                        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium block">
+                        <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold block">
                           Focus Area 0{idx + 1}
                         </span>
-                        <h3 className="font-serif text-xl sm:text-2xl font-normal text-[#F3F0E8] leading-snug mt-0.5">
+                        <h3 className="font-serif text-xl sm:text-2xl font-medium sm:font-semibold text-[#FAF8F5] leading-snug mt-0.5">
                           {interest.title}
                         </h3>
                       </div>
                     </div>
 
-                    <p className="text-xs sm:text-[13.5px] font-sans text-[#9C988F] leading-relaxed mb-5 font-light">
+                    <p className="text-sm sm:text-[15px] font-sans text-[#D4CDBC] leading-[1.6] mb-5 font-normal">
                       {interest.extendedDesc}
                     </p>
 
                     {/* Focus Topics Chips */}
                     <div className="mb-6">
-                      <p className="text-[11px] font-mono text-[#D4AF37] uppercase tracking-wider mb-2.5">
+                      <p className="text-xs font-mono text-[#D4AF37] uppercase tracking-wider mb-2.5 font-medium">
                         Sub-Disciplines &amp; Topics:
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {interest.focusTopics.map((topic, tIdx) => (
                           <span
                             key={tIdx}
-                            className="text-xs px-3 py-1 rounded-full bg-white/[0.03] text-[#E6E1D3] border border-white/[0.08]"
+                            className="text-xs sm:text-[13px] px-3 py-1 rounded-full bg-white/[0.04] text-[#FAF8F5] border border-white/10 font-medium"
                           >
                             {topic}
                           </span>
@@ -102,10 +102,10 @@ export function ResearchInterests() {
                     <div className="flex items-start gap-3 text-xs font-sans">
                       <HelpCircle className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-1 text-[10.5px]">
+                        <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-1 text-[11px] font-medium">
                           Target Scientific Question:
                         </span>
-                        <span className="font-serif italic text-[#E6E1D3] text-sm leading-relaxed block font-normal">
+                        <span className="font-serif italic text-[#FAF8F5] text-[15px] sm:text-base leading-relaxed block font-normal">
                           &ldquo;{interest.scientificInquiry}&rdquo;
                         </span>
                       </div>

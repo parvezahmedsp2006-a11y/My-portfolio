@@ -51,7 +51,7 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
         {/* Small, Discreet Horizontal Navigation Row (Below Wordmark, Aligned Right) */}
         <nav
           aria-label="Hero Navigation"
-          className="relative z-30 pointer-events-auto flex flex-wrap justify-center sm:justify-end items-center gap-x-2.5 sm:gap-x-7 lg:gap-x-8 gap-y-1.5 sm:gap-y-2 mt-3 sm:mt-6 text-[11px] sm:text-[13px] font-sans"
+          className="relative z-30 pointer-events-auto flex flex-wrap justify-center sm:justify-end items-center gap-x-2.5 sm:gap-x-7 lg:gap-x-8 gap-y-1.5 sm:gap-y-2 mt-3 sm:mt-6 text-xs sm:text-[13.5px] font-sans font-medium"
         >
           {navItems.map((item, idx) => {
             const isHome = idx === 0;
@@ -61,8 +61,8 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
                 href={item.href}
                 className={`relative z-30 pointer-events-auto transition-colors duration-200 select-none tracking-wide cursor-pointer py-1 px-0.5 sm:py-1.5 sm:px-0.5 focus-visible:outline-2 focus-visible:outline-[#D4AF37] focus-visible:outline-offset-2 rounded-xs ${
                   isHome
-                    ? "text-[#D4AF37] font-medium"
-                    : "text-[#9C988F] hover:text-[#F3F0E8] font-normal"
+                    ? "text-[#D4AF37]"
+                    : "text-[#D4CDBC] hover:text-[#FAF8F5]"
                 }`}
                 aria-current={isHome ? "page" : undefined}
               >

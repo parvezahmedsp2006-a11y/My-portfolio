@@ -27,15 +27,15 @@ export function AcademicJourney() {
 
           <h2
             id="journey-heading"
-            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
           >
             Academic Journey
           </h2>
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
-          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-            Progression through the official 4-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, clearly separating completed foundations from current and upcoming modules.
+          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+            Four-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, charting completed foundational disciplines and current advanced coursework.
           </p>
         </div>
 
@@ -44,26 +44,26 @@ export function AcademicJourney() {
           <div className="border border-white/[0.08] bg-[#050505] p-6 sm:p-8 mb-14 sm:mb-18 transition-colors duration-300 hover:border-white/[0.14]">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div className="space-y-2.5">
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#D4AF37] uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#D4AF37] uppercase tracking-wider font-medium">
                   <Landmark className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" aria-hidden="true" />
                   <span>{personal.institution} · {personal.department}</span>
                 </div>
-                <h3 className="font-serif text-2xl sm:text-3xl text-[#F3F0E8] font-normal tracking-tight">
+                <h3 className="font-serif text-2xl sm:text-3xl text-[#FAF8F5] font-medium sm:font-semibold tracking-tight">
                   {personal.program}
                 </h3>
-                <p className="text-xs sm:text-[13px] font-sans text-[#9C988F] font-light max-w-2xl leading-relaxed">
-                  Four-year honours curriculum connecting observational geological field sciences, laboratory mineralogy &amp; petrography, and computational methods for earth resource evaluation.
+                <p className="text-[14px] sm:text-[15px] font-sans text-[#D4CDBC] font-normal max-w-2xl leading-[1.6]">
+                  Honours curriculum integrating geological field mapping, laboratory mineralogy, and computational methods for earth and resource evaluation.
                 </p>
               </div>
 
               <div className="flex flex-wrap lg:flex-col lg:items-end gap-3 text-xs font-mono shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-white/[0.06]">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-[#E6E1D3]">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-[#FAF8F5] font-medium">
                   <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
                   <span>4-Year Curriculum</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" aria-hidden="true" />
-                  <span className="font-medium">Active Undergraduate Candidate</span>
+                  <span className="font-semibold">Active Undergraduate Candidate</span>
                 </div>
               </div>
             </div>
@@ -138,24 +138,24 @@ export function AcademicJourney() {
                       {/* Milestone Heading */}
                       <h3
                         id={`timeline-heading-${idx}`}
-                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#F3F0E8] font-normal tracking-tight leading-snug group-hover:text-[#FFF4D0] transition-colors duration-200"
+                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-snug group-hover:text-[#FFF4D0] transition-colors duration-200"
                       >
                         {group.category}
                       </h3>
 
                       {/* Supporting Narrative Description */}
-                      <p className="mt-2.5 text-sm sm:text-[15px] font-sans text-[#B8B4AA] leading-relaxed font-light max-w-2xl">
+                      <p className="mt-2.5 text-[15px] sm:text-base font-sans text-[#D4CDBC] leading-[1.65] font-normal max-w-2xl">
                         {group.description}
                       </p>
 
                       {/* Curricular Modules Box */}
                       <div className="mt-5 p-5 sm:p-6 bg-[#070707] border border-white/[0.07] transition-all duration-300 hover:border-white/[0.14] hover:bg-[#090909]">
                         <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-white/[0.06]">
-                          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-[#7E7A72]">
-                            <BookOpen className="w-3 h-3 text-[#D4AF37]" aria-hidden="true" />
+                          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
+                            <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
                             <span>Curricular Modules &amp; Laboratories</span>
                           </div>
-                          <span className="text-[10px] font-mono text-[#5E5B54]">
+                          <span className="text-xs font-mono text-[#9C988F]">
                             {group.topics.length} Courses
                           </span>
                         </div>
@@ -165,7 +165,7 @@ export function AcademicJourney() {
                           {group.topics.map((topic, tIdx) => (
                             <li
                               key={tIdx}
-                              className="text-xs sm:text-[13.5px] font-sans text-[#E6E1D3] flex items-start gap-2.5 font-light"
+                              className="text-sm sm:text-[14.5px] font-sans text-[#FAF8F5] flex items-start gap-2.5 font-normal"
                             >
                               <span
                                 className={`w-1.5 h-1.5 rotate-45 shrink-0 mt-1.5 ${
@@ -179,13 +179,13 @@ export function AcademicJourney() {
                         </ul>
 
                         {/* Departmental Assessment Strip */}
-                        <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] font-sans text-[#7E7A72]">
+                        <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-[#9C988F]">
                           <span>
                             {isCompleted
-                              ? "Formally completed and evaluated via departmental lab & theory exams."
-                              : "Core applied curriculum currently undertaken in semester studies."}
+                              ? "Completed and assessed via departmental laboratory & theory examinations."
+                              : "Core curriculum currently undertaken in active semester coursework."}
                           </span>
-                          <span className="font-mono text-[10px] text-[#5E5B54] shrink-0">
+                          <span className="font-mono text-xs text-[#7E7A72] shrink-0 font-medium">
                             Dept. of Geology &amp; Mining
                           </span>
                         </div>

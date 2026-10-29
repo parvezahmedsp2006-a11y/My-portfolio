@@ -22,13 +22,13 @@ export function TechnicalProjects() {
           </p>
           <h2
             id="projects-heading"
-            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
           >
             Technical Projects
           </h2>
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
-          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-            Full-stack software engineering projects demonstrating system architecture, relational database design, accessible UI engineering, and automated testing.
+          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+            Full-stack software engineering demonstrating system architecture, relational database design, accessible UI engineering, and automated test coverage.
           </p>
         </div>
 

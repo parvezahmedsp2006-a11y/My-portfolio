@@ -47,16 +47,16 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p1",
     fullText:
-      "I am an undergraduate student in the Department of Geology and Mining at the University of Rajshahi. My academic journey is centered on understanding subsurface systems, geological resource formation, and the application of spatial and quantitative methods to earth-science challenges.",
+      "I am an undergraduate in Geology and Mining at the University of Rajshahi, studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
     startDelayDesktop: 100,
     startDelayMobile: 80,
     segments: [
-      { text: "I am an undergraduate student in the", highlight: false },
-      { text: "Department of Geology and Mining", highlight: true },
+      { text: "I am an undergraduate in", highlight: false },
+      { text: "Geology and Mining", highlight: true },
       { text: "at the", highlight: false },
-      { text: "University of Rajshahi", highlight: true, trailingPunctuation: "." },
+      { text: "University of Rajshahi", highlight: true, trailingPunctuation: "," },
       {
-        text: "My academic journey is centered on understanding subsurface systems, geological resource formation, and the application of spatial and quantitative methods to earth-science challenges.",
+        text: "studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
         highlight: false,
       },
     ],
@@ -64,16 +64,16 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p2",
     fullText:
-      "Alongside rigorous laboratory work and geological field exercises, I independently designed and engineered the GeoMine Resource Hub — a full-stack academic platform created to eliminate document fragmentation and organize departmental curricula into a structured, accessible digital archive.",
+      "Alongside field mapping and laboratory petrography, I built the GeoMine Resource Hub — a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
     startDelayDesktop: 650,
     startDelayMobile: 440,
     segments: [
-      { text: "Alongside rigorous laboratory work and", highlight: false },
-      { text: "geological field exercises", highlight: true, trailingPunctuation: "," },
-      { text: "I independently designed and engineered the", highlight: false },
+      { text: "Alongside field mapping and", highlight: false },
+      { text: "laboratory petrography", highlight: true, trailingPunctuation: "," },
+      { text: "I built the", highlight: false },
       { text: "GeoMine Resource Hub", highlight: true },
       {
-        text: "— a full-stack academic platform created to eliminate document fragmentation and organize departmental curricula into a structured, accessible digital archive.",
+        text: "— a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
         highlight: false,
       },
     ],
@@ -81,12 +81,12 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p3",
     fullText:
-      "My immediate goal is to complete my undergraduate degree with strong academic foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing thoroughly for competitive international MSc scholarships and supervised graduate research.",
+      "My goal is to graduate with strong foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing for competitive international MSc scholarships and graduate research.",
     startDelayDesktop: 1150,
     startDelayMobile: 780,
     segments: [
       {
-        text: "My immediate goal is to complete my undergraduate degree with strong academic foundations across",
+        text: "My goal is to graduate with strong foundations across",
         highlight: false,
       },
       { text: "hydrogeology", highlight: true, trailingPunctuation: "," },
@@ -94,9 +94,9 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
       { text: "petroleum geology", highlight: true, trailingPunctuation: "," },
       { text: "and", highlight: false },
       { text: "GIS", highlight: true, trailingPunctuation: "," },
-      { text: "preparing thoroughly for competitive", highlight: false },
+      { text: "preparing for competitive", highlight: false },
       { text: "international MSc scholarships", highlight: true },
-      { text: "and supervised graduate research.", highlight: false },
+      { text: "and graduate research.", highlight: false },
     ],
   },
 ];
@@ -165,7 +165,7 @@ export function WordRevealBiography({
   }, [isMobile, staggerMs]);
 
   return (
-    <div className="space-y-6 text-[#9C988F] font-sans text-sm sm:text-base lg:text-[16.5px] leading-[1.85] sm:leading-[1.9] font-light">
+    <div className="space-y-6 text-[#D4CDBC] font-sans text-[15px] sm:text-base lg:text-[17px] leading-[1.65] font-normal">
       {processedParagraphs.map((para) => (
         <p key={para.id} className="relative">
           {/* Accessible version for screen readers: read seamlessly without word boundary interruptions */}

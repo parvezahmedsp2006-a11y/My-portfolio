@@ -84,7 +84,7 @@ export function AboutMe() {
 
           <h2
             id="about-heading"
-            className={`font-serif text-3xl sm:text-4xl lg:text-[46px] text-[#F3F0E8] font-normal tracking-tight transition-all duration-600 ease-out leading-[1.12] ${
+            className={`font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight transition-all duration-600 ease-out leading-[1.15] ${
               isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
@@ -124,10 +124,10 @@ export function AboutMe() {
                     <item.icon className="w-3.5 h-3.5 text-[#D4AF37]" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] text-[#9C988F] uppercase tracking-wider block">
+                    <span className="font-mono text-[11px] sm:text-xs text-[#9C988F] uppercase tracking-wider block font-medium">
                       {item.label}
                     </span>
-                    <span className="text-xs sm:text-[13px] font-sans font-light text-[#E6E1D3] block mt-0.5">
+                    <span className="text-sm sm:text-[14.5px] font-sans font-medium text-[#FAF8F5] block mt-0.5">
                       {item.text}
                     </span>
                   </div>

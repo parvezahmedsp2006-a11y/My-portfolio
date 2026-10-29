@@ -39,33 +39,33 @@ export function SkillsAndLearning() {
 
           <h2
             id="skills-heading"
-            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
           >
             Skills &amp; Learning
           </h2>
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
-          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
-            Honest inventory distinguishing established field and software capabilities from skills currently in active development.
+          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
+            Technical inventory distinguishing established field competencies and software engineering capabilities from skills in active development.
           </p>
         </div>
 
         {/* Editorial Proficiency Legend Bar */}
         <ScrollReveal>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2.5 pb-6 mb-12 sm:mb-14 border-b border-white/[0.08] text-xs font-mono">
-            <span className="text-[#D4AF37] uppercase tracking-wider font-medium text-[11px]">
+            <span className="text-[#D4AF37] uppercase tracking-wider font-semibold text-[11px]">
               Proficiency Framework:
             </span>
-            <div className="inline-flex items-center gap-2 text-[#E6E1D3]">
+            <div className="inline-flex items-center gap-2 text-[#FAF8F5] font-medium">
               <span className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]" aria-hidden="true" />
               <span>Core Foundation (Fieldwork &amp; Curriculum)</span>
             </div>
-            <div className="inline-flex items-center gap-2 text-[#E6E1D3]">
+            <div className="inline-flex items-center gap-2 text-[#FAF8F5] font-medium">
               <span className="w-1.5 h-1.5 rotate-45 bg-[#E5C378]" aria-hidden="true" />
               <span>Proficient (Solid implementation capability)</span>
             </div>
-            <div className="inline-flex items-center gap-2 text-[#9C988F]">
+            <div className="inline-flex items-center gap-2 text-[#D4CDBC]">
               <span className="w-1.5 h-1.5 rotate-45 border border-white/40 bg-transparent" aria-hidden="true" />
               <span>Developing (Ongoing study &amp; refinement)</span>
             </div>
@@ -91,7 +91,7 @@ export function SkillsAndLearning() {
                         <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#7E7A72] mb-1">
                           Category 0{idx + 1}
                         </span>
-                        <h3 className="font-serif text-xl sm:text-[22px] font-normal text-[#F3F0E8] leading-snug">
+                        <h3 className="font-serif text-xl sm:text-[22px] font-medium sm:font-semibold text-[#FAF8F5] leading-snug">
                           {skillGroup.category}
                         </h3>
                       </div>
@@ -102,9 +102,9 @@ export function SkillsAndLearning() {
                       {skillGroup.items.map((item, sIdx) => {
                         let badgeClass = "text-[#9C988F] bg-white/[0.03] border-white/10";
                         if (item.level === "Core Foundation") {
-                          badgeClass = "text-[#D4AF37] bg-[#D4AF37]/10 border-[#D4AF37]/30";
+                          badgeClass = "text-[#D4AF37] bg-[#D4AF37]/10 border-[#D4AF37]/30 font-medium";
                         } else if (item.level === "Proficient") {
-                          badgeClass = "text-[#E5C378] bg-[#E5C378]/10 border-[#E5C378]/30";
+                          badgeClass = "text-[#E5C378] bg-[#E5C378]/10 border-[#E5C378]/30 font-medium";
                         }
 
                         return (
@@ -113,16 +113,16 @@ export function SkillsAndLearning() {
                             className="pb-3.5 border-b border-white/[0.05] last:border-b-0 last:pb-0"
                           >
                             <div className="flex items-start justify-between gap-3 mb-1">
-                              <span className="text-xs sm:text-[13.5px] font-sans font-medium text-[#F3F0E8] leading-snug">
+                              <span className="text-sm sm:text-[14.5px] font-sans font-medium text-[#FAF8F5] leading-snug">
                                 {item.name}
                               </span>
                               <span
-                                className={`text-[10px] font-mono px-2 py-0.5 shrink-0 border rounded-xs ${badgeClass}`}
+                                className={`text-[10.5px] font-mono px-2 py-0.5 shrink-0 border rounded-xs ${badgeClass}`}
                               >
                                 {item.level}
                               </span>
                             </div>
-                            <p className="text-[11.5px] font-sans text-[#7E7A72] leading-relaxed font-light">
+                            <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] leading-[1.55] font-normal">
                               {item.note}
                             </p>
                           </li>
@@ -132,7 +132,7 @@ export function SkillsAndLearning() {
                   </div>
 
                   {/* Departmental Context Footer */}
-                  <div className="mt-6 pt-3.5 border-t border-white/[0.06] text-[11px] font-sans text-[#7E7A72] font-light">
+                  <div className="mt-6 pt-3.5 border-t border-white/[0.06] text-xs font-sans text-[#9C988F] font-normal">
                     {footerNote}
                   </div>
                 </div>

@@ -88,7 +88,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
     name: "Parvez Ahmed",
     headline: "Exploring the Earth. Understanding Our Resources.",
     subheadline:
-      "Undergraduate student in Geology & Mining at the University of Rajshahi, connecting observational geological sciences with computational problem-solving to support future MSc research in earth and resource sciences.",
+      "Undergraduate student in Geology & Mining at the University of Rajshahi, bridging field geoscience with computational problem-solving to prepare for graduate research in earth and resource sciences.",
     department: "Department of Geology and Mining",
     institution: "University of Rajshahi",
     program: "B.Sc. (Hons.) in Geology and Mining",
@@ -100,9 +100,9 @@ export const PORTFOLIO_DATA: PortfolioData = {
     portraitAlt:
       "Academic portrait of Parvez Ahmed, undergraduate Geology & Mining student and aspiring researcher at the University of Rajshahi",
     bioOverview: [
-      "I am an undergraduate student in the Department of Geology and Mining at the University of Rajshahi. My academic journey is centered on understanding subsurface systems, geological resource formation, and the application of spatial and quantitative methods to earth-science challenges.",
-      "Alongside rigorous laboratory work and geological field exercises, I independently designed and engineered the GeoMine Resource Hub—a full-stack academic platform created to eliminate document fragmentation and organize departmental curricula into a structured, accessible digital archive.",
-      "My immediate goal is to complete my undergraduate degree with strong academic foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing thoroughly for competitive international MSc scholarship applications and supervised graduate research.",
+      "I am an undergraduate in Geology and Mining at the University of Rajshahi, studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
+      "Alongside field mapping and laboratory petrography, I built the GeoMine Resource Hub—a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
+      "My goal is to graduate with strong foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing for competitive international MSc scholarships and graduate research.",
     ],
   },
 
@@ -111,9 +111,9 @@ export const PORTFOLIO_DATA: PortfolioData = {
     {
       title: "Hydrogeology",
       shortDesc:
-        "Subsurface groundwater flow, aquifer characterization, and regional water resource sustainability.",
+        "Aquifer characterization, groundwater flow dynamics, and regional water resource sustainability.",
       extendedDesc:
-        "Investigating the physical and hydraulic behavior of sedimentary aquifer units, spatial recharge patterns, and hydrogeochemical factors governing drinking water availability in alluvial basin environments.",
+        "Investigating aquifer hydrodynamics, recharge patterns, and hydrogeochemical factors that govern groundwater availability in alluvial basins.",
       focusTopics: [
         "Sedimentary Aquifer Hydrodynamics",
         "Groundwater Recharge & Vulnerability",
@@ -121,15 +121,15 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Alluvial Basin Water Balance",
       ],
       scientificInquiry:
-        "How do seasonal recharge variations and textural heterogeneities within alluvial sediments control localized groundwater storage and quality over decadal scales?",
+        "How do seasonal recharge variations and sediment heterogeneities control groundwater storage and quality in alluvial basins?",
       iconName: "Droplets",
     },
     {
       title: "Mineral Resources",
       shortDesc:
-        "Economic geology, ore petrogenesis, and responsible extraction principles for critical minerals.",
+        "Economic geology, ore petrogenesis, and responsible extraction of critical minerals.",
       extendedDesc:
-        "Examining the genesis, structural localization, and mineralogical characteristics of metallic and industrial mineral deposits, balancing economic potential with environmental stewardship.",
+        "Examining the genesis, structural controls, and mineralogy of metallic and industrial deposits, balancing resource potential with environmental stewardship.",
       focusTopics: [
         "Economic Mineralogy & Ore Petrology",
         "Placer & Sedimentary Deposit Systems",
@@ -137,15 +137,15 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Environmental Remediation in Mining",
       ],
       scientificInquiry:
-        "What geological, structural, and hydrodynamic mechanisms govern the concentration of heavy mineral sands and industrial minerals in fluvial-alluvial depositional systems?",
+        "What geological and hydrodynamic mechanisms govern the concentration of heavy mineral sands in fluvial-alluvial systems?",
       iconName: "Pickaxe",
     },
     {
       title: "Petroleum Geology",
       shortDesc:
-        "Sedimentary basin analysis, source rock maturation, and subsurface reservoir characterization.",
+        "Sedimentary basin analysis, source rock maturation, and reservoir characterization.",
       extendedDesc:
-        "Studying the components of active petroleum systems—source-rock generation, reservoir porosity-permeability relationships, caprock integrity, and structural/stratigraphic trapping mechanisms.",
+        "Analyzing petroleum system components: source-rock maturation, reservoir porosity-permeability relationships, and structural/stratigraphic trapping mechanisms.",
       focusTopics: [
         "Sedimentary Basin Evolution",
         "Reservoir Petrophysics & Lithofacies",
@@ -153,15 +153,15 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Well-Log Interpretation Fundamentals",
       ],
       scientificInquiry:
-        "How do diagenetic compaction and cementation processes influence secondary porosity development and fluid permeability in deltaic reservoir sandstones?",
+        "How do diagenetic compaction and cementation govern secondary porosity and permeability in deltaic sandstones?",
       iconName: "Flame",
     },
     {
       title: "GIS & Remote Sensing",
       shortDesc:
-        "Satellite image interpretation, digital elevation models (DEM), and spatial geoscience analysis.",
+        "Satellite image interpretation, digital elevation models, and spatial geoscience analysis.",
       extendedDesc:
-        "Applying multispectral satellite imagery, digital elevation models, and spatial analysis techniques to geological mapping, structural lineament extraction, and environmental surface change monitoring.",
+        "Applying multispectral satellite imagery, DEM surface analysis, and spatial mapping to extract structural lineaments and monitor surface changes.",
       focusTopics: [
         "Multispectral Geological Mapping",
         "DEM Geomorphological Analysis",
@@ -169,7 +169,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Spatial Hydrological Modeling",
       ],
       scientificInquiry:
-        "To what degree can automated lineament extraction from multispectral imagery and high-resolution DEMs enhance structural mapping accuracy in sediment-covered plains?",
+        "How effectively can automated lineament extraction from multispectral imagery and DEMs improve structural mapping in sediment-covered plains?",
       iconName: "Compass",
     },
   ],
@@ -181,21 +181,21 @@ export const PORTFOLIO_DATA: PortfolioData = {
       category: "Full-Stack Web Application · Educational Technology",
       subtitle: "Departmental Academic Resource Platform & Document Portal",
       description:
-        "A digital resource platform designed to organize geology and mining course materials and academic resources for the Department of Geology & Mining at the University of Rajshahi.",
+        "A full-stack departmental platform that organizes geology and mining course materials, syllabi, and academic archives into an accessible digital portal.",
       role: "Sole Creator & Full-Stack Developer",
       timeline: "2024 – Present (Active MVP)",
       problemStatement:
-        "Undergraduate and graduate students frequently struggle with fragmented course materials, lost examination archives, and inconsistent syllabus access scattered across disparate messaging groups and cloud drives. The Department of Geology and Mining lacked a unified, searchable academic archive structured according to its official curriculum.",
+        "Course materials, examination archives, and syllabi were scattered across informal messaging groups and disconnected drives. GeoMine provides a single, searchable archive structured by official curriculum.",
       verifiedContributions: [
         {
           title: "Full-stack application architecture",
           description:
-            "Engineered with Next.js 16 App Router, React 19, TypeScript, and Prisma ORM for type-safe server-side rendering and database management.",
+            "Engineered with Next.js 16 App Router, React 19, TypeScript, and Prisma ORM for type-safe rendering and schema management.",
         },
         {
-          title: "Course and semester navigation",
+          title: "Curriculum navigation hierarchy",
           description:
-            "Designed a dynamic 8-semester curriculum structure (Year → Semester → Course → Resources) mirroring the official department syllabi.",
+            "Designed an 8-semester curriculum structure (Year → Semester → Course → Resources) aligned with departmental syllabi.",
         },
         {
           title: "In-browser PDF viewing",
@@ -203,24 +203,24 @@ export const PORTFOLIO_DATA: PortfolioData = {
             "Integrated zero-friction PDF previewing with zoom, fit-to-width, pagination, and direct downloading.",
         },
         {
-          title: "Admin-scoped resource upload workflow",
+          title: "Role-scoped upload workflow",
           description:
-            "Developed secure authentication and role checks allowing Course Representatives (CR) to contribute materials with author attribution and administrative oversight.",
+            "Developed authentication allowing Course Representatives (CR) to contribute materials with administrative audit oversight.",
         },
         {
-          title: "Automated test suites",
+          title: "Automated test verification",
           description:
-            "Authored 20 automated Vitest regression and unit test suites (153 passing tests) covering database schema compatibility, CR authorization, and route security.",
+            "Authored 20 automated Vitest regression and unit test suites (153 passing tests) covering schema compatibility, CR authorization, and route security.",
         },
       ],
       myContribution: [
-        "Engineered the complete application from ground up using Next.js 16 App Router and TypeScript.",
-        "Designed and implemented normalized database schemas in Prisma supporting dual SQLite (local development) and PostgreSQL (production).",
-        "Created an intuitive 8-semester curriculum navigation hierarchy (Year → Semester → Course → Resources).",
-        "Built an in-browser document viewer enabling instant previewing, zoom, page navigation, and downloading of course PDFs.",
-        "Implemented role-aware Course Representative (CR) upload workflows with administrative audit controls to allow peer contributions safely.",
-        "Configured integrated AI academic query assistant leveraging Google Gemini for curriculum-grounded questions.",
-        "Wrote 20 automated unit and regression test suites (153 passing tests) covering database schema compatibility, CR authorization, and route security.",
+        "Engineered the full-stack web application using Next.js 16 App Router and TypeScript.",
+        "Designed normalized Prisma schemas supporting SQLite in development and PostgreSQL in production.",
+        "Built the 8-semester curriculum navigation hierarchy matching the B.Sc. (Hons.) syllabus.",
+        "Integrated an in-browser PDF viewer with instant preview, zoom, page navigation, and download.",
+        "Implemented role-aware Course Representative (CR) upload workflows with administrative controls.",
+        "Configured Google Gemini AI assistant for curriculum-grounded queries.",
+        "Authored 20 Vitest test suites (153 passing tests) covering schema, auth, and API routes.",
       ],
       technologies: [
         {
@@ -431,36 +431,36 @@ export const PORTFOLIO_DATA: PortfolioData = {
     {
       timeframe: "Near-Term",
       stage: "Undergraduate Completion",
-      title: "Geoscience Rigor & Capstone Field Project",
+      title: "Undergraduate Completion & Field Capstone",
       description:
-        "Complete upper-level undergraduate coursework in hydrogeology, petroleum systems, and mining geology with high academic standing while completing departmental geological mapping excursions.",
+        "Complete upper-level coursework in hydrogeology, petroleum systems, and mining geology while conducting departmental field mapping.",
       keyDeliverables: [
-        "Complete detailed undergraduate geological mapping report with cross-sections.",
-        "Maintain high academic focus to build a competitive record for graduate admissions.",
-        "Complete documentation and open-source release of GeoMine Resource Hub.",
+        "Complete geological mapping report with cross-sections.",
+        "Maintain strong academic standing for graduate admissions.",
+        "Finalize documentation and open-source release of GeoMine Resource Hub.",
       ],
     },
     {
       timeframe: "Medium-Term",
       stage: "MSc Scholarship Applications",
-      title: "Graduate Research Admission & Scholarships",
+      title: "Graduate Admissions & MSc Scholarships",
       description:
-        "Apply for competitive international master's degree scholarship programs in Earth Sciences, Hydrogeology, or Petroleum Geosciences, focusing on institutions with dedicated subsurface research groups.",
+        "Apply for international MSc scholarship programs in Earth Sciences and Hydrogeology with dedicated subsurface research groups.",
       keyDeliverables: [
-        "Develop a clear, focused MSc research proposal in hydrogeological basin modeling.",
-        "Engage prospective graduate research supervisors whose work aligns with regional water systems.",
-        "Complete standard graduate admissions requirements (e.g. IELTS/GRE as appropriate).",
+        "Develop a focused research proposal in basin hydrogeology.",
+        "Connect with prospective graduate research supervisors.",
+        "Complete graduate admissions requirements (IELTS/GRE).",
       ],
     },
     {
       timeframe: "Long-Term",
       stage: "Scientific Research Career",
-      title: "Academic Research & Environmental Contribution",
+      title: "Scientific Research & Academic Contribution",
       description:
-        "Contribute to international scientific understanding of groundwater sustainability, sedimentary basin dynamics, and the integration of digital tools in environmental earth sciences.",
+        "Contribute to international research on groundwater sustainability, sedimentary basin dynamics, and computational geoscience tools.",
       keyDeliverables: [
-        "Publish findings in indexed, peer-reviewed geological and hydrological journals.",
-        "Promote accessible scientific software tools to support geoscience students in developing regions.",
+        "Publish findings in peer-reviewed geological and hydrological journals.",
+        "Develop open-access software tools for geoscience education.",
       ],
     },
   ],
