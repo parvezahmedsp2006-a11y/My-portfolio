@@ -70,9 +70,12 @@ export function ResearchInterests() {
                         <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold block">
                           Focus Area 0{idx + 1}
                         </span>
-                        <h3 className="font-serif text-xl sm:text-2xl font-medium sm:font-semibold text-[#FAF8F5] leading-snug mt-0.5">
-                          {interest.title}
-                        </h3>
+                        <LetterBounceHeading
+                          as="h3"
+                          text={interest.title}
+                          className="font-serif text-xl sm:text-2xl font-medium sm:font-semibold text-[#FAF8F5] leading-snug mt-0.5"
+                          staggerMs={36}
+                        />
                       </div>
                     </div>
 

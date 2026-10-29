@@ -78,9 +78,12 @@ export function ContactAndFooter() {
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-serif text-2xl text-[#FAF8F5] font-medium sm:font-semibold leading-snug">
-                    {personal.institution}
-                  </h3>
+                  <LetterBounceHeading
+                    as="h3"
+                    text={personal.institution}
+                    className="font-serif text-2xl text-[#FAF8F5] font-medium sm:font-semibold leading-snug"
+                    staggerMs={38}
+                  />
                   <p className="text-sm sm:text-[14.5px] font-sans text-[#D4CDBC] font-normal leading-relaxed">
                     {personal.department}
                   </p>

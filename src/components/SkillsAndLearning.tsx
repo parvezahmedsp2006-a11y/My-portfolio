@@ -92,9 +92,12 @@ export function SkillsAndLearning() {
                         <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#7E7A72] mb-1">
                           Category 0{idx + 1}
                         </span>
-                        <h3 className="font-serif text-xl sm:text-[22px] font-medium sm:font-semibold text-[#FAF8F5] leading-snug">
-                          {skillGroup.category}
-                        </h3>
+                        <LetterBounceHeading
+                          as="h3"
+                          text={skillGroup.category}
+                          className="font-serif text-xl sm:text-[22px] font-medium sm:font-semibold text-[#FAF8F5] leading-snug"
+                          staggerMs={38}
+                        />
                       </div>
                     </div>
 

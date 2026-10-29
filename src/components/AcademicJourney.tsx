@@ -49,9 +49,12 @@ export function AcademicJourney() {
                   <Landmark className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" aria-hidden="true" />
                   <span>{personal.institution} · {personal.department}</span>
                 </div>
-                <h3 className="font-serif text-2xl sm:text-3xl text-[#FAF8F5] font-medium sm:font-semibold tracking-tight">
-                  {personal.program}
-                </h3>
+                <LetterBounceHeading
+                  as="h3"
+                  text={personal.program}
+                  className="font-serif text-2xl sm:text-3xl text-[#FAF8F5] font-medium sm:font-semibold tracking-tight"
+                  staggerMs={38}
+                />
                 <p className="text-[14px] sm:text-[15px] font-sans text-[#D4CDBC] font-normal max-w-2xl leading-[1.6]">
                   Honours curriculum integrating geological field mapping, laboratory mineralogy, and computational methods for earth and resource evaluation.
                 </p>
@@ -137,12 +140,13 @@ export function AcademicJourney() {
                     {/* Right Column: Milestone Heading, Narrative Description & Modules Matrix */}
                     <div className="flex-1 min-w-0 pl-10 md:pl-10 lg:pl-12 pt-3 md:pt-0">
                       {/* Milestone Heading */}
-                      <h3
+                      <LetterBounceHeading
+                        as="h3"
                         id={`timeline-heading-${idx}`}
+                        text={group.category}
                         className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-snug group-hover:text-[#FFF4D0] transition-colors duration-200"
-                      >
-                        {group.category}
-                      </h3>
+                        staggerMs={38}
+                      />
 
                       {/* Supporting Narrative Description */}
                       <p className="mt-2.5 text-[15px] sm:text-base font-sans text-[#D4CDBC] leading-[1.65] font-normal max-w-2xl">

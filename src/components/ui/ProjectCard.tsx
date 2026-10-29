@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 import { ProjectCaseStudy } from "@/data/portfolioData";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 interface ProjectCardProps {
   project: ProjectCaseStudy;
@@ -37,9 +38,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
 
             {/* Project Title */}
-            <h3 className="font-serif text-3xl sm:text-4xl lg:text-[46px] text-[#FAF8F5] font-medium sm:font-semibold leading-[1.15] tracking-tight">
-              {project.title}
-            </h3>
+            <LetterBounceHeading
+              as="h3"
+              text={project.title}
+              className="font-serif text-3xl sm:text-4xl lg:text-[46px] text-[#FAF8F5] font-medium sm:font-semibold leading-[1.15] tracking-tight"
+              staggerMs={38}
+            />
 
             {/* Subtitle */}
             <p className="font-serif italic text-base sm:text-lg text-[#D4AF37] mt-1.5 font-normal">

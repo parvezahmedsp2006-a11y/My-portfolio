@@ -20,7 +20,7 @@ export function LetterBounceHeading({
   className = "",
   staggerMs = 42,
   baseDelayMs = 0,
-  threshold = 0.15,
+  threshold = 0.1,
   wordClassName = "",
 }: LetterBounceHeadingProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -53,6 +53,11 @@ export function LetterBounceHeading({
       return;
     }
 
+    if (!("IntersectionObserver" in window)) {
+      setIsTriggered(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -66,7 +71,7 @@ export function LetterBounceHeading({
       },
       {
         threshold,
-        rootMargin: "0px 0px -30px 0px",
+        rootMargin: "0px 0px -20px 0px",
       }
     );
 

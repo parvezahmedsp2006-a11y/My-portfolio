@@ -70,12 +70,13 @@ export function AcademicDevelopment() {
                         <span>{goal.stage}</span>
                       </div>
 
-                      <h3
+                      <LetterBounceHeading
+                        as="h3"
                         id={`goal-heading-${idx}`}
+                        text={goal.title}
                         className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-snug pt-1"
-                      >
-                        {goal.title}
-                      </h3>
+                        staggerMs={36}
+                      />
 
                       <p className="text-xs font-mono text-[#9C988F] tracking-wide pt-1">
                         {horizonLabel}
