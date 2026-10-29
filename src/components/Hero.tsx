@@ -37,7 +37,7 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
     <section
       id="hero"
       aria-label="Portfolio Introduction and Identity"
-      className="relative min-h-screen bg-[#000000] text-[#F3F0E8] flex flex-col justify-between pt-6 sm:pt-11 lg:pt-14 pb-8 sm:pb-16 lg:pb-20 overflow-hidden"
+      className="relative min-h-0 lg:min-h-screen bg-[#000000] text-[#F3F0E8] flex flex-col justify-start lg:justify-between pt-6 sm:pt-11 lg:pt-14 pb-10 sm:pb-16 lg:pb-20 overflow-hidden"
     >
       {/* Top Header Region (Matching Reference Layout) */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full">
@@ -74,10 +74,11 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
       </div>
 
       {/* 
-        Middle Region: Expansive Uninterrupted Black Negative Space
-        Matching the luxurious void between navigation and photograph in the reference
+        Middle Spacing:
+        - Compact, balanced vertical space on mobile (no huge empty black gap)
+        - Expansive negative space on desktop matching editorial reference
       */}
-      <div className="flex-1 min-h-[30px] sm:min-h-[70px] lg:min-h-[130px]" aria-hidden="true" />
+      <div className="h-5 sm:h-8 lg:h-auto lg:flex-1 lg:min-h-[100px]" aria-hidden="true" />
 
       {/* 
         Lower Region: Responsive Side-by-Side Two-Column Layout
