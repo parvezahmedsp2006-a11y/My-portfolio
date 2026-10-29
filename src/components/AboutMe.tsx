@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { GraduationCap, MapPin, Compass } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { WordRevealBiography } from "@/components/ui/WordRevealBiography";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 export function AboutMe() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -82,14 +83,12 @@ export function AboutMe() {
             <div className="w-10 h-px bg-white/15" />
           </div>
 
-          <h2
+          <LetterBounceHeading
             id="about-heading"
-            className={`font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight transition-all duration-600 ease-out leading-[1.15] ${
-              isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-            }`}
-          >
-            About Parvez Ahmed
-          </h2>
+            text="About Parvez Ahmed"
+            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
+            staggerMs={42}
+          />
 
           <div
             className={`w-14 h-0.5 bg-[#D4AF37] mt-4 origin-left transition-transform duration-700 ease-out ${

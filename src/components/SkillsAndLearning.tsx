@@ -4,6 +4,7 @@ import React from "react";
 import { Compass, Code, BookOpen, Layers } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 const CATEGORY_ICONS: Record<number, React.ComponentType<{ className?: string }>> = {
   0: Compass,
@@ -37,12 +38,12 @@ export function SkillsAndLearning() {
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
 
-          <h2
+          <LetterBounceHeading
             id="skills-heading"
+            text="Skills & Learning"
             className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
-          >
-            Skills &amp; Learning
-          </h2>
+            staggerMs={42}
+          />
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 

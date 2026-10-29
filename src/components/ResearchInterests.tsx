@@ -3,6 +3,7 @@ import { Droplets, Pickaxe, Flame, Compass, HelpCircle } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { GeologicalGlobe } from "@/components/GeologicalGlobe";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Droplets,
@@ -28,12 +29,12 @@ export function ResearchInterests() {
             <p className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold mb-2.5">
               Academic Focus &amp; Inquiry
             </p>
-            <h2
+            <LetterBounceHeading
               id="research-heading"
+              text="Research Interests"
               className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
-            >
-              Research Interests
-            </h2>
+              staggerMs={42}
+            />
             <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
             <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
               Prospective research directions grounded in undergraduate geology and mining coursework, formulated for international MSc scholarship applications and graduate inquiry.

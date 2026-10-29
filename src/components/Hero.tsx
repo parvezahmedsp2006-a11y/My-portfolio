@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 interface HeroProps {
   initialSlideIndex?: number;
@@ -41,11 +42,15 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
     >
       {/* Top Header Region (Matching Reference Layout) */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full">
-        {/* Enormous Gold Calligraphic Wordmark (Centered in Upper Region) */}
+        {/* Enormous Gold Calligraphic Wordmark (Centered in Upper Region with Letter Bounce) */}
         <div className="text-center pt-1 sm:pt-4 pointer-events-none select-none">
-          <h1 className="calligraphic-wordmark text-[clamp(2.6rem,8.6vw,7.6rem)] leading-[0.94] tracking-wide inline-block pointer-events-none select-text">
-            {PORTFOLIO_DATA.personal.name}
-          </h1>
+          <LetterBounceHeading
+            as="h1"
+            text={PORTFOLIO_DATA.personal.name}
+            className="calligraphic-wordmark text-[clamp(2.6rem,8.6vw,7.6rem)] leading-[0.94] tracking-wide inline-block pointer-events-none select-text"
+            staggerMs={45}
+            baseDelayMs={80}
+          />
         </div>
 
         {/* Small, Discreet Horizontal Navigation Row (Below Wordmark, Aligned Right) */}

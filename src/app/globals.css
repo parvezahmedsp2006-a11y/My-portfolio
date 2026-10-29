@@ -179,6 +179,47 @@ h1, h2, h3, h4, .font-serif-heading {
   }
 }
 
+/* Letter-by-Letter Bounce Reveal for Headings */
+@keyframes letterBounceReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-3.5px);
+  }
+  82% {
+    transform: translateY(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.letter-bounce-char {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.letter-bounce-char.is-animating {
+  animation-name: letterBounceReveal;
+  animation-duration: 0.44s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-bounce-char {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

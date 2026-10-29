@@ -4,6 +4,7 @@ import React from "react";
 import { Compass, Milestone } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 const HORIZON_LABELS: Record<number, string> = {
   0: "Active Undergraduate Stage · University of Rajshahi",
@@ -31,12 +32,12 @@ export function AcademicDevelopment() {
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
 
-          <h2
+          <LetterBounceHeading
             id="goals-heading"
+            text="Academic Development & Future Goals"
             className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
-          >
-            Academic Development &amp; Future Goals
-          </h2>
+            staggerMs={42}
+          />
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 

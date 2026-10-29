@@ -2,6 +2,7 @@ import React from "react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 export function TechnicalProjects() {
   const projects = PORTFOLIO_DATA.technicalProjects;
@@ -20,12 +21,12 @@ export function TechnicalProjects() {
           <p className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold mb-2.5">
             Software Architecture &amp; Engineering
           </p>
-          <h2
+          <LetterBounceHeading
             id="projects-heading"
+            text="Technical Projects"
             className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
-          >
-            Technical Projects
-          </h2>
+            staggerMs={42}
+          />
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
             Full-stack software engineering demonstrating system architecture, relational database design, accessible UI engineering, and automated test coverage.
