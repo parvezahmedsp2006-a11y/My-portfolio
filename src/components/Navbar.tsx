@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Menu, X, ArrowUpRight } from "lucide-react";
-import { PORTFOLIO_DATA } from "@/data/portfolioData";
-import { GithubIcon } from "@/components/ui/GithubIcon";
+import { Menu, X } from "lucide-react";
 
 interface NavLinkItem {
   name: string;
@@ -14,25 +11,24 @@ interface NavLinkItem {
 }
 
 const NAV_LINKS: NavLinkItem[] = [
+  { name: "Home", href: "#", id: "hero" },
   { name: "About", href: "#about", id: "about" },
   { name: "Journey", href: "#journey", id: "journey" },
   { name: "Research", href: "#research", id: "research" },
   { name: "Projects", href: "#projects", id: "projects" },
   { name: "Skills", href: "#skills", id: "skills" },
-  { name: "Future Goals", href: "#goals", id: "goals" },
   { name: "Contact", href: "#contact", id: "contact" },
 ];
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("about");
-  const navContainerRef = useRef<HTMLDivElement | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("hero");
 
-  // Track window scroll for floating navbar styling
+  // Track scroll position to show sticky navigation after scrolling past hero
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 180);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -41,7 +37,7 @@ export function Navbar() {
 
   // IntersectionObserver for reliable active section tracking
   useEffect(() => {
-    const sectionIds = NAV_LINKS.map((link) => link.id);
+    const sectionIds = ["hero", "about", "journey", "research", "projects", "skills", "goals", "contact"];
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
       const visibleEntries = entries.filter((entry) => entry.isIntersecting);
@@ -49,7 +45,8 @@ export function Navbar() {
         visibleEntries.sort(
           (a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top)
         );
-        setActiveSection(visibleEntries[0].target.id);
+        const topId = visibleEntries[0].target.id;
+        setActiveSection(topId === "hero" ? "hero" : topId);
       }
     };
 
@@ -79,165 +76,88 @@ export function Navbar() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="fixed top-3 sm:top-5 inset-x-0 z-50 pointer-events-none px-3 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto pointer-events-auto">
-        {/* Floating Translucent Pill Navbar */}
-        <div
-          className={`rounded-full border transition-all duration-300 px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 flex items-center justify-between ${
-            scrolled
-              ? "bg-warm-ivory/95 backdrop-blur-md border-border-subtle shadow-xs"
-              : "bg-warm-ivory/85 backdrop-blur-md border-border-subtle/80 shadow-2xs"
-          }`}
-        >
-          {/* Brand Identity / Profile Area (Matching Reference) */}
+    <>
+      {/* Sticky Top Header (fades in smoothly when scrolled down past hero) */}
+      <header
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "opacity-100 translate-y-0 bg-[#000000]/95 backdrop-blur-md border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.8)] pointer-events-auto"
+            : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-6 lg:px-12 h-16 sm:h-18 flex items-center justify-between">
+          {/* Brand Wordmark (Small script in sticky state) */}
           <Link
-            href="/"
-            className="group flex items-center gap-2.5 sm:gap-3 focus-visible:outline-2 focus-visible:outline-sage-600 rounded-full"
-            aria-label="Parvez Ahmed Portfolio Homepage"
+            href="#"
+            className="calligraphic-wordmark text-2xl sm:text-3xl leading-none select-none hover:opacity-85 transition-opacity"
+            aria-label="Parvez Ahmed Homepage"
           >
-            {/* Real Formal Portrait Circular Avatar (Matching Reference) */}
-            <div className="relative w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full overflow-hidden border border-sage-200/90 shadow-2xs shrink-0 bg-warm-ivory group-hover:border-sage-400 transition-colors">
-              <Image
-                src="/images/portrait/parvez-ahmed-avatar.jpg"
-                alt={PORTFOLIO_DATA.personal.name}
-                fill
-                sizes="40px"
-                className="object-cover"
-                priority
-              />
-            </div>
-
-            {/* Subtle Vertical Divider between Portrait and Text */}
-            <div
-              className="h-6 w-px bg-border-medium/80 shrink-0"
-              aria-hidden="true"
-            />
-
-            {/* Name and Department Subtitle */}
-            <div className="text-left">
-              <span className="font-serif text-[15px] sm:text-[17px] font-medium tracking-tight text-charcoal-900 group-hover:text-sage-900 transition-colors duration-200 leading-tight block">
-                {PORTFOLIO_DATA.personal.name}
-              </span>
-              <span className="block text-[9px] sm:text-[10px] font-sans text-sage-700 tracking-widest uppercase leading-none font-semibold mt-0.5">
-                GEOLOGY &amp; MINING · RU
-              </span>
-            </div>
+            Parvez Ahmed
           </Link>
 
-          {/* Desktop Navigation Links (Center) */}
-          <nav
-            ref={navContainerRef}
-            aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-0.5 lg:gap-1"
-          >
+          {/* Desktop Navigation Links */}
+          <nav aria-label="Sticky Navigation" className="hidden md:flex items-center gap-6 lg:gap-8">
             {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.id;
+              const isActive = (link.id === "hero" && activeSection === "hero") || activeSection === link.id;
               return (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-1.5 text-xs lg:text-[13px] font-sans rounded-full transition-all duration-200 relative flex flex-col items-center select-none ${
+                  className={`text-xs sm:text-[13px] font-sans tracking-wide transition-colors duration-200 select-none ${
                     isActive
-                      ? "text-sage-950 font-medium bg-sage-100/75"
-                      : "text-charcoal-700 hover:text-charcoal-950 hover:bg-sage-50/60 font-normal"
+                      ? "text-[#D4AF37] font-medium"
+                      : "text-[#9C988F] hover:text-[#F3F0E8] font-normal"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >
-                  <span>{link.name}</span>
-
-                  {/* Active Indicator Underline with Dot Accent (Matching Reference) */}
-                  {isActive && (
-                    <div
-                      className="absolute -bottom-1 flex items-center gap-1 justify-center pointer-events-none"
-                      aria-hidden="true"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-sage-700 shrink-0" />
-                      <span className="h-0.5 w-6 bg-sage-700 rounded-full" />
-                    </div>
-                  )}
+                  {link.name}
                 </a>
               );
             })}
           </nav>
 
-          {/* Right Action: GitHub Profile Pill Button */}
-          <div className="flex items-center gap-2">
-            <a
-              href={PORTFOLIO_DATA.personal.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 text-xs font-sans font-medium text-charcoal-900 bg-surface-white/90 hover:bg-sage-50 border border-border-medium/90 hover:border-sage-400 rounded-full shadow-2xs hover:shadow-xs transition-all duration-200 group focus-visible:outline-2 focus-visible:outline-sage-600"
-              aria-label="GitHub Profile (opens in new tab)"
+          {/* Mobile Menu Toggle Button */}
+          <div className="flex items-center md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-sm text-[#D4AF37] hover:text-[#FFF4D0] focus-visible:outline-2 focus-visible:outline-[#D4AF37] transition-colors"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
-              <GithubIcon className="w-3.5 h-3.5 text-charcoal-900" />
-              <span className="hidden sm:inline">GitHub</span>
-              <ArrowUpRight className="w-3 h-3 text-charcoal-600 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-
-            {/* Mobile Menu Toggle Button */}
-            <div className="flex items-center md:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-1.5 min-h-[40px] min-w-[40px] flex items-center justify-center rounded-full text-charcoal-800 hover:text-charcoal-950 hover:bg-sage-100/70 focus-visible:outline-2 focus-visible:outline-sage-600 transition-colors"
-                aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-menu"
-                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              >
-                {mobileMenuOpen ? <X size={20} className="stroke-[2.2]" /> : <Menu size={20} className="stroke-[2.2]" />}
-              </button>
-            </div>
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Dropdown Card Drawer */}
-        <div
-          id="mobile-menu"
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-out rounded-2xl bg-warm-ivory/98 backdrop-blur-md border border-border-subtle shadow-lg mt-2 ${
-            mobileMenuOpen ? "max-h-[500px] opacity-100 p-3.5 visible" : "max-h-0 opacity-0 p-0 invisible"
-          }`}
-          aria-hidden={!mobileMenuOpen}
-        >
-          <div className="space-y-1">
-            {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.id;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-3.5 py-2.5 min-h-[44px] flex items-center justify-between text-sm rounded-xl transition-all duration-200 ${
-                    isActive
-                      ? "font-semibold text-sage-950 bg-sage-100/90 border-l-3 border-sage-600 pl-3 shadow-2xs"
-                      : "font-normal text-charcoal-800 hover:text-sage-950 hover:bg-sage-50/80"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  <span>{link.name}</span>
-                  {isActive && (
-                    <span className="text-[10px] font-mono text-sage-700 uppercase tracking-wider">
-                      Active
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-
-            <div className="pt-2 mt-2 border-t border-border-subtle/80">
+      {/* Mobile Dropdown Drawer */}
+      <div
+        id="mobile-menu"
+        className={`fixed inset-x-0 top-16 sm:top-18 z-40 md:hidden overflow-hidden transition-all duration-300 ease-out bg-[#000000]/98 border-b border-white/[0.08] backdrop-blur-xl ${
+          mobileMenuOpen ? "max-h-[400px] opacity-100 py-6 px-6 visible" : "max-h-0 opacity-0 p-0 invisible pointer-events-none"
+        }`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <div className="space-y-3 max-w-sm mx-auto text-left">
+          {NAV_LINKS.map((link) => {
+            const isActive = (link.id === "hero" && activeSection === "hero") || activeSection === link.id;
+            return (
               <a
-                href={PORTFOLIO_DATA.personal.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium text-sage-950 bg-sage-100 hover:bg-sage-200/90 border border-sage-300/80 rounded-xl shadow-2xs transition-colors"
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block py-2 text-sm tracking-wide transition-colors ${
+                  isActive ? "text-[#D4AF37] font-medium" : "text-[#9C988F] hover:text-[#F3F0E8]"
+                }`}
               >
-                <GithubIcon className="w-4 h-4 text-sage-950" />
-                <span>View GitHub Repositories</span>
-                <ArrowUpRight className="w-4 h-4" />
+                {link.name}
               </a>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
-    </header>
+    </>
   );
 }

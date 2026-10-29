@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { GeoMarquee } from "@/components/GeoMarquee";
 import { AboutMe } from "@/components/AboutMe";
 import { AcademicJourney } from "@/components/AcademicJourney";
 import { ResearchInterests } from "@/components/ResearchInterests";
@@ -19,13 +20,16 @@ export default async function HomePage({ searchParams }: PageProps) {
   const initialSlideIndex = !isNaN(slideNum) && slideNum >= 0 && slideNum <= 4 ? slideNum : 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-warm-ivory selection:bg-sage-200 selection:text-charcoal-900">
+    <div className="min-h-screen flex flex-col bg-[#000000] text-[#F3F0E8] selection:bg-[#D4AF37]/30 selection:text-[#FFF4D0]">
       {/* 1. Responsive Navigation */}
       <Navbar />
 
       <main id="main-content" className="flex-1 focus:outline-none">
         {/* 2 & 3. Hero & Concise Introduction */}
         <Hero initialSlideIndex={initialSlideIndex} />
+
+        {/* 3b. Geological Typography Marquee — editorial thematic band */}
+        <GeoMarquee />
 
         {/* 4. About Me */}
         <AboutMe />

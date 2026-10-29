@@ -165,9 +165,9 @@ export function WordRevealBiography({
   }, [isMobile, staggerMs]);
 
   return (
-    <div className="space-y-5 text-charcoal-800 font-sans text-sm sm:text-base leading-[1.8] sm:leading-[1.85]">
+    <div className="space-y-6 text-[#9C988F] font-sans text-sm sm:text-base lg:text-[16.5px] leading-[1.85] sm:leading-[1.9] font-light">
       {processedParagraphs.map((para) => (
-        <p key={para.id} className="relative font-normal">
+        <p key={para.id} className="relative">
           {/* Accessible version for screen readers: read seamlessly without word boundary interruptions */}
           <span className="sr-only">{para.fullText}</span>
 
@@ -196,10 +196,10 @@ export function WordRevealBiography({
                 return (
                   <React.Fragment key={tIdx}>
                     <span
-                      className={`inline px-1.5 py-0.5 rounded-md border transition-all duration-400 ease-out select-text align-baseline ${
+                      className={`inline px-1.5 py-0.5 rounded border transition-all duration-400 ease-out select-text align-baseline ${
                         isRevealed
-                          ? "bg-sage-100/75 border-sage-200/80 text-sage-950 font-medium"
-                          : "bg-transparent border-transparent text-charcoal-700 font-normal"
+                          ? "bg-[#D4AF37]/12 border-[#D4AF37]/30 text-[#FFF4D0] font-medium"
+                          : "bg-transparent border-transparent text-[#9C988F]/40 font-normal"
                       }`}
                       style={{
                         transitionDelay: isRevealed ? `${token.pillDelay}ms` : "0ms",
@@ -220,7 +220,8 @@ export function WordRevealBiography({
                           {wIdx < token.words.length - 1 && " "}
                         </React.Fragment>
                       ))}
-                    </span>{token.trailingPunctuation && (
+                    </span>
+                    {token.trailingPunctuation && (
                       <span
                         className={`word-token ${isRevealed ? "revealed" : ""}`}
                         style={{

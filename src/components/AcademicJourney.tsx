@@ -1,130 +1,201 @@
+"use client";
+
 import React from "react";
-import { CheckCircle2, Clock, Landmark, Calendar } from "lucide-react";
+import { Landmark, Calendar, CheckCircle2, Clock, BookOpen, Compass } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export function AcademicJourney() {
+  const { personal, coursework } = PORTFOLIO_DATA;
+
   return (
     <section
       id="journey"
       aria-labelledby="journey-heading"
-      className="py-14 md:py-22 border-b border-border-subtle bg-warm-ivory-dark/40"
+      className="relative py-24 md:py-32 border-t border-white/[0.08] bg-[#000000] scroll-mt-20 sm:scroll-mt-24 overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="max-w-2xl mb-10">
-          <p className="text-xs font-sans uppercase tracking-widest text-sage-700 font-semibold mb-2">
-            Curriculum Structure & Progress
-          </p>
+        <div className="max-w-2xl mb-14 sm:mb-18">
+          <div className="inline-flex items-center gap-2 mb-3.5">
+            <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
+            <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
+              Curriculum Structure &amp; Progress
+            </span>
+            <div className="w-10 h-px bg-white/15" aria-hidden="true" />
+          </div>
+
           <h2
             id="journey-heading"
-            className="font-serif text-3xl sm:text-4xl text-charcoal-900 font-normal tracking-tight"
+            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
           >
             Academic Journey
           </h2>
-          <div className="w-12 h-0.5 bg-sage-500 mt-3" />
-          <p className="mt-3.5 text-sm sm:text-base font-sans text-charcoal-600 leading-relaxed">
+
+          <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
+
+          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
             Progression through the official 4-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, clearly separating completed foundations from current and upcoming modules.
           </p>
         </div>
 
-        {/* Institution & Degree Summary Card */}
+        {/* Institutional Degree Foundation Banner (Restrained Editorial Framing) */}
         <ScrollReveal>
-          <div className="academic-card p-6 sm:p-7 mb-8 bg-surface-white border-l-4 border-l-sage-600 rounded-md">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-sage-50 text-sage-800 text-xs font-medium mb-2">
-                  <Landmark className="w-3.5 h-3.5 text-sage-700" />
-                  <span>{PORTFOLIO_DATA.personal.institution}</span>
+          <div className="border border-white/[0.08] bg-[#050505] p-6 sm:p-8 mb-14 sm:mb-18 transition-colors duration-300 hover:border-white/[0.14]">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="space-y-2.5">
+                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#D4AF37] uppercase tracking-wider">
+                  <Landmark className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" aria-hidden="true" />
+                  <span>{personal.institution} · {personal.department}</span>
                 </div>
-                <h3 className="font-serif text-2xl font-normal text-charcoal-900">
-                  {PORTFOLIO_DATA.personal.program}
+                <h3 className="font-serif text-2xl sm:text-3xl text-[#F3F0E8] font-normal tracking-tight">
+                  {personal.program}
                 </h3>
-                <p className="text-xs sm:text-sm font-sans text-charcoal-600 mt-1">
-                  {PORTFOLIO_DATA.personal.department}
+                <p className="text-xs sm:text-[13px] font-sans text-[#9C988F] font-light max-w-2xl leading-relaxed">
+                  Four-year honours curriculum connecting observational geological field sciences, laboratory mineralogy &amp; petrography, and computational methods for earth resource evaluation.
                 </p>
               </div>
-              <div className="flex flex-wrap md:flex-col md:items-end gap-2 text-xs font-sans text-charcoal-500">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-warm-ivory border border-border-subtle rounded-sm">
-                  <Calendar className="w-3.5 h-3.5 text-sage-600" />
-                  <span>4-Year Degree Sequence</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-sage-100/70 text-sage-800 rounded-sm font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-sage-600" />
-                  <span>Active Undergraduate Candidate</span>
-                </span>
+
+              <div className="flex flex-wrap lg:flex-col lg:items-end gap-3 text-xs font-mono shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-white/[0.06]">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.02] border border-white/10 text-[#E6E1D3]">
+                  <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
+                  <span>4-Year Curriculum</span>
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" aria-hidden="true" />
+                  <span className="font-medium">Active Undergraduate Candidate</span>
+                </div>
               </div>
             </div>
           </div>
         </ScrollReveal>
 
-        {/* Coursework Progression Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PORTFOLIO_DATA.coursework.map((group, idx) => {
-            const isCompleted = group.status === "Completed Coursework";
-            return (
-              <ScrollReveal key={idx} delayMs={idx * 80}>
-                <div className="academic-card p-6 flex flex-col justify-between h-full rounded-md">
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="text-[11px] font-mono font-medium text-charcoal-500">
-                        {group.academicYear}
-                      </span>
-                      <span
-                        className={`inline-flex items-center gap-1 text-[11px] font-sans font-medium px-2 py-0.5 rounded-full ${
-                          isCompleted
-                            ? "bg-sage-100 text-sage-800 border border-sage-200"
-                            : "bg-charcoal-100 text-charcoal-700 border border-charcoal-200"
-                        }`}
-                      >
-                        {isCompleted ? (
-                          <>
-                            <CheckCircle2 className="w-3 h-3 text-sage-600" />
-                            <span>Completed</span>
-                          </>
-                        ) : (
-                          <>
-                            <Clock className="w-3 h-3 text-charcoal-500" />
-                            <span>Current / Upcoming</span>
-                          </>
-                        )}
-                      </span>
+        {/* Vertical Editorial Timeline */}
+        <div className="relative">
+          {/* Continuous Timeline Spine */}
+          <div
+            className="absolute top-4 bottom-8 w-px bg-gradient-to-b from-[#D4AF37]/50 via-white/[0.12] to-white/[0.03] left-3.5 md:left-[210px] lg:left-[240px]"
+            aria-hidden="true"
+          />
+
+          <div className="space-y-12 sm:space-y-16">
+            {coursework.map((group, idx) => {
+              const isCompleted = group.status === "Completed Coursework";
+
+              return (
+                <ScrollReveal key={group.category} delayMs={idx * 100}>
+                  <article
+                    className="relative flex flex-col md:flex-row items-start group"
+                    aria-labelledby={`timeline-heading-${idx}`}
+                  >
+                    {/* Left Column: Academic Period & Status Badge (Desktop: right-aligned; Mobile: left-aligned) */}
+                    <div className="w-full md:w-[210px] lg:w-[240px] shrink-0 md:text-right pl-10 md:pl-0 md:pr-10 lg:pr-12">
+                      <div className="inline-flex flex-col md:items-end">
+                        <time className="font-mono text-xs sm:text-[13px] text-[#D4AF37] uppercase tracking-wider font-medium">
+                          {group.academicYear}
+                        </time>
+
+                        <span
+                          className={`inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 mt-2 transition-colors duration-200 ${
+                            isCompleted
+                              ? "bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30"
+                              : "bg-white/[0.03] text-[#9C988F] border border-white/10"
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <>
+                              <CheckCircle2 className="w-3 h-3 text-[#D4AF37]" aria-hidden="true" />
+                              <span>Completed</span>
+                            </>
+                          ) : (
+                            <>
+                              <Clock className="w-3 h-3 text-[#9C988F]" aria-hidden="true" />
+                              <span>Current / Upcoming</span>
+                            </>
+                          )}
+                        </span>
+
+                        <span className="text-[11px] font-sans text-[#7E7A72] mt-2 hidden md:block font-light">
+                          {isCompleted ? "Departmental Labs & Theory" : "In Active Progression"}
+                        </span>
+                      </div>
                     </div>
 
-                    <h4 className="font-serif text-lg font-medium text-charcoal-900 mb-2 leading-snug">
-                      {group.category}
-                    </h4>
+                    {/* Geometric Timeline Marker (Centered on Spine) */}
+                    <div
+                      className="absolute left-3.5 md:left-[210px] lg:left-[240px] -translate-x-1/2 top-1.5 z-10 flex items-center justify-center"
+                      aria-hidden="true"
+                    >
+                      {isCompleted ? (
+                        <div className="w-2.5 h-2.5 bg-[#D4AF37] rotate-45 ring-4 ring-[#000000] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+                      ) : (
+                        <div className="w-2.5 h-2.5 border-2 border-[#D4AF37] bg-[#000000] rotate-45 ring-4 ring-[#000000]" />
+                      )}
+                    </div>
 
-                    <p className="text-xs font-sans text-charcoal-600 mb-4 leading-relaxed">
-                      {group.description}
-                    </p>
+                    {/* Right Column: Milestone Heading, Narrative Description & Modules Matrix */}
+                    <div className="flex-1 min-w-0 pl-10 md:pl-10 lg:pl-12 pt-3 md:pt-0">
+                      {/* Milestone Heading */}
+                      <h3
+                        id={`timeline-heading-${idx}`}
+                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#F3F0E8] font-normal tracking-tight leading-snug group-hover:text-[#FFF4D0] transition-colors duration-200"
+                      >
+                        {group.category}
+                      </h3>
 
-                    <ul className="space-y-2 pt-2 border-t border-border-subtle">
-                      {group.topics.map((topic, tIdx) => (
-                        <li
-                          key={tIdx}
-                          className="text-xs sm:text-sm font-sans text-charcoal-700 flex items-start gap-2"
-                        >
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${
-                              isCompleted ? "bg-sage-600" : "bg-charcoal-400"
-                            }`}
-                          />
-                          <span>{topic}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                      {/* Supporting Narrative Description */}
+                      <p className="mt-2.5 text-sm sm:text-[15px] font-sans text-[#B8B4AA] leading-relaxed font-light max-w-2xl">
+                        {group.description}
+                      </p>
 
-                  <div className="mt-6 pt-3.5 border-t border-border-subtle text-[11px] font-sans text-charcoal-500">
-                    {isCompleted
-                      ? "Formally completed and evaluated via departmental lab & theory exams."
-                      : "Core applied curriculum currently undertaken in semester studies."}
-                  </div>
-                </div>
-              </ScrollReveal>
-            );
-          })}
+                      {/* Curricular Modules Box */}
+                      <div className="mt-5 p-5 sm:p-6 bg-[#070707] border border-white/[0.07] transition-all duration-300 hover:border-white/[0.14] hover:bg-[#090909]">
+                        <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-white/[0.06]">
+                          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-[#7E7A72]">
+                            <BookOpen className="w-3 h-3 text-[#D4AF37]" aria-hidden="true" />
+                            <span>Curricular Modules &amp; Laboratories</span>
+                          </div>
+                          <span className="text-[10px] font-mono text-[#5E5B54]">
+                            {group.topics.length} Courses
+                          </span>
+                        </div>
+
+                        {/* Topics Grid */}
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
+                          {group.topics.map((topic, tIdx) => (
+                            <li
+                              key={tIdx}
+                              className="text-xs sm:text-[13.5px] font-sans text-[#E6E1D3] flex items-start gap-2.5 font-light"
+                            >
+                              <span
+                                className={`w-1.5 h-1.5 rotate-45 shrink-0 mt-1.5 ${
+                                  isCompleted ? "bg-[#D4AF37]" : "bg-white/40"
+                                }`}
+                                aria-hidden="true"
+                              />
+                              <span className="leading-snug">{topic}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        {/* Departmental Assessment Strip */}
+                        <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] font-sans text-[#7E7A72]">
+                          <span>
+                            {isCompleted
+                              ? "Formally completed and evaluated via departmental lab & theory exams."
+                              : "Core applied curriculum currently undertaken in semester studies."}
+                          </span>
+                          <span className="font-mono text-[10px] text-[#5E5B54] shrink-0">
+                            Dept. of Geology &amp; Mining
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </ScrollReveal>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

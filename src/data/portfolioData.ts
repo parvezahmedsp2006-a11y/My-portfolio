@@ -210,7 +210,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         {
           title: "Automated test suites",
           description:
-            "Authored 22 automated Vitest regression and unit test suites covering database schema compatibility, CR authorization, and route security.",
+            "Authored 20 automated Vitest regression and unit test suites (153 passing tests) covering database schema compatibility, CR authorization, and route security.",
         },
       ],
       myContribution: [
@@ -220,7 +220,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Built an in-browser document viewer enabling instant previewing, zoom, page navigation, and downloading of course PDFs.",
         "Implemented role-aware Course Representative (CR) upload workflows with administrative audit controls to allow peer contributions safely.",
         "Configured integrated AI academic query assistant leveraging Google Gemini for curriculum-grounded questions.",
-        "Wrote 22 automated unit and regression test suites covering database schema compatibility, CR authorization, and route security.",
+        "Wrote 20 automated unit and regression test suites (153 passing tests) covering database schema compatibility, CR authorization, and route security.",
       ],
       technologies: [
         {
@@ -238,8 +238,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
       ],
       status: "Completed MVP",
       statusNote:
-        "Verified local MVP with 22 automated test suites passing cleanly; active open-source repository on GitHub. Tested in local development; cloud deployment pending institutional server allocation.",
-      testSuiteEvidence: "22 passing regression and unit test suites across schema, auth, and API routes",
+        "Verified local MVP with 20 automated test suites (153 passing tests) passing cleanly; active open-source repository on GitHub. Tested in local development; cloud deployment pending institutional server allocation.",
+      testSuiteEvidence: "20 passing regression and unit test suites (153 tests) across schema, auth, and API routes",
       githubUrl: "https://github.com/parvezahmedsp2006-a11y/geo-mine-resource-hub",
       keyFeatures: [
         {

@@ -4,7 +4,9 @@ import {
   ShieldCheck,
   Info,
   Layers,
-  Code2,
+  ArrowUpRight,
+  Database,
+  FileText,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 import { ProjectCaseStudy } from "@/data/portfolioData";
@@ -15,141 +17,260 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <article className="academic-card bg-surface-white border border-border-medium rounded-md overflow-hidden">
-      {/* Header Metadata Bar */}
-      <div className="p-6 sm:p-8 border-b border-border-subtle bg-warm-ivory/60 flex flex-col md:flex-row md:items-center justify-between gap-5">
-        <div>
-          <div className="flex flex-wrap items-center gap-2 mb-2.5">
-            <span className="px-2.5 py-0.5 text-xs font-medium rounded-sm bg-sage-100 text-sage-900 border border-sage-200">
-              {project.category}
-            </span>
-            <span className="px-2.5 py-0.5 text-xs font-medium rounded-sm bg-surface-white text-charcoal-700 border border-border-subtle">
-              {project.status}
-            </span>
-            <span className="px-2.5 py-0.5 text-xs font-medium rounded-sm bg-surface-white text-charcoal-700 border border-border-subtle">
-              {project.timeline}
-            </span>
-          </div>
-
-          <h3 className="font-serif text-2xl sm:text-3xl text-charcoal-900 font-normal">
-            {project.title}
-          </h3>
-
-          <p className="text-xs sm:text-sm font-sans text-charcoal-600 mt-1">
-            {project.subtitle}
-          </p>
-        </div>
-
-        {/* GitHub Link */}
-        {project.githubUrl && (
-          <div className="shrink-0">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-charcoal-900 hover:bg-charcoal-800 rounded-sm shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-sage-600"
-            >
-              <GithubIcon className="w-4 h-4" />
-              <span>GitHub Repository</span>
-            </a>
-          </div>
-        )}
-      </div>
-
-      <div className="p-6 sm:p-8 space-y-7">
-        {/* Project Description */}
-        <div className="space-y-2">
-          <h4 className="text-xs font-semibold text-charcoal-600 uppercase tracking-wider">
-            Project Overview
-          </h4>
-          <p className="text-sm sm:text-base font-sans text-charcoal-800 leading-relaxed font-light">
-            {project.description}
-          </p>
-        </div>
-
-        {/* Verified Contributions */}
-        <div className="pt-2">
-          <h4 className="text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-3.5 flex items-center gap-2">
-            <Layers className="w-4 h-4 text-sage-700" />
-            <span>Verified Engineering Contributions:</span>
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-            {project.verifiedContributions.map((contrib, idx) => (
-              <div
-                key={idx}
-                className="p-3.5 rounded-sm bg-surface-white border border-border-subtle hover:border-sage-300 transition-colors duration-150"
-              >
-                <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-sage-700 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-medium block text-xs sm:text-sm text-charcoal-900 mb-0.5">
-                      {contrib.title}
-                    </span>
-                    <p className="text-xs font-sans text-charcoal-600 leading-relaxed">
-                      {contrib.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Technology Stack Grid */}
-        <div className="pt-2">
-          <h4 className="text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <Code2 className="w-4 h-4 text-sage-700" />
-            <span>Technology Stack:</span>
-          </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-            {project.technologies.map((group, idx) => (
-              <div
-                key={idx}
-                className="p-3.5 rounded-sm bg-warm-ivory/50 border border-border-subtle"
-              >
-                <span className="block text-[11px] font-mono text-charcoal-500 uppercase tracking-wider mb-2 font-medium">
-                  {group.category}
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {group.stack.map((item, sIdx) => (
-                    <span
-                      key={sIdx}
-                      className="text-[11px] font-mono px-2 py-0.5 rounded-sm bg-surface-white text-charcoal-800 border border-border-subtle"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Verification Suite Evidence */}
-        <div className="p-3.5 sm:p-4 rounded-sm bg-sage-50/70 border border-sage-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans">
-          <div className="flex items-start gap-2.5">
-            <ShieldCheck className="w-4.5 h-4.5 text-sage-700 shrink-0 mt-0.5" />
-            <div>
-              <span className="font-semibold block text-sage-900 mb-0.5">
-                Automated Test Verification:
+    <article className="academic-card bg-[#050505] border border-white/[0.08] hover:border-[#D4AF37]/35 rounded-2xl p-6 sm:p-8 lg:p-10 xl:p-12 transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.85)]">
+      {/* Asymmetric Editorial Grid: Left Narrative/Specs, Right Large Architectural Preview */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start">
+        {/* Left Column (lg:col-span-6): Project Narrative, Metadata, and Verified Architecture */}
+        <div className="lg:col-span-6 space-y-7">
+          {/* Category, Status, & Timeline Index */}
+          <div>
+            <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+              <span className="font-mono text-[11px] text-[#D4AF37] tracking-[0.2em] uppercase font-medium bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/30">
+                01 · Featured Architecture
               </span>
-              <span className="text-charcoal-700">
-                {project.testSuiteEvidence}
+              <span className="text-xs font-sans text-[#E6E1D3] bg-white/[0.04] px-3 py-1 rounded-full border border-white/10 font-medium">
+                {project.status}
+              </span>
+              <span className="text-xs font-mono text-[#9C988F] bg-white/[0.03] px-3 py-1 rounded-full border border-white/[0.06]">
+                {project.timeline}
               </span>
             </div>
+
+            {/* Project Title */}
+            <h3 className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal leading-[1.12] tracking-tight">
+              {project.title}
+            </h3>
+
+            {/* Subtitle */}
+            <p className="font-serif italic text-sm sm:text-base text-[#D4AF37] mt-1.5 font-light">
+              {project.subtitle}
+            </p>
           </div>
-          <div className="shrink-0 font-mono text-[11px] text-sage-900 bg-surface-white/80 px-2.5 py-1 rounded-sm border border-sage-300">
-            Vitest Test Suite Passing
+
+          {/* Problem Statement & Overview */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+              <span>Project Overview &amp; Context</span>
+            </h4>
+            <p className="text-sm sm:text-[15px] font-sans text-[#E6E1D3] leading-relaxed font-light">
+              {project.description}
+            </p>
+            <p className="text-xs sm:text-[13.5px] font-sans text-[#9C988F] leading-relaxed font-light border-l-2 border-[#D4AF37]/40 pl-3.5 my-2">
+              {project.problemStatement}
+            </p>
+          </div>
+
+          {/* Key Architectural Highlights */}
+          <div className="space-y-3 pt-1">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#D4AF37]" />
+              <span>Verified Engineering Contributions</span>
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {project.verifiedContributions.slice(0, 4).map((contrib, idx) => (
+                <div
+                  key={idx}
+                  className="p-3.5 rounded-lg bg-[#0A0A0A] border border-white/[0.07] hover:border-[#D4AF37]/30 transition-colors duration-200"
+                >
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-serif text-[#F3F0E8] text-sm font-normal block leading-snug">
+                        {contrib.title}
+                      </span>
+                      <p className="text-[11.5px] font-sans text-[#9C988F] leading-relaxed font-light mt-1">
+                        {contrib.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Technology Stack Tags */}
+          <div className="space-y-3 pt-1">
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2">
+              <Database className="w-4 h-4 text-[#D4AF37]" />
+              <span>Verified Technology Stack</span>
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.flatMap((t) => t.stack).map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="text-[11px] font-mono px-3 py-1 rounded-sm bg-white/[0.04] text-[#E6E1D3] border border-white/[0.08]"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Automated Verification Evidence Banner */}
+          <div className="p-4 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+              <div>
+                <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-0.5 text-[11px] font-medium">
+                  Automated Test Verification:
+                </span>
+                <span className="text-[#E6E1D3] font-light text-xs">
+                  {project.testSuiteEvidence}
+                </span>
+              </div>
+            </div>
+            <span className="shrink-0 font-mono text-[10.5px] text-[#D4AF37] bg-[#D4AF37]/15 px-3 py-1 rounded-full border border-[#D4AF37]/35 font-medium self-start sm:self-center">
+              20 Vitest Suites (153 Tests)
+            </span>
+          </div>
+
+          {/* Action Row & Deployment Transparency */}
+          <div className="pt-2 space-y-3.5">
+            <div className="flex flex-wrap items-center gap-4">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 text-xs sm:text-sm font-sans font-semibold text-[#000000] bg-[#D4AF37] hover:bg-[#E5C378] rounded-full shadow-[0_4px_20px_rgba(212,175,55,0.3)] transition-all duration-200 group focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                  aria-label="View GeoMine Resource Hub repository on GitHub (opens in new tab)"
+                >
+                  <GithubIcon className="w-4 h-4 text-[#000000]" />
+                  <span>GitHub Repository</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#000000] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              )}
+            </div>
+
+            {/* Deployment Transparency Disclosure */}
+            <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs font-sans text-[#9C988F] flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+              <p className="font-light leading-relaxed">
+                <strong className="text-[#F3F0E8] font-medium mr-1.5">Deployment Transparency:</strong>
+                {project.statusNote}
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Deployment Transparency Banner */}
-        <div className="p-3 rounded-sm bg-warm-ivory border border-border-subtle text-xs font-sans text-charcoal-600 flex items-start gap-2.5">
-          <Info className="w-4 h-4 text-charcoal-500 shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-charcoal-800 mr-1.5">Deployment Transparency:</strong>
-            <span>{project.statusNote}</span>
+        {/* Right Column (lg:col-span-6): Large Editorial Architectural Interface Preview */}
+        <div className="lg:col-span-6 space-y-3.5 lg:sticky lg:top-24">
+          <div className="relative group">
+            {/* Ambient Background Aura */}
+            <div
+              className="absolute -inset-1.5 bg-gradient-to-tr from-[#D4AF37]/15 via-transparent to-[#D4AF37]/5 rounded-2xl blur-xl opacity-40 group-hover:opacity-70 transition duration-700 pointer-events-none"
+              aria-hidden="true"
+            />
+
+            {/* Architectural Interface Container */}
+            <div className="relative rounded-xl border border-white/[0.12] bg-[#0A0A0A] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-300 group-hover:border-[#D4AF37]/45">
+              {/* Window Bar Header */}
+              <div className="px-4 py-3 bg-[#050505] border-b border-white/[0.08] flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                  <span className="ml-2 font-mono text-[10.5px] text-[#9C988F] tracking-wider uppercase select-none">
+                    geomine.portal.internal / v1.0.0
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 font-mono text-[9.5px] text-[#D4AF37] bg-[#D4AF37]/10 px-2.5 py-0.5 rounded-full border border-[#D4AF37]/25">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+                  <span>20/20 Suites (153 Tests)</span>
+                </div>
+              </div>
+
+              {/* Interface Body */}
+              <div className="p-4 sm:p-5 bg-gradient-to-b from-[#0A0A0A] to-[#040404] space-y-4">
+                {/* Search & Academic Context Header */}
+                <div className="p-3 rounded-lg bg-black/60 border border-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#E6E1D3]">
+                    <span className="w-2 h-2 rounded-xs bg-[#D4AF37]" />
+                    <span className="font-medium">B.Sc. (Hons.) Geology &amp; Mining</span>
+                    <span className="text-white/20">/</span>
+                    <span className="text-[#D4AF37]">Year 03 · Semester 05</span>
+                  </div>
+                  <div className="font-mono text-[9.5px] text-[#9C988F] bg-white/[0.04] px-2.5 py-1 rounded border border-white/5">
+                    Curriculum Portal Archive
+                  </div>
+                </div>
+
+                {/* 2-Column Split: Curriculum Tree & Course Card Preview */}
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                  {/* Left Column: 8-Semester Hierarchy Tree */}
+                  <div className="sm:col-span-4 p-3 rounded-lg bg-black/45 border border-white/[0.06] space-y-2 font-mono">
+                    <div className="text-[9.5px] uppercase tracking-wider text-[#9C988F]">
+                      Curriculum Tree
+                    </div>
+                    <div className="space-y-1 text-white/50 text-[10px]">
+                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 1 (Sem 1–2)</div>
+                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 2 (Sem 3–4)</div>
+                      <div className="px-2 py-1 rounded bg-[#D4AF37]/15 text-[#D4AF37] font-medium border border-[#D4AF37]/35 flex items-center justify-between">
+                        <span>Year 3 (Sem 5–6)</span>
+                        <span className="text-[8px]">●</span>
+                      </div>
+                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 4 (Sem 7–8)</div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Active Course Resource Card Simulation */}
+                  <div className="sm:col-span-8 p-3.5 rounded-lg bg-black/70 border border-white/[0.08] space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <span className="font-mono text-[9.5px] text-[#D4AF37] tracking-wider uppercase block">
+                          Course Module · G&amp;M 301
+                        </span>
+                        <h5 className="font-serif text-sm sm:text-base text-[#F3F0E8] font-normal leading-snug">
+                          Hydrogeology &amp; Aquifer Dynamics
+                        </h5>
+                      </div>
+                      <span className="font-mono text-[9px] text-[#9C988F] bg-white/[0.04] px-2 py-0.5 rounded border border-white/5 shrink-0">
+                        14 Verified Files
+                      </span>
+                    </div>
+
+                    {/* In-Browser PDF Document Slice */}
+                    <div className="p-2.5 rounded bg-[#060606] border border-white/[0.07] flex items-center justify-between text-[10.5px] font-mono text-[#E6E1D3]">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FileText className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
+                        <span className="truncate">Hydrogeology_Aquifer_Pumping.pdf</span>
+                      </div>
+                      <span className="text-[#D4AF37] text-[9px] uppercase tracking-wider shrink-0 ml-2">
+                        In-Browser Viewer
+                      </span>
+                    </div>
+
+                    {/* Architecture Feature Chips */}
+                    <div className="grid grid-cols-2 gap-2 text-[9px] font-mono text-[#9C988F]">
+                      <div className="p-2 rounded bg-white/[0.02] border border-white/5">
+                        <span className="text-[#E6E1D3] block font-medium">CR Upload Workflow</span>
+                        Role-scoped validation
+                      </div>
+                      <div className="p-2 rounded bg-white/[0.02] border border-white/5">
+                        <span className="text-[#E6E1D3] block font-medium">Dual DB Architecture</span>
+                        SQLite local · Postgres prod
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Technical Architecture Footnote */}
+                <div className="pt-2.5 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-[#9C988F]">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                    <span>Next.js 16 (App Router) · React 19 · Prisma</span>
+                  </div>
+                  <span className="text-[9.5px] text-[#D4AF37]/80">Zero-Friction Document Navigation</span>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Truthful Architectural Caption */}
+          <p className="text-center sm:text-right font-mono text-[10px] tracking-[0.16em] uppercase text-[#9C988F]/70 select-none">
+            [ Architectural Interface Schematic · Repository Verified ]
+          </p>
         </div>
       </div>
     </article>

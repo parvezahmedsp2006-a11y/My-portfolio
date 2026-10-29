@@ -1,77 +1,118 @@
+"use client";
+
 import React from "react";
-import { CheckCircle2 } from "lucide-react";
+import { Compass, Milestone } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
+const HORIZON_LABELS: Record<number, string> = {
+  0: "Active Undergraduate Stage · University of Rajshahi",
+  1: "Targeting International MSc Research Groups",
+  2: "Long-Range Trajectory & Scientific Publication",
+};
+
 export function AcademicDevelopment() {
+  const { futureGoals } = PORTFOLIO_DATA;
+
   return (
     <section
       id="goals"
       aria-labelledby="goals-heading"
-      className="py-14 md:py-22 border-b border-border-subtle bg-warm-ivory-dark/30"
+      className="relative py-24 md:py-32 border-t border-white/[0.08] bg-[#000000] scroll-mt-20 sm:scroll-mt-24 overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="max-w-2xl mb-10">
-          <p className="text-xs font-sans uppercase tracking-widest text-sage-700 font-semibold mb-2">
-            Strategic Roadmap & Scholarship Preparation
-          </p>
+        <div className="max-w-2xl mb-14 sm:mb-18">
+          <div className="inline-flex items-center gap-2 mb-3.5">
+            <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
+            <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
+              Strategic Roadmap &amp; Scholarship Preparation
+            </span>
+            <div className="w-10 h-px bg-white/15" aria-hidden="true" />
+          </div>
+
           <h2
             id="goals-heading"
-            className="font-serif text-3xl sm:text-4xl text-charcoal-900 font-normal tracking-tight"
+            className="font-serif text-3xl sm:text-4xl lg:text-[44px] text-[#F3F0E8] font-normal tracking-tight leading-[1.15]"
           >
-            Academic Development & Future Goals
+            Academic Development &amp; Future Goals
           </h2>
-          <div className="w-12 h-0.5 bg-sage-500 mt-3" />
-          <p className="mt-3.5 text-sm sm:text-base font-sans text-charcoal-600 leading-relaxed">
+
+          <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
+
+          <p className="mt-4 text-sm sm:text-base font-sans text-[#9C988F] leading-relaxed font-light">
             A transparent academic trajectory outlining immediate undergraduate milestones, MSc scholarship targets, and long-term scientific objectives.
           </p>
         </div>
 
-        {/* Timeline Roadmap */}
-        <div className="space-y-6">
-          {PORTFOLIO_DATA.futureGoals.map((goal, idx) => (
-            <ScrollReveal key={idx} delayMs={idx * 100}>
-              <div className="academic-card p-6 sm:p-7 bg-surface-white border-l-4 border-l-sage-600 rounded-md flex flex-col md:flex-row md:items-start justify-between gap-6">
-                <div className="md:w-1/3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-sm bg-sage-100 text-sage-900 border border-sage-200">
-                      {goal.timeframe}
-                    </span>
-                    <span className="text-[11px] font-sans font-medium text-charcoal-500">
-                      {goal.stage}
-                    </span>
-                  </div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-charcoal-900 mt-2 leading-snug">
-                    {goal.title}
-                  </h3>
-                </div>
+        {/* Sequential Editorial Horizon Blocks */}
+        <div className="space-y-8 lg:space-y-10">
+          {futureGoals.map((goal, idx) => {
+            const horizonLabel = HORIZON_LABELS[idx];
 
-                <div className="md:w-2/3 space-y-4">
-                  <p className="text-xs sm:text-sm font-sans text-charcoal-700 leading-relaxed">
-                    {goal.description}
-                  </p>
+            return (
+              <ScrollReveal key={goal.title} delayMs={idx * 100}>
+                <article
+                  className="bg-[#050505] border border-white/[0.08] p-6 sm:p-8 lg:p-10 transition-colors duration-300 hover:border-white/[0.14] hover:bg-[#070707]"
+                  aria-labelledby={`goal-heading-${idx}`}
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                    {/* Left Column: Horizon Identifier & Goal Title */}
+                    <div className="lg:col-span-5 space-y-3">
+                      <div className="flex items-center gap-2 text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] font-semibold">
+                        <Milestone className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" aria-hidden="true" />
+                        <span>Horizon 0{idx + 1} · {goal.timeframe}</span>
+                      </div>
 
-                  <div className="pt-2 border-t border-border-subtle">
-                    <h4 className="text-[11px] font-semibold text-charcoal-600 uppercase tracking-wider mb-2.5">
-                      Target Deliverables & Milestones:
-                    </h4>
-                    <ul className="space-y-2">
-                      {goal.keyDeliverables.map((item, dIdx) => (
-                        <li
-                          key={dIdx}
-                          className="text-xs sm:text-sm font-sans text-charcoal-700 flex items-start gap-2.5"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-sage-700 shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                      <div className="inline-flex items-center gap-2 text-[11.5px] font-mono text-[#E6E1D3]">
+                        <span className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]" aria-hidden="true" />
+                        <span>{goal.stage}</span>
+                      </div>
+
+                      <h3
+                        id={`goal-heading-${idx}`}
+                        className="font-serif text-2xl sm:text-[26px] lg:text-[28px] text-[#F3F0E8] font-normal tracking-tight leading-snug pt-1"
+                      >
+                        {goal.title}
+                      </h3>
+
+                      <p className="text-[11px] font-mono text-[#7E7A72] tracking-wide pt-1">
+                        {horizonLabel}
+                      </p>
+                    </div>
+
+                    {/* Right Column: Narrative Description & Deliverables */}
+                    <div className="lg:col-span-7 space-y-6 lg:pl-6 lg:border-l lg:border-white/[0.07]">
+                      <p className="text-sm sm:text-[15px] font-sans text-[#B8B4AA] leading-relaxed font-light">
+                        {goal.description}
+                      </p>
+
+                      <div className="pt-4 border-t border-white/[0.06]">
+                        <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-[#7E7A72] mb-3.5">
+                          Target Milestones &amp; Key Deliverables
+                        </div>
+
+                        <ul className="space-y-3" role="list">
+                          {goal.keyDeliverables.map((item, dIdx) => (
+                            <li
+                              key={dIdx}
+                              className="flex items-start gap-3 text-xs sm:text-[13.5px] font-sans text-[#E6E1D3] font-light leading-relaxed"
+                            >
+                              <span
+                                className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]/80 shrink-0 mt-2"
+                                aria-hidden="true"
+                              />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+                </article>
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

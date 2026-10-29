@@ -13,7 +13,7 @@ interface GeologicalBackgroundGalleryProps {
 }
 
 export function GeologicalBackgroundGallery({
-  intervalMs = 7000,
+  intervalMs = 7500,
   transitionDurationMs = 1800,
   showCaption = true,
   initialSlideIndex = 0,
@@ -125,7 +125,7 @@ export function GeologicalBackgroundGallery({
                   alt=""
                   fill
                   priority={index === 0}
-                  className="object-cover object-center"
+                  className="object-cover object-center brightness-[0.72] contrast-[1.08]"
                   sizes="100vw"
                 />
               </div>
@@ -134,32 +134,32 @@ export function GeologicalBackgroundGallery({
         })}
 
         {/* 
-          Directional Split Overlay:
-          - Left side (0% to ~40%): Warm ivory paper tone for typography legibility
-          - Center (40% to ~62%): Soft, feathered atmospheric gradient dissolve
-          - Right side (62% to 100%): Completely transparent, leaving real photographic geology deep, vivid, and unobstructed
+          Cinematic Dark Editorial Gradient Overlay:
+          - Left: Pure deep near-black (#060707) giving oversized typography generous negative space
+          - Center: Atmospheric feathering with subtle antique-gold tint
+          - Right: Revealing the genuine geological strata / minerals with natural contrast
         */}
-        <div className="absolute inset-0 z-20 bg-gradient-to-b lg:bg-gradient-to-r from-warm-ivory from-0% via-warm-ivory via-35% via-warm-ivory/80 via-48% to-transparent to-65%" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-b lg:bg-gradient-to-r from-[#060707] from-0% via-[#060707]/95 via-35% via-[#060707]/75 via-50% to-[#060707]/25 to-90%" />
 
-        {/* Subtle top edge transition under floating navbar */}
-        <div className="absolute top-0 inset-x-0 h-16 z-20 bg-gradient-to-b from-warm-ivory/40 to-transparent" />
+        {/* Top edge fade under floating navbar */}
+        <div className="absolute top-0 inset-x-0 h-32 z-20 bg-gradient-to-b from-[#060707] via-[#060707]/70 to-transparent" />
 
-        {/* Feathered bottom edge into the About section */}
-        <div className="absolute bottom-0 inset-x-0 h-20 z-20 bg-gradient-to-t from-warm-ivory via-warm-ivory/50 to-transparent" />
+        {/* Bottom edge fade seamlessly into About section */}
+        <div className="absolute bottom-0 inset-x-0 h-36 z-20 bg-gradient-to-t from-[#060707] via-[#060707]/80 to-transparent" />
       </div>
 
-      {/* Sleek Floating Slideshow Control Pill (Bottom-right corner) */}
+      {/* Floating Slideshow Control Pill (Bottom-right corner) */}
       {showCaption && (
         <aside
           aria-label="Geological slideshow controls and current plate"
-          className="absolute bottom-4 sm:bottom-6 right-4 sm:right-8 z-30 pointer-events-auto"
+          className="absolute bottom-5 sm:bottom-7 right-4 sm:right-8 lg:right-12 z-30 pointer-events-auto"
         >
-          <div className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-surface-white/92 backdrop-blur-md border border-border-subtle shadow-xs text-xs font-mono text-charcoal-700 select-none">
+          <div className="flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#0A0B0E]/90 backdrop-blur-md border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.5)] text-xs font-mono text-[#9C988F] select-none">
             {/* Prev slide button */}
             <button
               type="button"
               onClick={handlePrev}
-              className="p-1 text-charcoal-600 hover:text-charcoal-950 transition-colors rounded-full hover:bg-sage-100/60 cursor-pointer"
+              className="p-1 text-[#9C988F] hover:text-[#F3F0E8] transition-colors rounded-full hover:bg-white/[0.08] cursor-pointer"
               aria-label="Previous slide"
               title="Previous slide"
             >
@@ -167,42 +167,44 @@ export function GeologicalBackgroundGallery({
             </button>
 
             {/* Slide counter */}
-            <span className="font-semibold text-charcoal-900 text-[11px] sm:text-xs tracking-wider px-0.5">
-              {String(currentIndex + 1).padStart(2, "0")} / {String(GEOLOGICAL_GALLERY.length).padStart(2, "0")}
+            <span className="font-medium text-[#F3F0E8] text-[11px] sm:text-xs tracking-wider px-0.5">
+              <span className="text-[#B99A5B] font-semibold">{String(currentIndex + 1).padStart(2, "0")}</span>
+              <span className="text-white/30 mx-1">/</span>
+              <span>{String(GEOLOGICAL_GALLERY.length).padStart(2, "0")}</span>
             </span>
 
             {/* Next slide button */}
             <button
               type="button"
               onClick={handleNext}
-              className="p-1 text-charcoal-600 hover:text-charcoal-950 transition-colors rounded-full hover:bg-sage-100/60 cursor-pointer"
+              className="p-1 text-[#9C988F] hover:text-[#F3F0E8] transition-colors rounded-full hover:bg-white/[0.08] cursor-pointer"
               aria-label="Next slide"
               title="Next slide"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
 
-            <span className="w-px h-3.5 bg-border-subtle" aria-hidden="true" />
+            <span className="w-px h-3.5 bg-white/15" aria-hidden="true" />
 
             {/* Play/Pause toggle button */}
             {!prefersReducedMotion && (
               <button
                 type="button"
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="p-1 text-charcoal-600 hover:text-charcoal-950 transition-colors rounded-full hover:bg-sage-100/60 cursor-pointer"
+                className="p-1 text-[#9C988F] hover:text-[#F3F0E8] transition-colors rounded-full hover:bg-white/[0.08] cursor-pointer"
                 aria-label={isPlaying ? "Pause geological slideshow" : "Play geological slideshow"}
                 title={isPlaying ? "Pause slideshow" : "Play slideshow"}
               >
-                {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                {isPlaying ? <Pause className="w-3 h-3 text-[#B99A5B]" /> : <Play className="w-3 h-3" />}
               </button>
             )}
 
-            <span className="w-px h-3.5 bg-border-subtle" aria-hidden="true" />
+            <span className="w-px h-3.5 bg-white/15" aria-hidden="true" />
 
-            {/* Active category pill with green dot */}
+            {/* Active category pill with gold indicator dot */}
             <div className="flex items-center gap-1.5 pl-0.5 pr-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-sage-600 shrink-0" />
-              <span className="font-sans text-[11px] sm:text-xs text-charcoal-800 font-medium whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B99A5B] shrink-0" />
+              <span className="font-sans text-[11px] sm:text-xs text-[#E6E1D3] font-medium whitespace-nowrap hidden xs:inline sm:inline">
                 {displayCategory}
               </span>
             </div>

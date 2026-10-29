@@ -1,53 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Monsieur+La+Doulaise&family=Pinyon+Script&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-warm-ivory: #FBF9F5;
-  --color-warm-ivory-dark: #F3EFE6;
-  --color-surface-white: #FFFFFF;
+  --color-canvas-black: #000000;
+  --color-canvas-dark: #050505;
+  --color-surface-card: #0A0A0A;
+  --color-surface-elevated: #111111;
+  --color-surface-floating: #161616;
   
-  --color-sage-50: #F1F5F3;
-  --color-sage-100: #E0EBE5;
-  --color-sage-200: #C2D7CC;
-  --color-sage-300: #9EC0AF;
-  --color-sage-400: #7CA893;
-  --color-sage-500: #5C8F77;
-  --color-sage-600: #46735E;
-  --color-sage-700: #375A4A;
-  --color-sage-800: #294237;
-  --color-sage-900: #1B2C24;
+  --color-ivory-50: #FAF8F5;
+  --color-ivory-100: #F3F0E8;
+  --color-ivory-200: #E6E1D3;
+  --color-ivory-300: #D4CDBC;
 
-  --color-charcoal-50: #F7F7F7;
-  --color-charcoal-100: #EDEDED;
-  --color-charcoal-200: #D8D9D8;
-  --color-charcoal-300: #B8B9B7;
-  --color-charcoal-400: #888B87;
-  --color-charcoal-500: #626561;
-  --color-charcoal-600: #484B47;
-  --color-charcoal-700: #333632;
-  --color-charcoal-800: #212421;
-  --color-charcoal-900: #141714;
-  --color-charcoal-950: #0A0C0A;
+  --color-muted-300: #B8B4AA;
+  --color-muted-400: #9C988F;
+  --color-muted-500: #7E7A72;
+  --color-muted-600: #5E5B54;
+  --color-muted-700: #3E3C37;
+  --color-muted-800: #23221F;
 
-  --color-earth-sand: #E7DFD5;
-  --color-earth-stone: #D1C7BA;
-  --color-earth-ochre: #9B6E43;
-  --color-border-subtle: #E8E4DA;
-  --color-border-medium: #D8D2C5;
+  --color-gold-300: #F3E5AB;
+  --color-gold-400: #E5C378;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #C5A059;
+  --color-gold-700: #996515;
 
-  --font-serif: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-border-dark: rgba(255, 255, 255, 0.08);
+  --color-border-dark-medium: rgba(255, 255, 255, 0.14);
+  --color-border-gold: rgba(212, 175, 55, 0.35);
+
+  --font-script: "Monsieur La Doulaise", "Pinyon Script", cursive;
+  --font-serif: "Cormorant Garamond", Garamond, Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 :root {
-  --background: var(--color-warm-ivory);
-  --foreground: var(--color-charcoal-900);
+  --background: #000000;
+  --foreground: #F3F0E8;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 5.5rem;
   text-size-adjust: 100%;
+  background-color: #000000;
+  color: #F3F0E8;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -66,7 +65,7 @@ html {
 }
 
 body {
-  background-color: var(--background);
+  background-color: #000000;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -81,9 +80,9 @@ body {
   left: 1rem;
   z-index: 100;
   padding: 0.75rem 1.5rem;
-  background-color: var(--color-charcoal-900);
-  color: #FFFFFF;
-  font-weight: 500;
+  background-color: #D4AF37;
+  color: #000000;
+  font-weight: 600;
   border-radius: 0.25rem;
   transition: top 0.2s ease-in-out;
 }
@@ -94,8 +93,25 @@ body {
 
 /* Subtle focus indicators */
 *:focus-visible {
-  outline: 2px solid var(--color-sage-600);
+  outline: 2px solid #D4AF37;
   outline-offset: 2px;
+}
+
+/* Elegant Calligraphic Script Wordmark (Strict Reference Match) */
+.calligraphic-wordmark {
+  font-family: var(--font-script);
+  color: transparent;
+  -webkit-text-stroke: 1.5px #D4AF37;
+  text-shadow: 0 0 1.5px rgba(212, 175, 55, 0.5);
+  filter: drop-shadow(0 2px 14px rgba(212, 175, 55, 0.2));
+  letter-spacing: 0.01em;
+  user-select: text;
+}
+
+@media (max-width: 640px) {
+  .calligraphic-wordmark {
+    -webkit-text-stroke: 1.1px #D4AF37;
+  }
 }
 
 /* Editorial Typography */
@@ -104,24 +120,20 @@ h1, h2, h3, h4, .font-serif-heading {
   letter-spacing: -0.015em;
 }
 
-/* Subtle card shadow */
+/* Luxury Minimalist Dark Card */
 .academic-card {
-  background: var(--color-surface-white);
-  border: 1px solid var(--color-border-subtle);
+  background: #0A0A0A;
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(27, 30, 28, 0.03), 0 1px 2px rgba(27, 30, 28, 0.02);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s ease;
 }
 
 .academic-card:hover {
-  border-color: var(--color-sage-300);
-  box-shadow: 0 8px 24px rgba(27, 30, 28, 0.06), 0 2px 6px rgba(27, 30, 28, 0.03);
-}
-
-/* Geological contour pattern overlay */
-.geological-contours {
-  background-image: radial-gradient(circle at 10% 20%, rgba(74, 109, 93, 0.04) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(155, 110, 67, 0.03) 0%, transparent 45%);
+  border-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(212, 175, 55, 0.08);
 }
 
 /* Purposeful, Subtle Animations */
@@ -136,6 +148,37 @@ h1, h2, h3, h4, .font-serif-heading {
   }
 }
 
+/* Hero Cinematic Word-by-Word Quote Reveal */
+@keyframes heroQuoteWordReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-quote-word {
+  display: inline-block;
+  opacity: 0;
+  animation-name: heroQuoteWordReveal;
+  animation-duration: 0.62s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-quote-word {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -146,34 +189,26 @@ h1, h2, h3, h4, .font-serif-heading {
 }
 
 .animate-hero-fade {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-hero-1 {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .animate-hero-2 {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
 
 .animate-hero-3 {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
-}
-
-.animate-hero-4 {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
-}
-
-.animate-hero-5 {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 /* Intersection observer reveal helper */
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -185,16 +220,19 @@ h1, h2, h3, h4, .font-serif-heading {
 /* Word-by-word editorial text reveal */
 .word-token {
   display: inline-block;
-  opacity: 0.15;
-  transform: translateY(10px);
-  will-change: opacity, transform;
+  opacity: 0.22;
+  transform: translateY(6px);
+  color: #9C988F;
+  will-change: opacity, transform, color;
 }
 
 .word-token.revealed {
   opacity: 1;
   transform: translateY(0);
+  color: #F3F0E8;
   transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.42s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -202,35 +240,91 @@ h1, h2, h3, h4, .font-serif-heading {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    color: #F3F0E8 !important;
   }
 }
 
-/* Subtle, Slow Ken Burns Drift for Background Geological Imagery */
-@keyframes kenBurns {
-  0% {
-    transform: scale(1);
+/* ─── Geological Globe ────────────────────────────────────────────────────── */
+
+/*
+  Keep the globe root container block-level and non-shrinking so it never creates
+  an inline baseline gap when placed in a flex container.
+*/
+.geo-globe-root {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ─── Geological Typography Marquee ──────────────────────────────────────── */
+
+@keyframes geo-marquee-scroll {
+  from {
+    transform: translateX(0);
   }
-  100% {
-    transform: scale(1.035);
+  to {
+    transform: translateX(-50%);
   }
 }
 
-.animate-ken-burns {
-  animation: kenBurns 12s cubic-bezier(0.2, 0.8, 0.4, 1) infinite alternate;
+/*
+  The track holds two identical copies of the term list.
+  Animating from 0 → -50% (half the total width) creates
+  a perfectly seamless loop — the second copy slides exactly
+  into place as the first copy exits.
+*/
+.geo-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: geo-marquee-scroll 38s linear infinite;
   will-change: transform;
 }
 
-/* Subtle, Restrained Scientific Plate Floating Animation */
-@keyframes plateFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
+/* Pause on hover — courtesy UX pattern */
+.geo-marquee-section:hover .geo-marquee-track {
+  animation-play-state: paused;
 }
 
-.animate-plate-float {
-  animation: plateFloat 8s cubic-bezier(0.4, 0, 0.2, 1) infinite ease-in-out;
+/* Solid-filled term */
+.geo-marquee-solid {
+  font-family: var(--font-serif);
+  font-size: clamp(0.8rem, 1.6vw, 1.15rem);
+  font-weight: 300;
+  letter-spacing: 0.26em;
+  color: #B8B4AA;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
+/* Outlined/ghost term — alternate styling for contrast rhythm */
+.geo-marquee-outlined {
+  font-family: var(--font-serif);
+  font-size: clamp(0.8rem, 1.6vw, 1.15rem);
+  font-weight: 300;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(212, 175, 55, 0.55);
+  white-space: nowrap;
+}
+
+/*
+  Reduced-motion: stop the scroll and show the content
+  as a static, centered flex row. The duplicate track is
+  still aria-hidden so screen readers are unaffected.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .geo-marquee-track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.25rem;
+    padding: 0 1.5rem;
+  }
+
+  /* Hide second duplicate in reduced-motion mode */
+  .geo-marquee-inner:last-child {
+    display: none;
+  }
+}
