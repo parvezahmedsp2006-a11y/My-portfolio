@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
+import { Hero3DPortrait } from "@/components/ui/Hero3DPortrait";
 
 interface HeroProps {
   initialSlideIndex?: number;
@@ -93,18 +93,9 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
       */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full">
         <div className="grid grid-cols-12 gap-3 sm:gap-6 lg:gap-12 items-center">
-          {/* Lower-Left: Single Large Formal Portrait */}
+          {/* Lower-Left: Single Large Portrait with 3D Motion & Ambient Warmth */}
           <div className="col-span-5 sm:col-span-5 lg:col-span-5 flex flex-col items-start justify-center">
-            <div className="relative aspect-[4/5] w-full max-w-[155px] sm:max-w-[280px] lg:max-w-[390px] overflow-hidden bg-[#0A0A0A]">
-              <Image
-                src="/images/portrait/parvez-ahmed-formal-portrait.png"
-                alt="Formal academic portrait of Parvez Ahmed in formal suit, white shirt, and black tie"
-                fill
-                priority
-                className="object-cover object-[center_15%]"
-                sizes="(max-width: 640px) 160px, (max-width: 1024px) 280px, 390px"
-              />
-            </div>
+            <Hero3DPortrait />
           </div>
 
           {/* Right Area: Atmospheric Negative Space with Prominently Centered Word-by-Word Quote */}

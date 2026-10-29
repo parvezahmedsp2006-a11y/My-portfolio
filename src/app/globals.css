@@ -220,6 +220,28 @@ h1, h2, h3, h4, .font-serif-heading {
   }
 }
 
+/* Hero Portrait Gentle Floating Animation */
+@keyframes heroPortraitFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.hero-portrait-floating {
+  animation: heroPortraitFloat 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-portrait-floating {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

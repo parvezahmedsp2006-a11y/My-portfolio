@@ -96,9 +96,9 @@ export const PORTFOLIO_DATA: PortfolioData = {
     githubUsername: "parvezahmedsp2006-a11y",
     githubUrl: "https://github.com/parvezahmedsp2006-a11y",
     location: "Rajshahi, Bangladesh",
-    portraitImage: "/images/portrait/parvez-ahmed-formal-portrait.png",
+    portraitImage: "/images/portrait/hero-portrait.png",
     portraitAlt:
-      "Academic portrait of Parvez Ahmed, undergraduate Geology & Mining student and aspiring researcher at the University of Rajshahi",
+      "Artistic portrait illustration of Parvez Ahmed against a warm golden-orange sunset sphere and foliage silhouette",
     bioOverview: [
       "I am an undergraduate in Geology and Mining at the University of Rajshahi, studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
       "Alongside field mapping and laboratory petrography, I built the GeoMine Resource Hub—a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
