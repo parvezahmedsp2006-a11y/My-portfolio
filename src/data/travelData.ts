@@ -50,6 +50,7 @@ export interface Destination {
   latitude: number;
   longitude: number;
   visitDate: string | null;
+  tagline: string;
   shortDescription: string;
   coverImage: string | null;
   story: TravelStory | null;
@@ -112,6 +113,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 21.4272,
     longitude: 92.0058,
     visitDate: null,
+    tagline: "The Longest Sea Beach",
     shortDescription:
       "The world's longest unbroken natural sandy sea beach, characterized by dynamic marine littoral processes and coastal cliffs along the Bay of Bengal.",
     coverImage: null,
@@ -130,6 +132,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 24.3065,
     longitude: 91.7296,
     visitDate: null,
+    tagline: "Tea Garden Paradise",
     shortDescription:
       "The tea capital of Bangladesh, defined by rolling terraced tea estates, Lawachara rainforest ecosystems, and humid sub-tropical microclimates.",
     coverImage: null,
@@ -148,6 +151,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 24.8949,
     longitude: 91.8687,
     visitDate: null,
+    tagline: "Land of Natural Beauty",
     shortDescription:
       "Surma River basin plain bounded by the Meghalaya plateau foothills, featuring wetland haors, gravel riverbeds, and heavy monsoon runoff channels.",
     coverImage: null,
@@ -166,6 +170,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 22.3569,
     longitude: 91.7832,
     visitDate: null,
+    tagline: "The Port City",
     shortDescription:
       "Historic maritime gateway and primary port city, uniquely situated between the tertiary anticlines of the Chittagong Hill Tracts and the Karnaphuli estuary.",
     coverImage: null,
@@ -184,6 +189,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 22.2289,
     longitude: 91.7915,
     visitDate: null,
+    tagline: "Where Sea Meets Sky",
     shortDescription:
       "Distinct coastal shore located 14 km south of Chattogram city center at the mouth of the Karnaphuli River meeting the open marine waters of the Bay of Bengal.",
     coverImage: null,
@@ -202,6 +208,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 24.0064,
     longitude: 89.2372,
     visitDate: null,
+    tagline: "Land of Rivers",
     shortDescription:
       "Southern Rajshahi division plain situated along the northern banks of the Padma River, marked by expansive active river floodplains and fertile alluvial silt.",
     coverImage: null,
@@ -220,6 +227,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 24.4102,
     longitude: 88.9796,
     visitDate: null,
+    tagline: "Historical Heritage",
     shortDescription:
       "Historic Barind tract region bordering the vast Chalan Beel depression, characterized by older Pleistocene pleistocene clay terraces and inland wetland systems.",
     coverImage: null,
@@ -238,6 +246,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 24.7471,
     longitude: 90.4203,
     visitDate: null,
+    tagline: "The Cultural City",
     shortDescription:
       "Old Brahmaputra river terrace landscape situated in north-central Bangladesh, transitioning towards the Piedmont alluvial fans beneath the Garo Hills borderland.",
     coverImage: null,
@@ -256,6 +265,7 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     latitude: 23.4607,
     longitude: 91.1809,
     visitDate: null,
+    tagline: "Rich in Heritage",
     shortDescription:
       "Eastern Bangladesh floodplain region featuring the prominent Lalmai-Mainamati anticline ridge, with uplifted red Pleistocene sediments rich in weathered iron minerals.",
     coverImage: null,

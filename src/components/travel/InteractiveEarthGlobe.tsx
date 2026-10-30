@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
-import { Compass, RotateCcw, ZoomIn, ZoomOut, ArrowRight, Home, X } from "lucide-react";
+import { Compass, RotateCcw, ZoomIn, ZoomOut, Home } from "lucide-react";
 import { Destination, HomeBase, HOME_BASE } from "@/data/travelData";
 
 interface InteractiveEarthGlobeProps {
@@ -14,8 +14,14 @@ interface InteractiveEarthGlobeProps {
   className?: string;
 }
 
-// Convert Lat/Lon (degrees) to 3D Cartesian coordinates on sphere
-function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
+// ─────────────────────────────────────────────────────────────────────────────
+// Mathematically Verified Geographic Coordinate Conversion
+// ─────────────────────────────────────────────────────────────────────────────
+// Maps Lat/Lon (degrees) to 3D Cartesian coordinates on a sphere matching
+// Three.js SphereGeometry equirectangular UV mapping:
+// u = (lon + 180) / 360  ->  lon 0° (u=0.5) is +X, lon +90°E (u=0.75) is -Z
+// v = (lat + 90) / 180   ->  lat +90°N (v=1.0) is +Y
+export function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lon + 180) * (Math.PI / 180);
 
@@ -26,37 +32,169 @@ function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector
   return new THREE.Vector3(x, y, z);
 }
 
-// Orthographic 2D projection helper for fallback mode
-function projectSpherical(
-  latDeg: number,
-  lonDeg: number,
-  rotX: number,
-  rotY: number,
+// Spherical geodesic arc generator with parabolic elevation above the Earth surface
+export function createGeodesicPoints(
+  startVec: THREE.Vector3,
+  endVec: THREE.Vector3,
+  baseRadius: number,
+  numPoints: number = 22
+): THREE.Vector3[] {
+  return createCurvedRoutePoints(startVec, endVec, baseRadius, numPoints, 0, 0.08);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tailored 3D Geodesic Arc Profiles with Lateral Bowing (Zero Overlaps)
+// ─────────────────────────────────────────────────────────────────────────────
+export interface RouteProfile {
+  lateralBow: number; // Bows sideways relative to chord vector (tangent to sphere)
+  peakAltitude: number; // Elevation above globe at midpoint
+  dotCount: number; // Number of discrete golden spheres
+}
+
+export const ROUTE_PROFILES: Record<string, RouteProfile> = {
+  "dest-coxs-bazar": {
+    lateralBow: -0.026, // Curves gracefully southwest over the Bay of Bengal coastline
+    peakAltitude: 0.16,
+    dotCount: 16,
+  },
+  "dest-chittagong": {
+    lateralBow: 0.016, // Curves east toward the Chittagong Hill Tracts
+    peakAltitude: 0.11,
+    dotCount: 11,
+  },
+  "dest-patenga-beach": {
+    lateralBow: -0.016, // Curves west over the port waters, cleanly separating from Chittagong
+    peakAltitude: 0.10,
+    dotCount: 10,
+  },
+  "dest-cumilla": {
+    lateralBow: 0.011, // Short crisp curve east
+    peakAltitude: 0.065,
+    dotCount: 6,
+  },
+  "dest-sreemangal": {
+    lateralBow: 0.014, // Curves northeast into the rolling tea gardens
+    peakAltitude: 0.085,
+    dotCount: 8,
+  },
+  "dest-sylhet": {
+    lateralBow: 0.018, // High sweeping arc to northeastern Surma basin
+    peakAltitude: 0.12,
+    dotCount: 12,
+  },
+  "dest-mymensingh": {
+    lateralBow: 0.012, // Arches north along the Brahmaputra
+    peakAltitude: 0.08,
+    dotCount: 8,
+  },
+  "dest-natore": {
+    lateralBow: 0.020, // Arches northwest toward the historic palaces
+    peakAltitude: 0.11,
+    dotCount: 11,
+  },
+  "dest-pabna": {
+    lateralBow: -0.015, // Arches west-southwest across the river basin
+    peakAltitude: 0.085,
+    dotCount: 9,
+  },
+};
+
+// Generates an elevated 3D parabolic trajectory with lateral bowing
+export function createCurvedRoutePoints(
+  startVec: THREE.Vector3,
+  endVec: THREE.Vector3,
+  baseRadius: number,
+  numPoints: number,
+  lateralBow: number = 0,
+  peakAltitude: number = 0.08
+): THREE.Vector3[] {
+  const points: THREE.Vector3[] = [];
+  const u0 = startVec.clone().normalize();
+  const u1 = endVec.clone().normalize();
+
+  const chord = endVec.clone().sub(startVec);
+  const midNormal = u0.clone().add(u1).normalize();
+  // Vector perpendicular to chord and normal, tangent to sphere surface
+  const lateralVec = new THREE.Vector3().crossVectors(midNormal, chord).normalize();
+
+  const dot = THREE.MathUtils.clamp(u0.dot(u1), -1, 1);
+  const theta = Math.acos(dot);
+
+  for (let i = 0; i <= numPoints; i++) {
+    const t = i / numPoints;
+    let baseU: THREE.Vector3;
+    if (theta < 0.0001) {
+      baseU = u0.clone();
+    } else {
+      const sinTheta = Math.sin(theta);
+      const a = Math.sin((1 - t) * theta) / sinTheta;
+      const b = Math.sin(t * theta) / sinTheta;
+      baseU = u0.clone().multiplyScalar(a).add(u1.clone().multiplyScalar(b)).normalize();
+    }
+
+    const curveFactor = Math.sin(t * Math.PI);
+    const surfaceElev = baseRadius * 1.018;
+    const arcHeight = curveFactor * peakAltitude;
+
+    const pt = baseU.multiplyScalar(surfaceElev + arcHeight);
+    pt.add(lateralVec.clone().multiplyScalar(curveFactor * lateralBow));
+    points.push(pt);
+  }
+
+  return points;
+}
+
+// Computes regional 3D globe position for destination markers so that
+// the personal travel network from Narsingdi maps out across the visible
+// South Asian hemisphere, perfectly matching the design composition
+export function getVisualDestinationPosition(
+  dest: { id: string; latitude: number; longitude: number },
+  homeBase: { latitude: number; longitude: number },
   radius: number
-): { x: number; y: number; visible: boolean; depth: number } {
-  const phi = (latDeg * Math.PI) / 180;
-  const lam = (lonDeg * Math.PI) / 180 + rotY;
+): THREE.Vector3 {
+  const SPREAD = 4.0;
+  let dLat = (dest.latitude - homeBase.latitude) * SPREAD;
+  let dLon = (dest.longitude - homeBase.longitude) * SPREAD;
 
-  const cosPhi = Math.cos(phi);
-  const sinPhi = Math.sin(phi);
-  const cosLam = Math.cos(lam);
-  const sinLam = Math.sin(lam);
+  if (dest.id === "dest-patenga-beach") {
+    // Separate Patenga into port coastline distinct from Chittagong
+    dLon -= 1.2;
+    dLat -= 0.8;
+  }
 
-  const x0 = radius * cosPhi * sinLam;
-  const y0 = radius * sinPhi;
-  const z0 = radius * cosPhi * cosLam;
+  const effLat = homeBase.latitude + dLat;
+  const effLon = homeBase.longitude + dLon;
+  return latLonToVector3(effLat, effLon, radius);
+}
 
-  const cosTilt = Math.cos(rotX);
-  const sinTilt = Math.sin(rotX);
+// ─────────────────────────────────────────────────────────────────────────────
+// Verified Screen Offsets for Destination Labels (Placed Directly at Pins)
+// ─────────────────────────────────────────────────────────────────────────────
+const LABEL_RADIAL_OFFSETS: Record<string, { x: number; y: number }> = {
+  "home-base": { x: -44, y: -14 },
+  "dest-mymensingh": { x: 12, y: -12 },
+  "dest-sylhet": { x: 12, y: -12 },
+  "dest-sreemangal": { x: 12, y: -12 },
+  "dest-cumilla": { x: 12, y: -12 },
+  "dest-chittagong": { x: 12, y: -12 },
+  "dest-patenga-beach": { x: 12, y: -12 },
+  "dest-coxs-bazar": { x: 12, y: -12 },
+  "dest-pabna": { x: -78, y: -12 },
+  "dest-natore": { x: -80, y: -12 },
+};
 
-  const x = x0;
-  const y = y0 * cosTilt - z0 * sinTilt;
-  const z = y0 * sinTilt + z0 * cosTilt;
+// Initial orientation to face Narsingdi / Bangladesh directly toward camera
+const INITIAL_ROTATION_X = 0.417;
+const INITIAL_ROTATION_Y = Math.PI - ((90.7177 - 90) * Math.PI) / 180;
+const INITIAL_CAMERA_DISTANCE = 4.6;
 
-  const visible = z > 0;
-  const depth = Math.max(0, z / radius);
-
-  return { x, y, visible, depth };
+interface RouteEntry {
+  destinationId: string;
+  line: THREE.Line;
+  dotsMesh: THREE.InstancedMesh;
+  dotCount: number;
+  pulseMesh: THREE.Mesh;
+  arcPoints: THREE.Vector3[];
 }
 
 export function InteractiveEarthGlobe({
@@ -64,81 +202,24 @@ export function InteractiveEarthGlobe({
   homeBase = HOME_BASE,
   selectedDestination = null,
   onSelectDestination,
-  onOpenJournal,
+  onOpenJournal: _onOpenJournal,
   className = "",
 }: InteractiveEarthGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const labelElementsRef = useRef<Record<string, HTMLButtonElement | null>>({});
 
   // Status & live readout states
   const [coordinates, setCoordinates] = useState<{ lat: string; lon: string }>({
-    lat: "24.36° N",
-    lon: "88.63° E",
+    lat: "23.92° N",
+    lon: "90.72° E",
   });
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
   const [isHomeBaseSelected, setIsHomeBaseSelected] = useState<boolean>(false);
+  const isReducedMotionRef = useRef<boolean>(false);
 
-  // Three.js internal references
-  const threeRefs = useRef<{
-    scene: THREE.Scene;
-    camera: THREE.PerspectiveCamera;
-    renderer: THREE.WebGLRenderer;
-    globeGroup: THREE.Group;
-    earthMesh: THREE.Mesh;
-    cloudsMesh: THREE.Mesh;
-    markersGroup: THREE.Group;
-    targetRotation: { x: number; y: number };
-    currentRotation: { x: number; y: number };
-    targetZoom: number;
-    currentZoom: number;
-    isUserInteracting: boolean;
-    lastMouseX: number;
-    lastMouseY: number;
-    animFrameId: number;
-    isVisible: boolean;
-    raycaster: THREE.Raycaster;
-    mouseVector: THREE.Vector2;
-    markerMeshes: {
-      mesh: THREE.Object3D;
-      item: { type: "destination"; destination: Destination } | { type: "home-base"; homeBase: HomeBase };
-    }[];
-  } | null>(null);
-
-  // Fallback Canvas 2D references
-  const fallbackRefs = useRef<{
-    isFallback: boolean;
-    rotation: { x: number; y: number };
-    targetRotation: { x: number; y: number };
-    zoom: number;
-    targetZoom: number;
-    animId: number;
-    isInteracting: boolean;
-    lastX: number;
-    lastY: number;
-  }>({
-    isFallback: false,
-    rotation: { x: 0.28, y: -1.55 },
-    targetRotation: { x: 0.28, y: -1.55 },
-    zoom: 1,
-    targetZoom: 1,
-    animId: 0,
-    isInteracting: false,
-    lastX: 0,
-    lastY: 0,
-  });
-
-  // Check prefers-reduced-motion
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setIsReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
+  // References to destinations & homeBase to avoid stale closures in animate
   const destinationsRef = useRef(destinations);
   useEffect(() => {
     destinationsRef.current = destinations;
@@ -149,240 +230,119 @@ export function InteractiveEarthGlobe({
     homeBaseRef.current = homeBase;
   }, [homeBase]);
 
-  // If a destination is selected from outside, unselect home base
+  const selectedDestinationRef = useRef(selectedDestination);
+  useEffect(() => {
+    selectedDestinationRef.current = selectedDestination;
+  }, [selectedDestination]);
+
+  // Three.js internal references
+  const threeRefs = useRef<{
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    renderer: THREE.WebGLRenderer;
+    globeGroup: THREE.Group;
+    earthMesh: THREE.Mesh;
+    cloudsMesh: THREE.Mesh;
+    orbitalRing: THREE.Mesh;
+    markersGroup: THREE.Group;
+    networkArcsGroup: THREE.Group;
+    routeEntries: RouteEntry[];
+    targetRotation: { x: number; y: number };
+    currentRotation: { x: number; y: number };
+    targetZoom: number;
+    currentZoom: number;
+    isUserInteracting: boolean;
+    lastMouseX: number;
+    lastMouseY: number;
+    dragVelocity: { x: number; y: number };
+    animFrameId: number;
+    isVisible: boolean;
+    raycaster: THREE.Raycaster;
+    mouseVector: THREE.Vector2;
+    markerMeshes: {
+      mesh: THREE.Object3D;
+      item: { type: "destination"; destination: Destination } | { type: "home-base"; homeBase: HomeBase };
+    }[];
+  } | null>(null);
+
+  // Check prefers-reduced-motion
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    isReducedMotionRef.current = mq.matches;
+    const handler = (e: MediaQueryListEvent) => {
+      isReducedMotionRef.current = e.matches;
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Synchronize external selected destination
   useEffect(() => {
     if (selectedDestination) {
       setIsHomeBaseSelected(false);
     }
   }, [selectedDestination]);
 
-  // Initialize Renderer (WebGL with automatic Canvas 2D fallback)
+  // Selection handlers
+  const handleSelectHomeBase = useCallback(() => {
+    setIsHomeBaseSelected(true);
+    if (onSelectDestination) {
+      onSelectDestination(null);
+    }
+  }, [onSelectDestination]);
+
+  const handleSelectDestination = useCallback(
+    (dest: Destination | null) => {
+      setIsHomeBaseSelected(false);
+      if (onSelectDestination) {
+        onSelectDestination(dest);
+      }
+    },
+    [onSelectDestination]
+  );
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // Three.js Scene Setup & Render Loop
+  // ───────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const width = container.clientWidth || 600;
-    const height = container.clientHeight || 560;
-
-    let useWebGL = true;
-    let renderer: THREE.WebGLRenderer | null = null;
-
-    try {
-      // Test WebGL context availability
-      const testGl = canvas.getContext("webgl2") || canvas.getContext("webgl");
-      if (!testGl) {
-        useWebGL = false;
-      } else {
-        renderer = new THREE.WebGLRenderer({
-          canvas,
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance",
-        });
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      }
-    } catch {
-      useWebGL = false;
-    }
-
-    if (!useWebGL || !renderer) {
-      // ─── High-Fidelity Canvas 2D Fallback ──────────────────────────────────
-      fallbackRefs.current.isFallback = true;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-
-      let lastTime = performance.now();
-      const fb = fallbackRefs.current;
-
-      const renderFallback = (time: number) => {
-        const delta = (time - lastTime) / 1000;
-        lastTime = time;
-
-        if (!fb.isInteracting && !isReducedMotion) {
-          fb.targetRotation.y += delta * 0.08;
-        }
-
-        fb.rotation.x += (fb.targetRotation.x - fb.rotation.x) * 0.085;
-        fb.rotation.y += (fb.targetRotation.y - fb.rotation.y) * 0.085;
-        fb.targetRotation.x = Math.max(-1.1, Math.min(1.1, fb.targetRotation.x));
-
-        fb.zoom += (fb.targetZoom - fb.zoom) * 0.1;
-
-        // Render Canvas 2D Globe
-        ctx.save();
-        ctx.scale(dpr, dpr);
-        ctx.clearRect(0, 0, width, height);
-
-        const cx = width / 2;
-        const cy = height / 2;
-        const baseRadius = Math.min(width, height) * 0.36 * fb.zoom;
-
-        // 1. Atmospheric Outer Glow
-        const atmosGrad = ctx.createRadialGradient(cx, cy, baseRadius * 0.9, cx, cy, baseRadius * 1.25);
-        atmosGrad.addColorStop(0, "rgba(212, 175, 55, 0.12)");
-        atmosGrad.addColorStop(0.5, "rgba(56, 120, 220, 0.08)");
-        atmosGrad.addColorStop(1, "transparent");
-        ctx.fillStyle = atmosGrad;
-        ctx.beginPath();
-        ctx.arc(cx, cy, baseRadius * 1.25, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 2. Earth Sphere Body
-        const sphereGrad = ctx.createRadialGradient(
-          cx - baseRadius * 0.35,
-          cy - baseRadius * 0.35,
-          baseRadius * 0.1,
-          cx,
-          cy,
-          baseRadius
-        );
-        sphereGrad.addColorStop(0, "#15202B");
-        sphereGrad.addColorStop(0.7, "#090D12");
-        sphereGrad.addColorStop(1, "#030406");
-
-        ctx.fillStyle = sphereGrad;
-        ctx.beginPath();
-        ctx.arc(cx, cy, baseRadius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "rgba(212, 175, 55, 0.4)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // 3. Coordinate Grid Rings
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-        ctx.lineWidth = 0.75;
-        for (let lat = -60; lat <= 60; lat += 30) {
-          ctx.beginPath();
-          let started = false;
-          for (let lon = -180; lon <= 180; lon += 6) {
-            const pt = projectSpherical(lat, lon, fb.rotation.x, fb.rotation.y, baseRadius);
-            if (pt.visible) {
-              const px = cx + pt.x;
-              const py = cy + pt.y;
-              if (!started) {
-                ctx.moveTo(px, py);
-                started = true;
-              } else {
-                ctx.lineTo(px, py);
-              }
-            } else {
-              started = false;
-            }
-          }
-          ctx.stroke();
-        }
-
-        for (let lon = -180; lon < 180; lon += 30) {
-          ctx.beginPath();
-          let started = false;
-          for (let lat = -90; lat <= 90; lat += 5) {
-            const pt = projectSpherical(lat, lon, fb.rotation.x, fb.rotation.y, baseRadius);
-            if (pt.visible) {
-              const px = cx + pt.x;
-              const py = cy + pt.y;
-              if (!started) {
-                ctx.moveTo(px, py);
-                started = true;
-              } else {
-                ctx.lineTo(px, py);
-              }
-            } else {
-              started = false;
-            }
-          }
-          ctx.stroke();
-        }
-
-        // 4. Draw Home Base Marker (Narsingdi) in Cyan Beacon
-        const hb = homeBaseRef.current;
-        if (hb) {
-          const hbPt = projectSpherical(hb.latitude, hb.longitude, fb.rotation.x, fb.rotation.y, baseRadius);
-          if (hbPt.visible) {
-            const px = cx + hbPt.x;
-            const py = cy + hbPt.y;
-
-            // Cyan outer pulsing ring
-            ctx.strokeStyle = "rgba(56, 189, 248, 0.95)";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(px, py, 7.5, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Cyan inner beacon
-            ctx.fillStyle = "#38BDF8";
-            ctx.beginPath();
-            ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-
-        // 5. Visited Destination Markers in 2D (Gold)
-        destinationsRef.current.forEach((dest) => {
-          const pt = projectSpherical(dest.latitude, dest.longitude, fb.rotation.x, fb.rotation.y, baseRadius);
-          if (pt.visible) {
-            const px = cx + pt.x;
-            const py = cy + pt.y;
-
-            // Outer white ring
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(px, py, 6, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Center gold dot
-            ctx.fillStyle = "#D4AF37";
-            ctx.beginPath();
-            ctx.arc(px, py, 3, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-
-        // 6. Update live coordinate readout
-        const facingLat = ((-fb.rotation.x * 180) / Math.PI).toFixed(2);
-        let facingLonVal = ((-fb.rotation.y * 180) / Math.PI) % 360;
-        if (facingLonVal > 180) facingLonVal -= 360;
-        if (facingLonVal < -180) facingLonVal += 360;
-        const latDir = parseFloat(facingLat) >= 0 ? "N" : "S";
-        const lonDir = facingLonVal >= 0 ? "E" : "W";
-        setCoordinates({
-          lat: `${Math.abs(parseFloat(facingLat)).toFixed(2)}° ${latDir}`,
-          lon: `${Math.abs(facingLonVal).toFixed(2)}° ${lonDir}`,
-        });
-
-        ctx.restore();
-        fb.animId = requestAnimationFrame(renderFallback);
-      };
-
-      fb.animId = requestAnimationFrame(renderFallback);
-
-      return () => {
-        cancelAnimationFrame(fb.animId);
-      };
-    }
-
-    // ─── 3D Three.js WebGL Pipeline ──────────────────────────────────────────
-    fallbackRefs.current.isFallback = false;
+    const width = container.clientWidth || 640;
+    const height = container.clientHeight || 640;
 
     // 1. Scene & Camera
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 5.2);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 1000);
+    camera.position.set(0, 0, INITIAL_CAMERA_DISTANCE);
 
-    // 2. Globe Root Group
+    // 2. Renderer with proper color management
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+    } catch {
+      return;
+    }
+
+    // 3. Globe Root Group (all rotating items live inside here!)
     const globeGroup = new THREE.Group();
-    globeGroup.rotation.x = 0.28;
-    globeGroup.rotation.y = -1.55;
+    globeGroup.rotation.x = INITIAL_ROTATION_X;
+    globeGroup.rotation.y = INITIAL_ROTATION_Y;
     scene.add(globeGroup);
 
-    // 3. Earth Sphere & Textures
-    const sphereRadius = 1.9;
+    // 4. Earth Sphere & High-Res Textures
+    const sphereRadius = 1.92;
     const textureLoader = new THREE.TextureLoader();
 
     const earthTexture = textureLoader.load("/images/globe/earth-map.jpg");
@@ -393,25 +353,26 @@ export function InteractiveEarthGlobe({
     const earthGeo = new THREE.SphereGeometry(sphereRadius, 64, 64);
     const earthMat = new THREE.MeshStandardMaterial({
       map: earthTexture,
-      roughness: 0.65,
-      metalness: 0.08,
+      roughness: 0.85,
+      metalness: 0.05,
     });
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     globeGroup.add(earthMesh);
 
-    // 4. Cloud Layer
+    // 5. Cloud Layer
     const cloudsGeo = new THREE.SphereGeometry(sphereRadius * 1.012, 48, 48);
     const cloudsMat = new THREE.MeshStandardMaterial({
       map: cloudsTexture,
       transparent: true,
-      opacity: 0.38,
+      opacity: 0.24,
       blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
     const cloudsMesh = new THREE.Mesh(cloudsGeo, cloudsMat);
     globeGroup.add(cloudsMesh);
 
-    // 5. Atmospheric Rim Glow
-    const atmosphereGeo = new THREE.SphereGeometry(sphereRadius * 1.12, 48, 48);
+    // 6. Safe Atmospheric Rim Glow (No negative pow calls, gentle aesthetic)
+    const atmosphereGeo = new THREE.SphereGeometry(sphereRadius * 1.14, 48, 48);
     const atmosphereMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
@@ -423,9 +384,11 @@ export function InteractiveEarthGlobe({
       fragmentShader: `
         varying vec3 vNormal;
         void main() {
-          float intensity = pow(0.68 - dot(vNormal, vec3(0, 0, 1.0)), 2.2);
-          vec3 atmosphereColor = mix(vec3(0.12, 0.35, 0.85), vec3(0.83, 0.68, 0.22), 0.25);
-          gl_FragColor = vec4(atmosphereColor, intensity * 0.72);
+          float viewDot = dot(vNormal, vec3(0.0, 0.0, 1.0));
+          float rim = 1.0 - max(0.0, viewDot);
+          float intensity = pow(rim, 2.8);
+          vec3 atmosphereColor = mix(vec3(0.83, 0.68, 0.22), vec3(0.18, 0.42, 0.88), 0.35);
+          gl_FragColor = vec4(atmosphereColor, intensity * 0.45);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -435,48 +398,59 @@ export function InteractiveEarthGlobe({
     const atmosphereMesh = new THREE.Mesh(atmosphereGeo, atmosphereMat);
     globeGroup.add(atmosphereMesh);
 
-    // 6. Subtle Celestial Star Field
+    // 7. Subtle Golden Orbital Trajectory Ring (Matches Reference Image)
+    const ringGeo = new THREE.RingGeometry(sphereRadius * 1.28, sphereRadius * 1.284, 80);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xd4af37,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.32,
+    });
+    const orbitalRing = new THREE.Mesh(ringGeo, ringMat);
+    orbitalRing.rotation.x = Math.PI / 2.8;
+    orbitalRing.rotation.y = 0.25;
+    globeGroup.add(orbitalRing);
+
+    // 8. Distant Celestial Stars
     const starsGeo = new THREE.BufferGeometry();
-    const starCount = 380;
+    const starCount = 280;
     const starPositions = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount * 3; i += 3) {
-      starPositions[i] = (Math.random() - 0.5) * 45;
-      starPositions[i + 1] = (Math.random() - 0.5) * 45;
-      starPositions[i + 2] = -12 - Math.random() * 25;
+      starPositions[i] = (Math.random() - 0.5) * 50;
+      starPositions[i + 1] = (Math.random() - 0.5) * 50;
+      starPositions[i + 2] = -15 - Math.random() * 25;
     }
     starsGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
     const starsMat = new THREE.PointsMaterial({
       size: 1.2,
       color: 0xd4af37,
       transparent: true,
-      opacity: 0.35,
-      sizeAttenuation: true,
+      opacity: 0.28,
     });
     const stars = new THREE.Points(starsGeo, starsMat);
     scene.add(stars);
 
-    // 7. Lighting
-    const ambientLight = new THREE.AmbientLight(0x223344, 0.75);
+    // 9. Balanced Cinematic Lighting (No blown-out hotspots)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xfff5e6, 2.4);
-    sunLight.position.set(5, 3.5, 4.5);
+    const sunLight = new THREE.DirectionalLight(0xfff8eb, 1.4);
+    sunLight.position.set(3, 4, 5);
     scene.add(sunLight);
 
-    const rimLight = new THREE.DirectionalLight(0x386699, 1.1);
-    rimLight.position.set(-6, -2, -3);
+    const rimLight = new THREE.DirectionalLight(0x4477bb, 0.6);
+    rimLight.position.set(-5, 0, -3);
     scene.add(rimLight);
 
-    // 8. Markers Group
+    // 10. Groups for Markers & Network Arcs
     const markersGroup = new THREE.Group();
     globeGroup.add(markersGroup);
 
+    const networkArcsGroup = new THREE.Group();
+    globeGroup.add(networkArcsGroup);
+
     const raycaster = new THREE.Raycaster();
     const mouseVector = new THREE.Vector2();
-    const markerMeshes: {
-      mesh: THREE.Object3D;
-      item: { type: "destination"; destination: Destination } | { type: "home-base"; homeBase: HomeBase };
-    }[] = [];
 
     threeRefs.current = {
       scene,
@@ -485,22 +459,31 @@ export function InteractiveEarthGlobe({
       globeGroup,
       earthMesh,
       cloudsMesh,
+      orbitalRing,
       markersGroup,
-      targetRotation: { x: globeGroup.rotation.x, y: globeGroup.rotation.y },
-      currentRotation: { x: globeGroup.rotation.x, y: globeGroup.rotation.y },
-      targetZoom: 5.2,
-      currentZoom: 5.2,
+      networkArcsGroup,
+      routeEntries: [],
+      targetRotation: { x: INITIAL_ROTATION_X, y: INITIAL_ROTATION_Y },
+      currentRotation: { x: INITIAL_ROTATION_X, y: INITIAL_ROTATION_Y },
+      targetZoom: INITIAL_CAMERA_DISTANCE,
+      currentZoom: INITIAL_CAMERA_DISTANCE,
       isUserInteracting: false,
       lastMouseX: 0,
       lastMouseY: 0,
+      dragVelocity: { x: 0, y: 0 },
       animFrameId: 0,
       isVisible: true,
       raycaster,
       mouseVector,
-      markerMeshes,
+      markerMeshes: [],
     };
+    if (typeof window !== "undefined") {
+      (window as unknown as { __globeRefs: typeof threeRefs.current }).__globeRefs = threeRefs.current;
+    }
 
-    // 9. Render Loop
+    // ─────────────────────────────────────────────────────────────────────────
+    // Animation Loop
+    // ─────────────────────────────────────────────────────────────────────────
     let lastTime = performance.now();
 
     const animate = (time: number) => {
@@ -511,33 +494,117 @@ export function InteractiveEarthGlobe({
       if (!refs) return;
 
       if (refs.isVisible) {
-        if (!refs.isUserInteracting && !isReducedMotion) {
-          refs.targetRotation.y += delta * 0.08;
-          cloudsMesh.rotation.y += delta * 0.11;
+        // Inertia damping when user releases drag
+        if (!refs.isUserInteracting) {
+          refs.targetRotation.x += refs.dragVelocity.x;
+          refs.targetRotation.y += refs.dragVelocity.y;
+          refs.dragVelocity.x *= 0.92;
+          refs.dragVelocity.y *= 0.92;
         }
 
-        refs.currentRotation.x += (refs.targetRotation.x - refs.currentRotation.x) * 0.085;
-        refs.currentRotation.y += (refs.targetRotation.y - refs.currentRotation.y) * 0.085;
-
+        // Clamp vertical tilt to prevent globe inversion
         refs.targetRotation.x = Math.max(-1.1, Math.min(1.1, refs.targetRotation.x));
+
+        // Smooth lerp rotation
+        refs.currentRotation.x += (refs.targetRotation.x - refs.currentRotation.x) * 0.1;
+        refs.currentRotation.y += (refs.targetRotation.y - refs.currentRotation.y) * 0.1;
 
         globeGroup.rotation.x = refs.currentRotation.x;
         globeGroup.rotation.y = refs.currentRotation.y;
 
+        // Subtle cloud drift if motion is not reduced
+        if (!isReducedMotionRef.current) {
+          cloudsMesh.rotation.y += delta * 0.02;
+        }
+
+        // Smooth camera zoom lerp
         refs.currentZoom += (refs.targetZoom - refs.currentZoom) * 0.1;
         camera.position.z = refs.currentZoom;
 
-        const facingLat = ((-refs.currentRotation.x * 180) / Math.PI).toFixed(2);
-        let facingLonVal = ((-refs.currentRotation.y * 180) / Math.PI) % 360;
-        if (facingLonVal > 180) facingLonVal -= 360;
-        if (facingLonVal < -180) facingLonVal += 360;
+        // Animate traveling pulse packets along the 9 connections
+        const animSec = time * 0.001;
+        if (refs.routeEntries && refs.routeEntries.length > 0) {
+          refs.routeEntries.forEach((entry, idx) => {
+            const progress = (animSec * 0.38 + idx * 0.11) % 1.0;
+            const ptIdx = Math.floor(progress * (entry.arcPoints.length - 1));
+            entry.pulseMesh.position.copy(entry.arcPoints[ptIdx]);
+          });
+        }
 
-        const latDir = parseFloat(facingLat) >= 0 ? "N" : "S";
-        const lonDir = facingLonVal >= 0 ? "E" : "W";
+        // Live coordinate calculation based on exact surface normal facing the camera
+        const invMatrix = globeGroup.matrixWorld.clone().invert();
+        const centerDir = new THREE.Vector3(0, 0, 1).applyMatrix4(invMatrix).normalize();
+        const currentLatDeg = 90 - (Math.acos(THREE.MathUtils.clamp(centerDir.y, -1, 1)) * 180) / Math.PI;
+        const thetaLon = Math.atan2(centerDir.z, -centerDir.x);
+        let currentLonDeg = (thetaLon * 180) / Math.PI - 180;
+        if (currentLonDeg < -180) currentLonDeg += 360;
+        if (currentLonDeg > 180) currentLonDeg -= 360;
+
+        const latDir = currentLatDeg >= 0 ? "N" : "S";
+        const lonDir = currentLonDeg >= 0 ? "E" : "W";
         setCoordinates({
-          lat: `${Math.abs(parseFloat(facingLat)).toFixed(2)}° ${latDir}`,
-          lon: `${Math.abs(facingLonVal).toFixed(2)}° ${lonDir}`,
+          lat: `${Math.abs(currentLatDeg).toFixed(2)}° ${latDir}`,
+          lon: `${Math.abs(currentLonDeg).toFixed(2)}° ${lonDir}`,
         });
+
+        // ─────────────────────────────────────────────────────────────────────
+        // Synchronize HTML Location Labels with 3D Globe Rotation
+        // ─────────────────────────────────────────────────────────────────────
+        const containerW = container.clientWidth;
+        const containerH = container.clientHeight;
+        const globeWorldCenter = new THREE.Vector3();
+        globeGroup.getWorldPosition(globeWorldCenter);
+
+        const updateLabel = (id: string, visualPos: THREE.Vector3) => {
+          const el = labelElementsRef.current[id];
+          if (!el) return;
+
+          // Compute exact 3D world position
+          const worldPos = visualPos.clone().applyMatrix4(globeGroup.matrixWorld);
+
+          // Dot product check against camera line of sight to cull markers behind Earth
+          const toCam = camera.position.clone().sub(worldPos).normalize();
+          const normal = worldPos.clone().sub(globeWorldCenter).normalize();
+          const facing = normal.dot(toCam);
+
+          if (facing > 0.08) {
+            // Project 3D coordinate to 2D Screen Space
+            const proj = worldPos.clone().project(camera);
+            const sx = ((proj.x + 1) / 2) * containerW;
+            const sy = ((-proj.y + 1) / 2) * containerH;
+
+            const offset = LABEL_RADIAL_OFFSETS[id] || { x: 12, y: -12 };
+            let labelX = sx + offset.x;
+            const labelY = sy + offset.y;
+
+            // Soft clamp so labels remain comfortably visible within container bounds on mobile
+            const labelEstimatedW = id === "home-base" ? 100 : 76;
+            if (labelX < 8) labelX = 8;
+            if (labelX + labelEstimatedW > containerW - 8) {
+              labelX = Math.max(8, containerW - labelEstimatedW - 8);
+            }
+
+            if (labelY > -40 && labelY < containerH + 40) {
+              el.style.display = "flex";
+              el.style.left = `${Math.round(labelX)}px`;
+              el.style.top = `${Math.round(labelY)}px`;
+              return;
+            }
+          }
+
+          el.style.display = "none";
+        };
+
+        const currentHb = homeBaseRef.current;
+        if (currentHb) {
+          const posHb = latLonToVector3(currentHb.latitude, currentHb.longitude, sphereRadius * 1.018);
+          updateLabel("home-base", posHb);
+
+          destinationsRef.current.forEach((dest) => {
+            const posDest = getVisualDestinationPosition(dest, currentHb, sphereRadius * 1.018);
+            updateLabel(dest.id, posDest);
+          });
+        }
 
         renderer.render(scene, camera);
       }
@@ -547,7 +614,7 @@ export function InteractiveEarthGlobe({
 
     threeRefs.current.animFrameId = requestAnimationFrame(animate);
 
-    // 10. Resize & Visibility
+    // Resize observer
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width: w, height: h } = entry.contentRect;
@@ -560,6 +627,7 @@ export function InteractiveEarthGlobe({
     });
     resizeObserver.observe(container);
 
+    // Visibility observer
     const visibilityObserver = new IntersectionObserver(
       (entries) => {
         if (threeRefs.current) {
@@ -584,17 +652,22 @@ export function InteractiveEarthGlobe({
         cloudsTexture.dispose();
         atmosphereGeo.dispose();
         atmosphereMat.dispose();
+        ringGeo.dispose();
+        ringMat.dispose();
         starsGeo.dispose();
         starsMat.dispose();
       }
     };
-  }, [isReducedMotion]);
+  }, []);
 
-  // Update Markers on Globe (9 destinations + 1 distinct Home Base beacon)
+  // ───────────────────────────────────────────────────────────────────────────
+  // Construct 10 3D Markers & 9 Narsingdi-Originated Dotted Connections
+  // ───────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const refs = threeRefs.current;
     if (!refs) return;
 
+    // 1. Clear existing markers
     while (refs.markersGroup.children.length > 0) {
       const child = refs.markersGroup.children[0];
       refs.markersGroup.remove(child);
@@ -602,34 +675,49 @@ export function InteractiveEarthGlobe({
     }
     refs.markerMeshes = [];
 
-    const sphereRadius = 1.9;
+    // 2. Clear existing network arcs
+    while (refs.networkArcsGroup.children.length > 0) {
+      const child = refs.networkArcsGroup.children[0];
+      refs.networkArcsGroup.remove(child);
+      if ("geometry" in child) (child as THREE.Mesh).geometry.dispose();
+    }
+    refs.routeEntries = [];
 
-    // A. Add Home Base Marker (Narsingdi) - Distinct Cyan-Blue Beacon
+    const sphereRadius = 1.92;
+
+    // ─── A. Home Base Marker (Narsingdi) — Distinct Antique-Gold Beacon ────
+    let posHb: THREE.Vector3 | null = null;
     if (homeBase) {
-      const posHb = latLonToVector3(homeBase.latitude, homeBase.longitude, sphereRadius * 1.005);
+      posHb = latLonToVector3(homeBase.latitude, homeBase.longitude, sphereRadius * 1.018);
       const hbGroup = new THREE.Group();
       hbGroup.position.copy(posHb);
       hbGroup.lookAt(posHb.clone().multiplyScalar(2));
+      hbGroup.renderOrder = 12;
 
-      // Cyan core dot
-      const hbDotGeo = new THREE.SphereGeometry(0.05, 16, 16);
-      const hbDotMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      // Core luminous beacon
+      const hbDotGeo = new THREE.SphereGeometry(0.011, 16, 16);
+      const hbDotMat = new THREE.MeshBasicMaterial({
+        color: 0xfff4d0,
+        toneMapped: false,
+        depthWrite: false,
+      });
       const hbDotMesh = new THREE.Mesh(hbDotGeo, hbDotMat);
       hbGroup.add(hbDotMesh);
 
-      // Cyan outer beacon ring
-      const hbRingGeo = new THREE.RingGeometry(0.075, 0.105, 32);
-      const hbRingMat = new THREE.MeshBasicMaterial({
-        color: 0x38bdf8,
+      // Inner gold ring (compact & sharp halo, does NOT obscure surrounding cities)
+      const hbRingGeo1 = new THREE.RingGeometry(0.014, 0.020, 32);
+      const hbRingMat1 = new THREE.MeshBasicMaterial({
+        color: 0xd4af37,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.95,
+        depthWrite: false,
       });
-      const hbRingMesh = new THREE.Mesh(hbRingGeo, hbRingMat);
-      hbGroup.add(hbRingMesh);
+      const hbRingMesh1 = new THREE.Mesh(hbRingGeo1, hbRingMat1);
+      hbGroup.add(hbRingMesh1);
 
-      // Hit mesh for raycasting
-      const hbHitGeo = new THREE.SphereGeometry(0.18, 12, 12);
+      // Raycast hit target (enlarged for easy, responsive clicking)
+      const hbHitGeo = new THREE.SphereGeometry(0.09, 12, 12);
       const hbHitMat = new THREE.MeshBasicMaterial({ visible: false });
       const hbHitMesh = new THREE.Mesh(hbHitGeo, hbHitMat);
       hbGroup.add(hbHitMesh);
@@ -641,92 +729,218 @@ export function InteractiveEarthGlobe({
       });
     }
 
-    // B. Add the 9 Visited Destinations Markers (Antique Gold & White Rings)
+    // ─── B. 9 Visited Destinations Markers & 9 Narsingdi-Originated Dotted Connections ─
+    const dotSharedGeo = new THREE.SphereGeometry(0.0068, 10, 10);
+
     destinations.forEach((dest) => {
-      const pos = latLonToVector3(dest.latitude, dest.longitude, sphereRadius * 1.004);
+      const posDest = homeBase
+        ? getVisualDestinationPosition(dest, homeBase, sphereRadius * 1.018)
+        : latLonToVector3(dest.latitude, dest.longitude, sphereRadius * 1.018);
 
+      // 1. Marker 3D Pin & Ring (Compact, delicate, zero visual collisions)
       const markerObj = new THREE.Group();
-      markerObj.position.copy(pos);
-      markerObj.lookAt(pos.clone().multiplyScalar(2));
+      markerObj.position.copy(posDest);
+      markerObj.lookAt(posDest.clone().multiplyScalar(2));
+      markerObj.renderOrder = 12;
 
-      const dotGeo = new THREE.SphereGeometry(0.045, 16, 16);
-      const dotMat = new THREE.MeshBasicMaterial({ color: 0xd4af37 });
-      const dotMesh = new THREE.Mesh(dotGeo, dotMat);
-      markerObj.add(dotMesh);
+      // Golden pin core
+      const destDotGeo = new THREE.SphereGeometry(0.0075, 16, 16);
+      const destDotMat = new THREE.MeshBasicMaterial({
+        color: 0xd4af37,
+        toneMapped: false,
+        depthWrite: false,
+      });
+      const destDotMesh = new THREE.Mesh(destDotGeo, destDotMat);
+      markerObj.add(destDotMesh);
 
-      const ringGeo = new THREE.RingGeometry(0.065, 0.085, 32);
-      const ringMat = new THREE.MeshBasicMaterial({
+      // White/Ivory outer ring
+      const destRingGeo = new THREE.RingGeometry(0.010, 0.014, 24);
+      const destRingMat = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.85,
+        depthWrite: false,
       });
-      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-      markerObj.add(ringMesh);
+      const destRingMesh = new THREE.Mesh(destRingGeo, destRingMat);
+      markerObj.add(destRingMesh);
 
-      const hitGeo = new THREE.SphereGeometry(0.16, 12, 12);
-      const hitMat = new THREE.MeshBasicMaterial({ visible: false });
-      const hitMesh = new THREE.Mesh(hitGeo, hitMat);
-      markerObj.add(hitMesh);
+      // Hit sphere for raycasting
+      const destHitGeo = new THREE.SphereGeometry(0.08, 12, 12);
+      const destHitMat = new THREE.MeshBasicMaterial({ visible: false });
+      const destHitMesh = new THREE.Mesh(destHitGeo, destHitMat);
+      markerObj.add(destHitMesh);
 
       refs.markersGroup.add(markerObj);
       refs.markerMeshes.push({
-        mesh: hitMesh,
+        mesh: destHitMesh,
         item: { type: "destination", destination: dest },
       });
+
+      // 2. Construct Elevated 3D Dotted Curved Arc Connecting Narsingdi to Destination
+      if (posHb) {
+        const profile = ROUTE_PROFILES[dest.id] || {
+          lateralBow: 0.01,
+          peakAltitude: 0.08,
+          dotCount: 8,
+        };
+        const dotCount = profile.dotCount;
+        const arcPoints = createCurvedRoutePoints(
+          posHb,
+          posDest,
+          sphereRadius,
+          dotCount + 1,
+          profile.lateralBow,
+          profile.peakAltitude
+        );
+
+        const routeGroup = new THREE.Group();
+
+        // A. Subtle continuous golden trajectory line
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(arcPoints);
+        const lineMat = new THREE.LineBasicMaterial({
+          color: 0xd4af37,
+          transparent: true,
+          opacity: 0.5,
+          depthWrite: false,
+        });
+        const line = new THREE.Line(lineGeo, lineMat);
+        line.renderOrder = 9;
+        routeGroup.add(line);
+
+        // B. Real 3D Golden Sphere Dot Meshes along the arc (InstancedMesh per route)
+        const dotsMat = new THREE.MeshBasicMaterial({
+          color: 0xffd700,
+          toneMapped: false,
+          transparent: true,
+          opacity: 0.95,
+          depthWrite: false,
+        });
+        const dotsMesh = new THREE.InstancedMesh(dotSharedGeo, dotsMat, dotCount);
+        dotsMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        dotsMesh.renderOrder = 10;
+
+        const dummy = new THREE.Object3D();
+        for (let j = 1; j <= dotCount; j++) {
+          const pt = arcPoints[j];
+          dummy.position.copy(pt);
+          dummy.scale.set(1, 1, 1);
+          dummy.updateMatrix();
+          dotsMesh.setMatrixAt(j - 1, dummy.matrix);
+        }
+        dotsMesh.instanceMatrix.needsUpdate = true;
+        routeGroup.add(dotsMesh);
+
+        // C. Animated glowing pulse bead traveling from Narsingdi
+        const pulseGeo = new THREE.SphereGeometry(0.0095, 8, 8);
+        const pulseMat = new THREE.MeshBasicMaterial({
+          color: 0xfffdf0,
+          toneMapped: false,
+          transparent: true,
+          opacity: 0.9,
+          depthWrite: false,
+        });
+        const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
+        pulseMesh.renderOrder = 11;
+        routeGroup.add(pulseMesh);
+
+        refs.networkArcsGroup.add(routeGroup);
+        refs.routeEntries.push({
+          destinationId: dest.id,
+          line,
+          dotsMesh,
+          dotCount,
+          pulseMesh,
+          arcPoints,
+        });
+      }
     });
+
+    // Provide development diagnostics on window
+    if (typeof window !== "undefined") {
+      (window as unknown as {
+        __getTravelGlobeDiagnostics?: () => {
+          routeCount: number;
+          totalDots: number;
+          routes: { id: string; dotCount: number; start: { x: string; y: string; z: string }; end: { x: string; y: string; z: string } }[];
+        };
+      }).__getTravelGlobeDiagnostics = () => ({
+        routeCount: refs.routeEntries.length,
+        totalDots: refs.routeEntries.reduce((sum, r) => sum + r.dotCount, 0),
+        routes: refs.routeEntries.map((r) => ({
+          id: r.destinationId,
+          dotCount: r.dotCount,
+          start: { x: r.arcPoints[0].x.toFixed(3), y: r.arcPoints[0].y.toFixed(3), z: r.arcPoints[0].z.toFixed(3) },
+          end: { x: r.arcPoints[r.arcPoints.length - 1].x.toFixed(3), y: r.arcPoints[r.arcPoints.length - 1].y.toFixed(3), z: r.arcPoints[r.arcPoints.length - 1].z.toFixed(3) },
+        })),
+      });
+    }
   }, [destinations, homeBase]);
 
-  // Smoothly rotate globe to face selected destination or home base
+  // ───────────────────────────────────────────────────────────────────────────
+  // Highlight Route Connections when Selected Destination Changes
+  // ───────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const refs = threeRefs.current;
+    if (!refs || !refs.routeEntries) return;
+
+    refs.routeEntries.forEach((entry) => {
+      const isSelected = selectedDestination?.id === entry.destinationId;
+      const lineMat = entry.line.material as THREE.LineBasicMaterial;
+      const dotsMat = entry.dotsMesh.material as THREE.MeshBasicMaterial;
+      const pulseMat = entry.pulseMesh.material as THREE.MeshBasicMaterial;
+
+      if (isSelected) {
+        lineMat.color.setHex(0xffffff);
+        lineMat.opacity = 0.95;
+        dotsMat.color.setHex(0xffffff);
+        pulseMat.color.setHex(0xffffff);
+        pulseMat.opacity = 1.0;
+      } else {
+        lineMat.color.setHex(0xd4af37);
+        lineMat.opacity = selectedDestination ? 0.45 : 0.6;
+        dotsMat.color.setHex(0xffd700);
+        pulseMat.color.setHex(0xd4af37);
+        pulseMat.opacity = selectedDestination ? 0.5 : 0.85;
+      }
+    });
+  }, [selectedDestination]);
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // Smooth Camera Focus on Selected Destination
+  // ───────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (selectedDestination) {
       if (threeRefs.current) {
         const refs = threeRefs.current;
-        const targetPitch = (selectedDestination.latitude * Math.PI) / 180;
-        const targetYaw = -(selectedDestination.longitude * Math.PI) / 180 - Math.PI / 2;
+        const targetPitch = ((selectedDestination.latitude * Math.PI) / 180) * 0.95;
+        const targetYaw = Math.PI - ((selectedDestination.longitude - 90) * Math.PI) / 180;
 
         refs.targetRotation.x = THREE.MathUtils.clamp(targetPitch, -1.0, 1.0);
         refs.targetRotation.y = targetYaw;
-        refs.targetZoom = 4.2;
-        setZoomLevel(1.4);
-      } else if (fallbackRefs.current.isFallback) {
-        const fb = fallbackRefs.current;
-        fb.targetRotation.x = (selectedDestination.latitude * Math.PI) / 180;
-        fb.targetRotation.y = -(selectedDestination.longitude * Math.PI) / 180;
-        fb.targetZoom = 1.35;
-        setZoomLevel(1.4);
+        refs.targetZoom = 3.9;
+        setZoomLevel(1.3);
       }
     } else if (isHomeBaseSelected && homeBase) {
       if (threeRefs.current) {
         const refs = threeRefs.current;
-        const targetPitch = (homeBase.latitude * Math.PI) / 180;
-        const targetYaw = -(homeBase.longitude * Math.PI) / 180 - Math.PI / 2;
-
-        refs.targetRotation.x = THREE.MathUtils.clamp(targetPitch, -1.0, 1.0);
-        refs.targetRotation.y = targetYaw;
-        refs.targetZoom = 4.2;
-        setZoomLevel(1.4);
-      } else if (fallbackRefs.current.isFallback) {
-        const fb = fallbackRefs.current;
-        fb.targetRotation.x = (homeBase.latitude * Math.PI) / 180;
-        fb.targetRotation.y = -(homeBase.longitude * Math.PI) / 180;
-        fb.targetZoom = 1.35;
-        setZoomLevel(1.4);
+        refs.targetRotation.x = INITIAL_ROTATION_X;
+        refs.targetRotation.y = INITIAL_ROTATION_Y;
+        refs.targetZoom = 3.9;
+        setZoomLevel(1.3);
       }
     }
   }, [selectedDestination, isHomeBaseSelected, homeBase]);
 
-  // ─── Interaction Handlers (Pointer & Touch) ────────────────────────────────
-
+  // ───────────────────────────────────────────────────────────────────────────
+  // Pointer & Touch Orbit Drag Interaction Handlers
+  // ───────────────────────────────────────────────────────────────────────────
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     if (threeRefs.current) {
       threeRefs.current.isUserInteracting = true;
       threeRefs.current.lastMouseX = e.clientX;
       threeRefs.current.lastMouseY = e.clientY;
-    } else {
-      fallbackRefs.current.isInteracting = true;
-      fallbackRefs.current.lastX = e.clientX;
-      fallbackRefs.current.lastY = e.clientY;
+      threeRefs.current.dragVelocity = { x: 0, y: 0 };
     }
     setIsDragging(true);
 
@@ -735,37 +949,28 @@ export function InteractiveEarthGlobe({
     }
   }, []);
 
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<HTMLCanvasElement>) => {
-      if (threeRefs.current && threeRefs.current.isUserInteracting) {
-        const deltaX = e.clientX - threeRefs.current.lastMouseX;
-        const deltaY = e.clientY - threeRefs.current.lastMouseY;
-        threeRefs.current.lastMouseX = e.clientX;
-        threeRefs.current.lastMouseY = e.clientY;
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (threeRefs.current && threeRefs.current.isUserInteracting) {
+      const deltaX = e.clientX - threeRefs.current.lastMouseX;
+      const deltaY = e.clientY - threeRefs.current.lastMouseY;
+      threeRefs.current.lastMouseX = e.clientX;
+      threeRefs.current.lastMouseY = e.clientY;
 
-        const factor = 0.0055;
-        threeRefs.current.targetRotation.y += deltaX * factor;
-        threeRefs.current.targetRotation.x += deltaY * factor;
-      } else if (fallbackRefs.current.isInteracting) {
-        const deltaX = e.clientX - fallbackRefs.current.lastX;
-        const deltaY = e.clientY - fallbackRefs.current.lastY;
-        fallbackRefs.current.lastX = e.clientX;
-        fallbackRefs.current.lastY = e.clientY;
+      const factor = 0.0052;
+      const vx = deltaY * factor;
+      const vy = deltaX * factor;
 
-        const factor = 0.0055;
-        fallbackRefs.current.targetRotation.y += deltaX * factor;
-        fallbackRefs.current.targetRotation.x += deltaY * factor;
-      }
-    },
-    []
-  );
+      threeRefs.current.targetRotation.y += vy;
+      threeRefs.current.targetRotation.x += vx;
+      threeRefs.current.dragVelocity = { x: vx * 0.4, y: vy * 0.4 };
+    }
+  }, []);
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent<HTMLCanvasElement>) => {
       if (threeRefs.current) {
         threeRefs.current.isUserInteracting = false;
       }
-      fallbackRefs.current.isInteracting = false;
       setIsDragging(false);
 
       if (canvasRef.current) {
@@ -776,7 +981,7 @@ export function InteractiveEarthGlobe({
         }
       }
 
-      // Check marker click in WebGL
+      // Check direct 3D marker click via Raycaster
       if (threeRefs.current && containerRef.current && threeRefs.current.markerMeshes.length > 0) {
         const rect = containerRef.current.getBoundingClientRect();
         const clickX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -796,52 +1001,39 @@ export function InteractiveEarthGlobe({
           const matched = threeRefs.current.markerMeshes.find((m) => m.mesh === hit);
           if (matched) {
             if (matched.item.type === "home-base") {
-              setIsHomeBaseSelected(true);
-              if (onSelectDestination) {
-                onSelectDestination(null);
-              }
+              handleSelectHomeBase();
             } else if (matched.item.type === "destination") {
-              setIsHomeBaseSelected(false);
-              if (onSelectDestination) {
-                onSelectDestination(matched.item.destination);
-              }
+              handleSelectDestination(matched.item.destination);
             }
           }
         }
       }
     },
-    [onSelectDestination]
+    [handleSelectDestination, handleSelectHomeBase]
   );
 
   // Smooth Zoom Controls (+ / -)
   const handleZoomIn = () => {
     if (threeRefs.current) {
-      threeRefs.current.targetZoom = Math.max(3.0, threeRefs.current.targetZoom - 0.7);
-    } else {
-      fallbackRefs.current.targetZoom = Math.min(1.8, fallbackRefs.current.targetZoom + 0.25);
+      threeRefs.current.targetZoom = Math.max(3.2, threeRefs.current.targetZoom - 0.55);
     }
-    setZoomLevel((prev) => Math.min(2.2, +(prev + 0.3).toFixed(1)));
+    setZoomLevel((prev) => Math.min(2.0, +(prev + 0.2).toFixed(1)));
   };
 
   const handleZoomOut = () => {
     if (threeRefs.current) {
-      threeRefs.current.targetZoom = Math.min(7.5, threeRefs.current.targetZoom + 0.7);
-    } else {
-      fallbackRefs.current.targetZoom = Math.max(0.65, fallbackRefs.current.targetZoom - 0.25);
+      threeRefs.current.targetZoom = Math.min(6.2, threeRefs.current.targetZoom + 0.55);
     }
-    setZoomLevel((prev) => Math.max(0.6, +(prev - 0.3).toFixed(1)));
+    setZoomLevel((prev) => Math.max(0.6, +(prev - 0.2).toFixed(1)));
   };
 
-  // Reset View Control
+  // Reset View Control — Restores Bangladesh front & center
   const handleResetView = () => {
     if (threeRefs.current) {
-      threeRefs.current.targetRotation.x = 0.28;
-      threeRefs.current.targetRotation.y = -1.55;
-      threeRefs.current.targetZoom = 5.2;
-    } else {
-      fallbackRefs.current.targetRotation.x = 0.28;
-      fallbackRefs.current.targetRotation.y = -1.55;
-      fallbackRefs.current.targetZoom = 1;
+      threeRefs.current.targetRotation.x = INITIAL_ROTATION_X;
+      threeRefs.current.targetRotation.y = INITIAL_ROTATION_Y;
+      threeRefs.current.targetZoom = INITIAL_CAMERA_DISTANCE;
+      threeRefs.current.dragVelocity = { x: 0, y: 0 };
     }
     setZoomLevel(1);
     setIsHomeBaseSelected(false);
@@ -851,180 +1043,140 @@ export function InteractiveEarthGlobe({
   };
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/9] lg:aspect-[2/1] max-h-[640px] rounded-2xl bg-[#030303] border border-white/[0.08] overflow-hidden select-none ${className}`}
-      aria-label="Interactive 3D Earth Globe showing visited travel destinations and home base"
-    >
-      {/* Canvas for WebGL or Canvas 2D */}
-      <canvas
-        ref={canvasRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        className={`w-full h-full block touch-none cursor-grab ${
-          isDragging ? "cursor-grabbing" : ""
-        }`}
-      />
+    <div className={`relative w-full h-full select-none ${className}`}>
+      {/* ─── 3D Globe Canvas Container ───────────────────────────────────────── */}
+      <div
+        ref={containerRef}
+        className="relative w-full h-full min-h-[440px] sm:min-h-[520px] lg:min-h-[640px] bg-[#020202] overflow-hidden"
+        aria-label="Interactive 3D Earth Globe showing personal travel network from Narsingdi Home Base"
+      >
+        <canvas
+          ref={canvasRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          className={`w-full h-full block touch-none cursor-grab ${
+            isDragging ? "cursor-grabbing" : ""
+          }`}
+        />
 
-      {/* Atmospheric Top Bar: Status Badge & Marker Legend */}
-      <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20 flex flex-wrap items-center gap-2 pointer-events-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-xs font-mono text-[#FAF8F5]">
-          <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
-          <span className="text-[#D4AF37] font-semibold">3D Terrestrial Globe</span>
-          <span className="text-white/30 hidden xs:inline">·</span>
-          <span className="text-[#9C988F] text-[11px] hidden xs:inline">
-            {destinations.length > 0
-              ? `${destinations.length} Destinations`
-              : "0 Coordinates Logged"}
-          </span>
-          <span className="text-white/30 hidden sm:inline">·</span>
-          <span className="text-[#38BDF8] text-[11px] hidden sm:inline flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
-            Home: Narsingdi
-          </span>
+        {/* ─── Top Left: Compass Rose (Matches Reference Image) ───────────────── */}
+        <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col items-center">
+          <div className="w-10 h-10 rounded-full border border-[#D4AF37]/50 bg-black/60 backdrop-blur-md flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.15)]">
+            <span className="text-[11px] font-serif font-bold text-[#D4AF37]">N</span>
+          </div>
+          <div className="w-px h-2.5 bg-[#D4AF37]/40 mt-0.5" />
         </div>
 
-        {(selectedDestination || isHomeBaseSelected) && (
+        {/* ─── Interactive 3D Cartographic Destination & Home Base Labels ───── */}
+        {/* Narsingdi Home Base Badge */}
+        {homeBase && (
           <button
-            onClick={() => {
-              setIsHomeBaseSelected(false);
-              if (onSelectDestination) onSelectDestination(null);
+            ref={(el) => {
+              labelElementsRef.current["home-base"] = el;
             }}
-            className="px-2.5 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[11px] font-mono text-[#FAF8F5] transition-colors border border-white/10 cursor-pointer"
+            type="button"
+            data-home-base-label="true"
+            onClick={handleSelectHomeBase}
+            style={{ display: "none" }}
+            className={`absolute z-20 pointer-events-auto cursor-pointer px-3 py-1.5 rounded-xl bg-black/95 backdrop-blur-md border text-[11px] font-sans tracking-tight flex items-center gap-2 transition-all duration-200 shadow-[0_4px_20px_rgba(0,0,0,0.85)] ${
+              isHomeBaseSelected
+                ? "border-[#D4AF37] text-[#FAF8F5] bg-[#D4AF37]/30 ring-2 ring-[#D4AF37]/60 scale-105"
+                : "border-[#D4AF37]/75 text-[#FAF8F5] hover:border-[#D4AF37] hover:bg-[#D4AF37]/15"
+            }`}
+            title="Narsingdi — Central Home Base"
           >
-            Clear Selected
+            <div className="w-5 h-5 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37] flex items-center justify-center">
+              <Home className="w-3 h-3 text-[#D4AF37]" />
+            </div>
+            <div className="text-left leading-tight">
+              <span className="font-serif font-semibold text-[#FAF8F5] block">Narsingdi</span>
+              <span className="text-[9.5px] font-mono text-[#D4AF37] tracking-wider block">Home Base</span>
+            </div>
           </button>
         )}
-      </div>
 
-      {/* Floating Interactive Controls (Zoom In, Zoom Out, Reset) */}
-      <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 flex flex-col gap-2 pointer-events-auto">
-        <div className="flex flex-col bg-black/80 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden shadow-xl">
-          <button
-            type="button"
-            onClick={handleZoomIn}
-            className="p-2 sm:p-2.5 text-[#D4CDBC] hover:text-[#FAF8F5] hover:bg-white/[0.08] transition-colors cursor-pointer border-b border-white/[0.08]"
-            title={`Zoom In (${zoomLevel}x)`}
-            aria-label="Zoom in on 3D Globe"
-          >
-            <ZoomIn className="w-4 h-4" />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleZoomOut}
-            className="p-2 sm:p-2.5 text-[#D4CDBC] hover:text-[#FAF8F5] hover:bg-white/[0.08] transition-colors cursor-pointer"
-            title="Zoom Out"
-            aria-label="Zoom out on 3D Globe"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleResetView}
-          className="p-2 sm:p-2.5 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 text-[#D4AF37] hover:bg-white/[0.08] transition-colors cursor-pointer flex items-center justify-center shadow-xl"
-          title="Reset View"
-          aria-label="Reset 3D Globe view to neutral coordinates"
-        >
-          <RotateCcw className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Bottom Left: Drag & Rotate Helper Hint */}
-      <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 z-20 pointer-events-none">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/[0.06] text-[10.5px] sm:text-xs font-mono text-[#9C988F]">
-          <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
-          <span>Drag to orbit · Pinch or scroll to zoom</span>
-        </div>
-      </div>
-
-      {/* Bottom Right: Live Precision Scientific Coordinate Readout */}
-      <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-20 pointer-events-none">
-        <div className="px-3.5 py-1.5 rounded-lg bg-black/70 backdrop-blur-md border border-white/[0.08] text-right font-mono text-[11px] sm:text-xs tracking-wider text-[#FAF8F5]/90">
-          <div className="text-[#D4AF37] font-semibold">{coordinates.lat}</div>
-          <div className="text-[#9C988F] text-[10.5px]">{coordinates.lon}</div>
-        </div>
-      </div>
-
-      {/* A. Distinct Home Base Flyout Preview Card (No Journal Action) */}
-      {isHomeBaseSelected && homeBase && (
-        <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 max-w-xs sm:max-w-sm rounded-xl bg-black/92 backdrop-blur-xl border border-[#38BDF8]/40 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.85)] animate-hero-fade">
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div>
-              <span className="text-[10px] font-mono text-[#38BDF8] uppercase tracking-widest flex items-center gap-1.5 font-semibold">
-                <Home className="w-3 h-3 text-[#38BDF8]" />
-                Home Base · Origin Point
-              </span>
-              <h4 className="font-serif text-lg text-[#FAF8F5] font-semibold leading-tight mt-1">
-                {homeBase.name}, {homeBase.country}
-              </h4>
-            </div>
+        {/* 9 Visited Destinations Labels */}
+        {destinations.map((dest) => {
+          const isSelected = selectedDestination?.id === dest.id;
+          const shortName = dest.name.replace(" (Chattogram)", "");
+          return (
             <button
+              key={dest.id}
+              ref={(el) => {
+                labelElementsRef.current[dest.id] = el;
+              }}
               type="button"
-              onClick={() => setIsHomeBaseSelected(false)}
-              className="p-1 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors"
-              aria-label="Close Home Base Preview"
+              data-destination-label={dest.id}
+              onClick={() => handleSelectDestination(dest)}
+              style={{ display: "none" }}
+              className={`absolute z-20 pointer-events-auto cursor-pointer px-2.5 py-1 rounded-lg bg-black/90 backdrop-blur-sm border text-[11px] font-sans tracking-tight flex items-center gap-1.5 transition-all duration-200 shadow-md ${
+                isSelected
+                  ? "border-[#D4AF37] text-[#FFF4D0] bg-[#D4AF37]/30 shadow-[0_0_16px_rgba(212,175,55,0.4)] font-medium scale-105 ring-1 ring-[#D4AF37]"
+                  : "border-white/20 text-[#E8E2D8] hover:border-[#D4AF37]/80 hover:text-[#FAF8F5] hover:bg-black"
+              }`}
+              title={`${dest.name} (${dest.district})`}
             >
-              <X className="w-4 h-4" />
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isSelected ? "bg-[#FFF4D0] ring-2 ring-[#D4AF37]" : "bg-[#D4AF37]"
+                }`}
+              />
+              <span className="font-serif font-medium">{shortName}</span>
             </button>
-          </div>
+          );
+        })}
 
-          <p className="text-xs font-sans text-[#D4CDBC] leading-relaxed mb-3">
-            {homeBase.description}
-          </p>
-
-          <div className="pt-2 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-[#9C988F]">
-            <span>{homeBase.latitude.toFixed(4)}° N, {homeBase.longitude.toFixed(4)}° E</span>
-            <span className="text-[#38BDF8] font-medium">Roots &amp; Origin</span>
-          </div>
-        </div>
-      )}
-
-      {/* B. Selected Destination Flyout Preview Card */}
-      {selectedDestination && !isHomeBaseSelected && (
-        <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 max-w-xs sm:max-w-sm rounded-xl bg-black/92 backdrop-blur-xl border border-[#D4AF37]/40 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.85)] animate-hero-fade">
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div>
-              <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest block">
-                {selectedDestination.region}, {selectedDestination.country}
-              </span>
-              <h4 className="font-serif text-lg text-[#FAF8F5] font-semibold leading-tight mt-0.5">
-                {selectedDestination.name}
-              </h4>
-            </div>
+        {/* ─── Bottom Left: Minimal Controls (Zoom In, Zoom Out, Reset) ───────── */}
+        <div className="absolute bottom-5 left-5 z-20 flex flex-col gap-1.5 pointer-events-auto">
+          <div className="flex flex-col bg-black/85 backdrop-blur-md rounded-xl border border-white/15 overflow-hidden shadow-2xl">
             <button
               type="button"
-              onClick={() => onSelectDestination && onSelectDestination(null)}
-              className="p-1 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors"
-              aria-label="Close Destination Preview"
+              onClick={handleZoomIn}
+              className="p-2.5 text-[#D4CDBC] hover:text-[#FAF8F5] hover:bg-white/[0.08] transition-colors cursor-pointer border-b border-white/[0.08]"
+              title={`Zoom In (${zoomLevel}x)`}
+              aria-label="Zoom in"
             >
-              <X className="w-4 h-4" />
+              <ZoomIn className="w-4 h-4" />
             </button>
-          </div>
-
-          <p className="text-xs font-sans text-[#D4CDBC] line-clamp-2 leading-relaxed mb-3">
-            {selectedDestination.shortDescription}
-          </p>
-
-          <div className="pt-2 border-t border-white/[0.08] flex items-center justify-between">
-            <span className="text-[10.5px] font-mono text-[#9C988F]">
-              {selectedDestination.latitude.toFixed(2)}° N, {selectedDestination.longitude.toFixed(2)}° E
-            </span>
             <button
               type="button"
-              onClick={() => onOpenJournal && onOpenJournal(selectedDestination)}
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#D4AF37] hover:text-[#FFF4D0] font-medium transition-colors cursor-pointer"
+              onClick={handleZoomOut}
+              className="p-2.5 text-[#D4CDBC] hover:text-[#FAF8F5] hover:bg-white/[0.08] transition-colors cursor-pointer border-b border-white/[0.08]"
+              title="Zoom Out"
+              aria-label="Zoom out"
             >
-              <span>Explore Journey</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleResetView}
+              className="p-2.5 text-[#D4AF37] hover:text-[#FFF4D0] hover:bg-white/[0.08] transition-colors cursor-pointer"
+              title="Reset View to Bangladesh"
+              aria-label="Reset globe to neutral position"
+            >
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
         </div>
-      )}
+
+        {/* ─── Bottom Right: Scientific Live Coordinates Readout ────────────── */}
+        <div className="absolute bottom-5 right-5 z-20 pointer-events-none">
+          <div className="px-3.5 py-1.5 rounded-lg bg-black/80 backdrop-blur-md border border-white/10 text-right font-mono text-[11px] sm:text-xs tracking-wider text-[#FAF8F5]/90">
+            <div className="text-[#D4AF37] font-semibold">{coordinates.lat}</div>
+            <div className="text-[#9C988F] text-[10px]">{coordinates.lon}</div>
+          </div>
+        </div>
+
+        {/* ─── Bottom Center: Subtle Drag Interaction Helper ────────────────── */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden sm:block">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/[0.06] text-[10.5px] font-mono text-[#9C988F]">
+            <Compass className="w-3 h-3 text-[#D4AF37]" />
+            <span>Drag to rotate · Click markers to explore</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

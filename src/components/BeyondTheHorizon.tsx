@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Compass } from "lucide-react";
+import { MapPin, ChevronRight, Plane, ArrowRight } from "lucide-react";
 import { TRAVEL_DESTINATIONS, HOME_BASE, Destination } from "@/data/travelData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 import { InteractiveEarthGlobe } from "@/components/travel/InteractiveEarthGlobe";
@@ -10,15 +10,57 @@ import { FeaturedDestinations } from "@/components/travel/FeaturedDestinations";
 import { PhotographyArchive } from "@/components/travel/PhotographyArchive";
 import { TravelJournalModal } from "@/components/travel/TravelJournalModal";
 
+// Scenic editorial imagery themes for destination previews matching the reference image
+const DESTINATION_THEMES: Record<
+  string,
+  { gradient: string; accentColor: string; fallbackImg?: string }
+> = {
+  "dest-coxs-bazar": {
+    gradient: "from-[#4a2618] via-[#a35c2f] to-[#e89b4a]",
+    accentColor: "#f39c12",
+  },
+  "dest-sreemangal": {
+    gradient: "from-[#132c14] via-[#2d5a27] to-[#5a8b43]",
+    accentColor: "#2ecc71",
+  },
+  "dest-sylhet": {
+    gradient: "from-[#0f2838] via-[#1d4d68] to-[#3a7c9f]",
+    accentColor: "#3498db",
+  },
+  "dest-chittagong": {
+    gradient: "from-[#2b1f3a] via-[#4d3663] to-[#7f5896]",
+    accentColor: "#9b59b6",
+  },
+  "dest-patenga-beach": {
+    gradient: "from-[#1a3038] via-[#2f5561] to-[#568a99]",
+    accentColor: "#1abc9c",
+  },
+  "dest-pabna": {
+    gradient: "from-[#332211] via-[#5e4225] to-[#916b41]",
+    accentColor: "#e67e22",
+  },
+  "dest-natore": {
+    gradient: "from-[#2d1b1f] via-[#5c2f37] to-[#8c4854]",
+    accentColor: "#e74c3c",
+  },
+  "dest-mymensingh": {
+    gradient: "from-[#1e2a22] via-[#354f3f] to-[#597e68]",
+    accentColor: "#27ae60",
+  },
+  "dest-cumilla": {
+    gradient: "from-[#362a19] via-[#634e2c] to-[#997946]",
+    accentColor: "#f1c40f",
+  },
+};
+
 export function BeyondTheHorizon() {
-  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  // Default to Cox's Bazar so the selected card is prominently visible on initial load
+  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(
+    TRAVEL_DESTINATIONS[0] ?? null
+  );
   const [activeJournalDest, setActiveJournalDest] = useState<Destination | null>(null);
 
-  const handleSelectFromGlobe = (dest: Destination | null) => {
-    setSelectedDestination(dest);
-  };
-
-  const handleSelectFromCard = (dest: Destination) => {
+  const handleSelectDestination = (dest: Destination | null) => {
     setSelectedDestination(dest);
   };
 
@@ -26,67 +68,197 @@ export function BeyondTheHorizon() {
     setActiveJournalDest(dest);
   };
 
+  const activeTheme = selectedDestination
+    ? DESTINATION_THEMES[selectedDestination.id] || {
+        gradient: "from-[#2a2216] via-[#483925] to-[#735b3c]",
+        accentColor: "#D4AF37",
+      }
+    : null;
+
   return (
     <section
       id="travel"
       aria-labelledby="travel-heading"
-      className="relative py-24 md:py-32 border-t border-white/[0.08] bg-[#000000] scroll-mt-20 sm:scroll-mt-24 overflow-hidden"
+      className="relative border-t border-white/[0.08] bg-[#000000] scroll-mt-16 sm:scroll-mt-20 overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 mb-3.5">
-            <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
-            <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              Interactive Terrestrial &amp; Travel Experience
-            </span>
-            <div className="w-10 h-px bg-white/15" aria-hidden="true" />
-          </div>
-
-          <LetterBounceHeading
-            id="travel-heading"
-            text="Beyond the Horizon"
-            className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
-            staggerMs={42}
-          />
-
-          <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
-
-          <p className="mt-4 text-base sm:text-lg lg:text-xl font-serif italic text-[#D4AF37] leading-relaxed">
-            &ldquo;Every destination has a story. Every journey leaves a memory.&rdquo;
-          </p>
-
-          <p className="mt-2 text-[14.5px] sm:text-base font-sans text-[#D4CDBC] leading-relaxed max-w-2xl font-normal">
-            A personal collection of places I&apos;ve explored, landscapes I&apos;ve discovered, and memories I&apos;ve carried along the way.
-          </p>
-        </div>
-
-        {/* 1. Interactive 3D Earth Globe with Location Markers & Live Coordinates */}
-        <div className="my-8 sm:my-12">
+      {/* ── TOP SECTION: Globe (Left) + Travel Journey Atlas (Right) ─────────── */}
+      <div className="flex flex-col lg:flex-row min-h-[640px] xl:min-h-[720px] border-b border-white/[0.08]">
+        {/* ── LEFT COLUMN: 3D Earth Globe ─────────────────────────────────────── */}
+        <div className="relative w-full lg:w-[54%] xl:w-[56%] lg:flex-shrink-0 bg-[#000000] border-b lg:border-b-0 lg:border-r border-white/[0.08] flex items-center justify-center">
           <InteractiveEarthGlobe
             destinations={TRAVEL_DESTINATIONS}
             homeBase={HOME_BASE}
             selectedDestination={selectedDestination}
-            onSelectDestination={handleSelectFromGlobe}
+            onSelectDestination={handleSelectDestination}
             onOpenJournal={handleOpenJournal}
+            className="w-full h-full"
           />
         </div>
 
-        {/* 2. Compact Verified Journey Statistics Strip */}
+        {/* ── RIGHT COLUMN: Editorial Travel Journey Panel ────────────────────── */}
+        <div className="relative w-full lg:w-[46%] xl:w-[44%] lg:flex-shrink-0 flex flex-col justify-between bg-[#000000] p-6 sm:p-8 xl:p-10">
+          {/* Header Block */}
+          <div className="mb-6">
+            <LetterBounceHeading
+              id="travel-heading"
+              text="Beyond the Horizon"
+              className="font-serif text-3xl sm:text-4xl xl:text-[42px] text-[#FAF8F5] font-semibold tracking-tight leading-tight"
+              staggerMs={38}
+            />
+
+            <div className="flex items-center gap-3 mt-1.5 mb-3">
+              <p className="font-serif italic text-lg sm:text-xl text-[#D4AF37] leading-tight">
+                My Travel Journey
+              </p>
+              <div className="h-px bg-[#D4AF37]/50 flex-1 max-w-[80px]" aria-hidden="true" />
+              <Plane className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
+            </div>
+
+            <p className="text-xs sm:text-[13.5px] font-sans text-[#A8A09A] leading-relaxed max-w-xl">
+              Exploring new places, embracing new stories, and collecting memories across Bangladesh.
+            </p>
+          </div>
+
+          {/* Cards Area: Destination List + Selected Destination Card ───────── */}
+          {/* Side-by-side on wide desktop (xl), stacked on narrower viewports */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 flex-1 items-start">
+            {/* Card 1: My Destinations (9) List */}
+            <div className="rounded-2xl bg-[#070707] border border-white/[0.08] p-3.5 shadow-xl flex flex-col h-full max-h-[460px]">
+              <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-white/[0.06]">
+                <MapPin className="w-4 h-4 text-[#D4AF37]" />
+                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold">
+                  My Destinations ({TRAVEL_DESTINATIONS.length})
+                </span>
+              </div>
+
+              <div className="overflow-y-auto pr-1 space-y-1.5 flex-1 custom-scrollbar">
+                {TRAVEL_DESTINATIONS.map((dest) => {
+                  const isSelected = selectedDestination?.id === dest.id;
+                  const shortName = dest.name.replace(" (Chattogram)", "");
+                  const theme = DESTINATION_THEMES[dest.id] || {
+                    gradient: "from-[#2a2216] to-[#735b3c]",
+                    accentColor: "#D4AF37",
+                  };
+
+                  return (
+                    <button
+                      key={dest.id}
+                      type="button"
+                      data-destination-item={dest.id}
+                      onClick={() => handleSelectDestination(dest)}
+                      className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-left transition-all duration-200 cursor-pointer group border ${
+                        isSelected
+                          ? "bg-[#D4AF37]/15 border-[#D4AF37]/75 shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                          : "bg-black/50 border-white/[0.04] hover:border-white/15 hover:bg-white/[0.03]"
+                      }`}
+                      aria-pressed={isSelected}
+                    >
+                      {/* Thumbnail with thematic gradient */}
+                      <div
+                        className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] font-mono font-bold bg-gradient-to-br ${theme.gradient} border border-white/15 shadow-sm transition-transform group-hover:scale-105`}
+                      >
+                        <MapPin className="w-4 h-4 text-white/90 drop-shadow" />
+                      </div>
+
+                      {/* Name & Tagline */}
+                      <div className="flex-1 min-w-0">
+                        <div
+                          className={`text-xs sm:text-[13px] font-serif font-medium leading-tight truncate ${
+                            isSelected ? "text-[#FAF8F5] font-semibold" : "text-[#D8D0C5] group-hover:text-[#FAF8F5]"
+                          }`}
+                        >
+                          {shortName}
+                        </div>
+                        <div className="text-[10.5px] font-sans text-[#8C857B] truncate mt-0.5">
+                          {dest.tagline}
+                        </div>
+                      </div>
+
+                      {/* Chevron */}
+                      <ChevronRight
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
+                          isSelected
+                            ? "text-[#D4AF37] translate-x-0.5"
+                            : "text-[#4A4640] group-hover:text-[#9C988F]"
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Card 2: Selected Destination Showcase Card */}
+            {selectedDestination && (
+              <div className="rounded-2xl bg-[#070707] border border-white/[0.08] p-4 shadow-xl flex flex-col justify-between h-full min-h-[360px] max-h-[460px]">
+                {/* Thematic Banner / Photo Preview */}
+                <div
+                  className={`w-full h-36 rounded-xl overflow-hidden relative flex flex-col justify-end p-3.5 bg-gradient-to-br ${activeTheme?.gradient} border border-white/15 shadow-inner`}
+                >
+                  <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px]" />
+                  <div className="relative z-10">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-[#FFF4D0] border border-white/15">
+                      <MapPin className="w-2.5 h-2.5 text-[#D4AF37]" />
+                      <span>{selectedDestination.district}</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="my-3 flex-1 flex flex-col justify-center">
+                  <h4 className="font-serif text-lg sm:text-xl text-[#FAF8F5] font-semibold leading-tight">
+                    {selectedDestination.name.replace(" (Chattogram)", "")}
+                  </h4>
+                  <p className="text-[11.5px] font-sans text-[#D4AF37] mt-0.5 mb-2 font-medium">
+                    {selectedDestination.region}, Bangladesh
+                  </p>
+                  <p className="text-xs font-sans text-[#B5ADA3] leading-relaxed line-clamp-3">
+                    {selectedDestination.shortDescription}
+                  </p>
+                </div>
+
+                {/* Explore Journey Action */}
+                <button
+                  type="button"
+                  onClick={() => handleOpenJournal(selectedDestination)}
+                  className="w-full py-2.5 px-4 rounded-xl border border-[#D4AF37]/70 text-[#FAF8F5] bg-[#D4AF37]/10 hover:bg-[#D4AF37] hover:text-black font-mono text-xs font-medium tracking-wide transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group shadow-md"
+                >
+                  <span>Explore Journey</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Editorial Tagline Footer */}
+          <div className="pt-6 mt-4 border-t border-white/[0.06] flex items-center justify-between">
+            <span className="text-[11px] font-mono text-[#8C857B]">
+              Origins: Narsingdi (Home Base)
+            </span>
+            <p className="font-serif italic text-sm sm:text-base text-[#D4AF37]/80 tracking-wide text-right">
+              Travel · Explore · Discover
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── LOWER SECTIONS: Statistics + Featured Destinations + Photography ── */}
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 relative z-10">
+        {/* Journey Statistics */}
         <JourneyStatistics destinations={TRAVEL_DESTINATIONS} />
 
-        {/* 3. Featured Destinations Showcase */}
+        {/* Featured Destinations Showcase */}
         <FeaturedDestinations
           destinations={TRAVEL_DESTINATIONS}
-          onSelectDestination={handleSelectFromCard}
+          onSelectDestination={handleSelectDestination}
           onOpenJournal={handleOpenJournal}
         />
 
-        {/* 4. Travel Photography Archive & Lightbox */}
+        {/* Travel Photography Archive */}
         <PhotographyArchive destinations={TRAVEL_DESTINATIONS} />
       </div>
 
-      {/* 5. Personal Travel Journal Modal */}
+      {/* Personal Travel Journal Modal */}
       <TravelJournalModal
         destination={activeJournalDest}
         onClose={() => setActiveJournalDest(null)}
