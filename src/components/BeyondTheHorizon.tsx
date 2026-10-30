@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Compass } from "lucide-react";
-import { TRAVEL_DESTINATIONS, Destination } from "@/data/travelData";
+import { TRAVEL_DESTINATIONS, HOME_BASE, Destination } from "@/data/travelData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 import { InteractiveEarthGlobe } from "@/components/travel/InteractiveEarthGlobe";
 import { JourneyStatistics } from "@/components/travel/JourneyStatistics";
@@ -34,7 +34,7 @@ export function BeyondTheHorizon() {
     >
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="max-w-2xl mb-12 sm:mb-16">
+        <div className="max-w-3xl mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 mb-3.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
@@ -52,8 +52,12 @@ export function BeyondTheHorizon() {
 
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
-          <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Every destination has a story. Every journey leaves a memory.
+          <p className="mt-4 text-base sm:text-lg lg:text-xl font-serif italic text-[#D4AF37] leading-relaxed">
+            &ldquo;Every destination has a story. Every journey leaves a memory.&rdquo;
+          </p>
+
+          <p className="mt-2 text-[14.5px] sm:text-base font-sans text-[#D4CDBC] leading-relaxed max-w-2xl font-normal">
+            A personal collection of places I&apos;ve explored, landscapes I&apos;ve discovered, and memories I&apos;ve carried along the way.
           </p>
         </div>
 
@@ -61,8 +65,10 @@ export function BeyondTheHorizon() {
         <div className="my-8 sm:my-12">
           <InteractiveEarthGlobe
             destinations={TRAVEL_DESTINATIONS}
+            homeBase={HOME_BASE}
             selectedDestination={selectedDestination}
             onSelectDestination={handleSelectFromGlobe}
+            onOpenJournal={handleOpenJournal}
           />
         </div>
 

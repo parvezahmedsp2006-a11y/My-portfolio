@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { X, Calendar, MapPin, Compass, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { X, Calendar, MapPin, Compass, ChevronLeft, ChevronRight, Sparkles, BookOpen } from "lucide-react";
 import { Destination } from "@/data/travelData";
 
 interface TravelJournalModalProps {
@@ -44,6 +44,12 @@ export function TravelJournalModal({
       ? allDestinations[currentIndex + 1]
       : null;
 
+  const isStoryPublished =
+    destination.journalPublished &&
+    destination.story &&
+    destination.story.narrative &&
+    destination.story.narrative.length > 0;
+
   return (
     <div
       role="dialog"
@@ -57,7 +63,7 @@ export function TravelJournalModal({
         className="relative w-full max-w-4xl max-h-[90vh] bg-[#070707] border border-white/[0.12] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.95)] overflow-y-auto flex flex-col"
       >
         {/* Modal Sticky Header Bar */}
-        <div className="sticky top-0 z-20 flex items-center justify-between px-6 py-4 bg-[#070707]/95 backdrop-blur-md border-b border-white/[0.08]">
+        <div className="sticky top-0 z-20 flex items-center justify-between px-5 sm:px-6 py-4 bg-[#070707]/95 backdrop-blur-md border-b border-white/[0.08]">
           <div className="flex items-center gap-2 text-xs font-mono text-[#D4AF37]">
             <Compass className="w-4 h-4" />
             <span className="uppercase tracking-widest font-semibold">Personal Travel Journal</span>
@@ -72,17 +78,20 @@ export function TravelJournalModal({
                   onClick={() => prevDest && onNavigate && onNavigate(prevDest)}
                   className="p-1.5 rounded-lg text-[#9C988F] hover:text-[#FAF8F5] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/[0.06] transition-colors"
                   aria-label="Previous destination"
-                  title="Previous destination"
+                  title={prevDest ? `Previous: ${prevDest.name}` : "No previous destination"}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
+                <span className="text-[11px] font-mono text-[#7E7A72] px-1 hidden sm:inline">
+                  {currentIndex + 1} / {allDestinations.length}
+                </span>
                 <button
                   type="button"
                   disabled={!nextDest}
                   onClick={() => nextDest && onNavigate && onNavigate(nextDest)}
                   className="p-1.5 rounded-lg text-[#9C988F] hover:text-[#FAF8F5] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/[0.06] transition-colors"
                   aria-label="Next destination"
-                  title="Next destination"
+                  title={nextDest ? `Next: ${nextDest.name}` : "No next destination"}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -102,13 +111,13 @@ export function TravelJournalModal({
 
         {/* Modal Body Content */}
         <div className="p-6 sm:p-8 lg:p-10 space-y-8">
-          {/* Header Metadata & Reference-3 Tape Plaque Aesthetic */}
+          {/* Header Metadata */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-xs font-mono text-[#D4AF37] font-medium">
                 <MapPin className="w-3.5 h-3.5" />
                 <span>
-                  {destination.region}, {destination.country}
+                  {destination.district} · {destination.region}, {destination.country}
                 </span>
                 <span className="text-white/20">·</span>
                 <span>
@@ -130,7 +139,9 @@ export function TravelJournalModal({
 
             <div className="flex items-center gap-2 text-xs font-mono text-[#9C988F] shrink-0">
               <Calendar className="w-4 h-4 text-[#D4AF37]" />
-              <span>Visited: {destination.visitDate}</span>
+              <span>
+                {destination.visitDate ? `Visited: ${destination.visitDate}` : "Date: To be recorded"}
+              </span>
             </div>
           </div>
 
@@ -147,34 +158,52 @@ export function TravelJournalModal({
             </div>
           )}
 
-          {/* Story Narrative Section */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-              <span>Field Chronicle &amp; Narrative</span>
-            </h3>
+          {/* Story Narrative Section or Refined Unpublished State */}
+          {isStoryPublished && destination.story ? (
+            <div className="space-y-4">
+              <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                <span>Field Chronicle &amp; Narrative</span>
+              </h3>
 
-            {destination.story.introduction && (
-              <p className="font-serif text-lg sm:text-xl text-[#FAF8F5] leading-relaxed italic border-l-2 border-[#D4AF37]/40 pl-4 py-1">
-                {destination.story.introduction}
-              </p>
-            )}
+              {destination.story.introduction && (
+                <p className="font-serif text-lg sm:text-xl text-[#FAF8F5] leading-relaxed italic border-l-2 border-[#D4AF37]/40 pl-4 py-1">
+                  {destination.story.introduction}
+                </p>
+              )}
 
-            <div className="space-y-4 text-[15px] sm:text-base font-sans text-[#D4CDBC] leading-[1.75] font-normal">
-              {destination.story.narrative.map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+              <div className="space-y-4 text-[15px] sm:text-base font-sans text-[#D4CDBC] leading-[1.75] font-normal">
+                {destination.story.narrative.map((paragraph, idx) => (
+                  <p key={idx}>{paragraph}</p>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="rounded-xl border border-white/[0.08] bg-[#050505] p-6 sm:p-8 space-y-4 text-center sm:text-left">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/25 flex items-center justify-center text-[#D4AF37] shrink-0">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div className="space-y-1.5">
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#FAF8F5] font-semibold">
+                    Travel story coming soon.
+                  </h3>
+                  <p className="text-xs sm:text-sm font-sans text-[#D4CDBC] leading-relaxed max-w-2xl">
+                    The personal field chronicle and narrative for {destination.name} are currently being curated and will be published soon.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
-          {/* Key Observations & Memorable Moments */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/[0.08]">
-            {destination.story.observations && destination.story.observations.length > 0 && (
-              <div className="bg-[#050505] p-5 rounded-xl border border-white/[0.06] space-y-3">
-                <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
-                  <Compass className="w-3.5 h-3.5" />
-                  <span>Field Observations</span>
-                </h4>
+          {/* Field Observations & Memorable Moments */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-white/[0.08]">
+            <div className="bg-[#050505] p-5 rounded-xl border border-white/[0.06] space-y-3">
+              <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
+                <Compass className="w-3.5 h-3.5" />
+                <span>Field Observations</span>
+              </h4>
+              {destination.story?.observations && destination.story.observations.length > 0 ? (
                 <ul className="space-y-2 text-xs sm:text-sm font-sans text-[#FAF8F5]">
                   {destination.story.observations.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
@@ -183,15 +212,19 @@ export function TravelJournalModal({
                     </li>
                   ))}
                 </ul>
-              </div>
-            )}
+              ) : (
+                <p className="text-xs font-sans text-[#7E7A72] italic leading-relaxed">
+                  Geological notes and environmental observations for {destination.name} will be documented upon story publication.
+                </p>
+              )}
+            </div>
 
-            {destination.story.memorableMoments && destination.story.memorableMoments.length > 0 && (
-              <div className="bg-[#050505] p-5 rounded-xl border border-white/[0.06] space-y-3">
-                <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Memorable Moments</span>
-                </h4>
+            <div className="bg-[#050505] p-5 rounded-xl border border-white/[0.06] space-y-3">
+              <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Memorable Moments</span>
+              </h4>
+              {destination.story?.memorableMoments && destination.story.memorableMoments.length > 0 ? (
                 <ul className="space-y-2 text-xs sm:text-sm font-sans text-[#FAF8F5]">
                   {destination.story.memorableMoments.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2">
@@ -200,8 +233,12 @@ export function TravelJournalModal({
                     </li>
                   ))}
                 </ul>
-              </div>
-            )}
+              ) : (
+                <p className="text-xs font-sans text-[#7E7A72] italic leading-relaxed">
+                  Personal reflections and memorable travel memories from exploring {destination.name} will be chronicled here.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Associated Gallery Images */}

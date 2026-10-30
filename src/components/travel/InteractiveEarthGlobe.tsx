@@ -2,13 +2,15 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
-import { Compass, RotateCcw, ZoomIn, ZoomOut, ArrowRight } from "lucide-react";
-import { Destination } from "@/data/travelData";
+import { Compass, RotateCcw, ZoomIn, ZoomOut, ArrowRight, Home, X } from "lucide-react";
+import { Destination, HomeBase, HOME_BASE } from "@/data/travelData";
 
 interface InteractiveEarthGlobeProps {
   destinations?: Destination[];
+  homeBase?: HomeBase;
   selectedDestination?: Destination | null;
   onSelectDestination?: (destination: Destination | null) => void;
+  onOpenJournal?: (destination: Destination) => void;
   className?: string;
 }
 
@@ -59,8 +61,10 @@ function projectSpherical(
 
 export function InteractiveEarthGlobe({
   destinations = [],
+  homeBase = HOME_BASE,
   selectedDestination = null,
   onSelectDestination,
+  onOpenJournal,
   className = "",
 }: InteractiveEarthGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -74,6 +78,7 @@ export function InteractiveEarthGlobe({
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
+  const [isHomeBaseSelected, setIsHomeBaseSelected] = useState<boolean>(false);
 
   // Three.js internal references
   const threeRefs = useRef<{
@@ -95,7 +100,10 @@ export function InteractiveEarthGlobe({
     isVisible: boolean;
     raycaster: THREE.Raycaster;
     mouseVector: THREE.Vector2;
-    markerMeshes: { mesh: THREE.Object3D; destination: Destination }[];
+    markerMeshes: {
+      mesh: THREE.Object3D;
+      item: { type: "destination"; destination: Destination } | { type: "home-base"; homeBase: HomeBase };
+    }[];
   } | null>(null);
 
   // Fallback Canvas 2D references
@@ -135,6 +143,18 @@ export function InteractiveEarthGlobe({
   useEffect(() => {
     destinationsRef.current = destinations;
   }, [destinations]);
+
+  const homeBaseRef = useRef(homeBase);
+  useEffect(() => {
+    homeBaseRef.current = homeBase;
+  }, [homeBase]);
+
+  // If a destination is selected from outside, unselect home base
+  useEffect(() => {
+    if (selectedDestination) {
+      setIsHomeBaseSelected(false);
+    }
+  }, [selectedDestination]);
 
   // Initialize Renderer (WebGL with automatic Canvas 2D fallback)
   useEffect(() => {
@@ -234,7 +254,7 @@ export function InteractiveEarthGlobe({
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // 3. Latitude & Longitude Coordinate Grid Rings
+        // 3. Coordinate Grid Rings
         ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
         ctx.lineWidth = 0.75;
         for (let lat = -60; lat <= 60; lat += 30) {
@@ -258,7 +278,6 @@ export function InteractiveEarthGlobe({
           ctx.stroke();
         }
 
-        // Longitude Meridians
         for (let lon = -180; lon < 180; lon += 30) {
           ctx.beginPath();
           let started = false;
@@ -280,14 +299,37 @@ export function InteractiveEarthGlobe({
           ctx.stroke();
         }
 
-        // 4. Visited Destination Markers in 2D
+        // 4. Draw Home Base Marker (Narsingdi) in Cyan Beacon
+        const hb = homeBaseRef.current;
+        if (hb) {
+          const hbPt = projectSpherical(hb.latitude, hb.longitude, fb.rotation.x, fb.rotation.y, baseRadius);
+          if (hbPt.visible) {
+            const px = cx + hbPt.x;
+            const py = cy + hbPt.y;
+
+            // Cyan outer pulsing ring
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.95)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(px, py, 7.5, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Cyan inner beacon
+            ctx.fillStyle = "#38BDF8";
+            ctx.beginPath();
+            ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // 5. Visited Destination Markers in 2D (Gold)
         destinationsRef.current.forEach((dest) => {
           const pt = projectSpherical(dest.latitude, dest.longitude, fb.rotation.x, fb.rotation.y, baseRadius);
           if (pt.visible) {
             const px = cx + pt.x;
             const py = cy + pt.y;
 
-            // Outer pulse ring
+            // Outer white ring
             ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
             ctx.lineWidth = 1.5;
             ctx.beginPath();
@@ -302,7 +344,7 @@ export function InteractiveEarthGlobe({
           }
         });
 
-        // 5. Update live coordinate readout
+        // 6. Update live coordinate readout
         const facingLat = ((-fb.rotation.x * 180) / Math.PI).toFixed(2);
         let facingLonVal = ((-fb.rotation.y * 180) / Math.PI) % 360;
         if (facingLonVal > 180) facingLonVal -= 360;
@@ -431,7 +473,10 @@ export function InteractiveEarthGlobe({
 
     const raycaster = new THREE.Raycaster();
     const mouseVector = new THREE.Vector2();
-    const markerMeshes: { mesh: THREE.Object3D; destination: Destination }[] = [];
+    const markerMeshes: {
+      mesh: THREE.Object3D;
+      item: { type: "destination"; destination: Destination } | { type: "home-base"; homeBase: HomeBase };
+    }[] = [];
 
     threeRefs.current = {
       scene,
@@ -545,7 +590,7 @@ export function InteractiveEarthGlobe({
     };
   }, [isReducedMotion]);
 
-  // Update Destination Markers on Globe
+  // Update Markers on Globe (9 destinations + 1 distinct Home Base beacon)
   useEffect(() => {
     const refs = threeRefs.current;
     if (!refs) return;
@@ -559,6 +604,44 @@ export function InteractiveEarthGlobe({
 
     const sphereRadius = 1.9;
 
+    // A. Add Home Base Marker (Narsingdi) - Distinct Cyan-Blue Beacon
+    if (homeBase) {
+      const posHb = latLonToVector3(homeBase.latitude, homeBase.longitude, sphereRadius * 1.005);
+      const hbGroup = new THREE.Group();
+      hbGroup.position.copy(posHb);
+      hbGroup.lookAt(posHb.clone().multiplyScalar(2));
+
+      // Cyan core dot
+      const hbDotGeo = new THREE.SphereGeometry(0.05, 16, 16);
+      const hbDotMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      const hbDotMesh = new THREE.Mesh(hbDotGeo, hbDotMat);
+      hbGroup.add(hbDotMesh);
+
+      // Cyan outer beacon ring
+      const hbRingGeo = new THREE.RingGeometry(0.075, 0.105, 32);
+      const hbRingMat = new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.95,
+      });
+      const hbRingMesh = new THREE.Mesh(hbRingGeo, hbRingMat);
+      hbGroup.add(hbRingMesh);
+
+      // Hit mesh for raycasting
+      const hbHitGeo = new THREE.SphereGeometry(0.18, 12, 12);
+      const hbHitMat = new THREE.MeshBasicMaterial({ visible: false });
+      const hbHitMesh = new THREE.Mesh(hbHitGeo, hbHitMat);
+      hbGroup.add(hbHitMesh);
+
+      refs.markersGroup.add(hbGroup);
+      refs.markerMeshes.push({
+        mesh: hbHitMesh,
+        item: { type: "home-base", homeBase },
+      });
+    }
+
+    // B. Add the 9 Visited Destinations Markers (Antique Gold & White Rings)
     destinations.forEach((dest) => {
       const pos = latLonToVector3(dest.latitude, dest.longitude, sphereRadius * 1.004);
 
@@ -581,38 +664,57 @@ export function InteractiveEarthGlobe({
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       markerObj.add(ringMesh);
 
-      const hitGeo = new THREE.SphereGeometry(0.18, 12, 12);
+      const hitGeo = new THREE.SphereGeometry(0.16, 12, 12);
       const hitMat = new THREE.MeshBasicMaterial({ visible: false });
       const hitMesh = new THREE.Mesh(hitGeo, hitMat);
-      hitMesh.userData = { destinationId: dest.id };
       markerObj.add(hitMesh);
 
       refs.markersGroup.add(markerObj);
-      refs.markerMeshes.push({ mesh: hitMesh, destination: dest });
+      refs.markerMeshes.push({
+        mesh: hitMesh,
+        item: { type: "destination", destination: dest },
+      });
     });
-  }, [destinations]);
+  }, [destinations, homeBase]);
 
-  // Smoothly rotate globe to face selected destination
+  // Smoothly rotate globe to face selected destination or home base
   useEffect(() => {
-    if (!selectedDestination) return;
+    if (selectedDestination) {
+      if (threeRefs.current) {
+        const refs = threeRefs.current;
+        const targetPitch = (selectedDestination.latitude * Math.PI) / 180;
+        const targetYaw = -(selectedDestination.longitude * Math.PI) / 180 - Math.PI / 2;
 
-    if (threeRefs.current) {
-      const refs = threeRefs.current;
-      const targetPitch = (selectedDestination.latitude * Math.PI) / 180;
-      const targetYaw = -(selectedDestination.longitude * Math.PI) / 180 - Math.PI / 2;
+        refs.targetRotation.x = THREE.MathUtils.clamp(targetPitch, -1.0, 1.0);
+        refs.targetRotation.y = targetYaw;
+        refs.targetZoom = 4.2;
+        setZoomLevel(1.4);
+      } else if (fallbackRefs.current.isFallback) {
+        const fb = fallbackRefs.current;
+        fb.targetRotation.x = (selectedDestination.latitude * Math.PI) / 180;
+        fb.targetRotation.y = -(selectedDestination.longitude * Math.PI) / 180;
+        fb.targetZoom = 1.35;
+        setZoomLevel(1.4);
+      }
+    } else if (isHomeBaseSelected && homeBase) {
+      if (threeRefs.current) {
+        const refs = threeRefs.current;
+        const targetPitch = (homeBase.latitude * Math.PI) / 180;
+        const targetYaw = -(homeBase.longitude * Math.PI) / 180 - Math.PI / 2;
 
-      refs.targetRotation.x = THREE.MathUtils.clamp(targetPitch, -1.0, 1.0);
-      refs.targetRotation.y = targetYaw;
-      refs.targetZoom = 4.2;
-      setZoomLevel(1.4);
-    } else if (fallbackRefs.current.isFallback) {
-      const fb = fallbackRefs.current;
-      fb.targetRotation.x = (selectedDestination.latitude * Math.PI) / 180;
-      fb.targetRotation.y = -(selectedDestination.longitude * Math.PI) / 180;
-      fb.targetZoom = 1.35;
-      setZoomLevel(1.4);
+        refs.targetRotation.x = THREE.MathUtils.clamp(targetPitch, -1.0, 1.0);
+        refs.targetRotation.y = targetYaw;
+        refs.targetZoom = 4.2;
+        setZoomLevel(1.4);
+      } else if (fallbackRefs.current.isFallback) {
+        const fb = fallbackRefs.current;
+        fb.targetRotation.x = (homeBase.latitude * Math.PI) / 180;
+        fb.targetRotation.y = -(homeBase.longitude * Math.PI) / 180;
+        fb.targetZoom = 1.35;
+        setZoomLevel(1.4);
+      }
     }
-  }, [selectedDestination]);
+  }, [selectedDestination, isHomeBaseSelected, homeBase]);
 
   // ─── Interaction Handlers (Pointer & Touch) ────────────────────────────────
 
@@ -692,8 +794,18 @@ export function InteractiveEarthGlobe({
         if (intersects.length > 0) {
           const hit = intersects[0].object;
           const matched = threeRefs.current.markerMeshes.find((m) => m.mesh === hit);
-          if (matched && onSelectDestination) {
-            onSelectDestination(matched.destination);
+          if (matched) {
+            if (matched.item.type === "home-base") {
+              setIsHomeBaseSelected(true);
+              if (onSelectDestination) {
+                onSelectDestination(null);
+              }
+            } else if (matched.item.type === "destination") {
+              setIsHomeBaseSelected(false);
+              if (onSelectDestination) {
+                onSelectDestination(matched.item.destination);
+              }
+            }
           }
         }
       }
@@ -732,6 +844,7 @@ export function InteractiveEarthGlobe({
       fallbackRefs.current.targetZoom = 1;
     }
     setZoomLevel(1);
+    setIsHomeBaseSelected(false);
     if (onSelectDestination) {
       onSelectDestination(null);
     }
@@ -741,7 +854,7 @@ export function InteractiveEarthGlobe({
     <div
       ref={containerRef}
       className={`relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/9] lg:aspect-[2/1] max-h-[640px] rounded-2xl bg-[#030303] border border-white/[0.08] overflow-hidden select-none ${className}`}
-      aria-label="Interactive 3D Earth Globe showing visited travel destinations"
+      aria-label="Interactive 3D Earth Globe showing visited travel destinations and home base"
     >
       {/* Canvas for WebGL or Canvas 2D */}
       <canvas
@@ -763,14 +876,22 @@ export function InteractiveEarthGlobe({
           <span className="text-white/30 hidden xs:inline">·</span>
           <span className="text-[#9C988F] text-[11px] hidden xs:inline">
             {destinations.length > 0
-              ? `${destinations.length} Destination Markers`
+              ? `${destinations.length} Destinations`
               : "0 Coordinates Logged"}
+          </span>
+          <span className="text-white/30 hidden sm:inline">·</span>
+          <span className="text-[#38BDF8] text-[11px] hidden sm:inline flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
+            Home: Narsingdi
           </span>
         </div>
 
-        {selectedDestination && (
+        {(selectedDestination || isHomeBaseSelected) && (
           <button
-            onClick={() => onSelectDestination && onSelectDestination(null)}
+            onClick={() => {
+              setIsHomeBaseSelected(false);
+              if (onSelectDestination) onSelectDestination(null);
+            }}
             className="px-2.5 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[11px] font-mono text-[#FAF8F5] transition-colors border border-white/10 cursor-pointer"
           >
             Clear Selected
@@ -821,7 +942,7 @@ export function InteractiveEarthGlobe({
         </div>
       </div>
 
-      {/* Bottom Right: Live Precision Scientific Coordinate Readout (Reference 1 SkyFi Match) */}
+      {/* Bottom Right: Live Precision Scientific Coordinate Readout */}
       <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-20 pointer-events-none">
         <div className="px-3.5 py-1.5 rounded-lg bg-black/70 backdrop-blur-md border border-white/[0.08] text-right font-mono text-[11px] sm:text-xs tracking-wider text-[#FAF8F5]/90">
           <div className="text-[#D4AF37] font-semibold">{coordinates.lat}</div>
@@ -829,9 +950,43 @@ export function InteractiveEarthGlobe({
         </div>
       </div>
 
-      {/* Selected Destination Flyout Preview Card */}
-      {selectedDestination && (
-        <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 max-w-xs sm:max-w-sm rounded-xl bg-black/90 backdrop-blur-xl border border-[#D4AF37]/40 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.85)] animate-hero-fade">
+      {/* A. Distinct Home Base Flyout Preview Card (No Journal Action) */}
+      {isHomeBaseSelected && homeBase && (
+        <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 max-w-xs sm:max-w-sm rounded-xl bg-black/92 backdrop-blur-xl border border-[#38BDF8]/40 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.85)] animate-hero-fade">
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div>
+              <span className="text-[10px] font-mono text-[#38BDF8] uppercase tracking-widest flex items-center gap-1.5 font-semibold">
+                <Home className="w-3 h-3 text-[#38BDF8]" />
+                Home Base · Origin Point
+              </span>
+              <h4 className="font-serif text-lg text-[#FAF8F5] font-semibold leading-tight mt-1">
+                {homeBase.name}, {homeBase.country}
+              </h4>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsHomeBaseSelected(false)}
+              className="p-1 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close Home Base Preview"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <p className="text-xs font-sans text-[#D4CDBC] leading-relaxed mb-3">
+            {homeBase.description}
+          </p>
+
+          <div className="pt-2 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-[#9C988F]">
+            <span>{homeBase.latitude.toFixed(4)}° N, {homeBase.longitude.toFixed(4)}° E</span>
+            <span className="text-[#38BDF8] font-medium">Roots &amp; Origin</span>
+          </div>
+        </div>
+      )}
+
+      {/* B. Selected Destination Flyout Preview Card */}
+      {selectedDestination && !isHomeBaseSelected && (
+        <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 max-w-xs sm:max-w-sm rounded-xl bg-black/92 backdrop-blur-xl border border-[#D4AF37]/40 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.85)] animate-hero-fade">
           <div className="flex items-start justify-between gap-3 mb-2">
             <div>
               <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest block">
@@ -841,22 +996,33 @@ export function InteractiveEarthGlobe({
                 {selectedDestination.name}
               </h4>
             </div>
-            <span className="text-[10px] font-mono text-[#9C988F] bg-white/[0.05] px-2 py-0.5 rounded border border-white/10 shrink-0">
-              {selectedDestination.visitDate}
-            </span>
+            <button
+              type="button"
+              onClick={() => onSelectDestination && onSelectDestination(null)}
+              className="p-1 rounded text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close Destination Preview"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           <p className="text-xs font-sans text-[#D4CDBC] line-clamp-2 leading-relaxed mb-3">
             {selectedDestination.shortDescription}
           </p>
 
-          <a
-            href={`#journal-${selectedDestination.slug}`}
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-[#D4AF37] hover:text-[#FFF4D0] font-medium transition-colors"
-          >
-            <span>Explore Journey</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          <div className="pt-2 border-t border-white/[0.08] flex items-center justify-between">
+            <span className="text-[10.5px] font-mono text-[#9C988F]">
+              {selectedDestination.latitude.toFixed(2)}° N, {selectedDestination.longitude.toFixed(2)}° E
+            </span>
+            <button
+              type="button"
+              onClick={() => onOpenJournal && onOpenJournal(selectedDestination)}
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#D4AF37] hover:text-[#FFF4D0] font-medium transition-colors cursor-pointer"
+            >
+              <span>Explore Journey</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       )}
     </div>
