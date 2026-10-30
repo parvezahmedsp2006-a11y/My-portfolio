@@ -8,6 +8,7 @@ import { ResearchInterests } from "@/components/ResearchInterests";
 import { TechnicalProjects } from "@/components/TechnicalProjects";
 import { SkillsAndLearning } from "@/components/SkillsAndLearning";
 import { AcademicDevelopment } from "@/components/AcademicDevelopment";
+import { BeyondTheHorizon } from "@/components/BeyondTheHorizon";
 import { ContactAndFooter } from "@/components/ContactAndFooter";
 
 interface PageProps {
@@ -48,6 +49,9 @@ export default async function HomePage({ searchParams }: PageProps) {
 
         {/* 9. Academic Development and Future Goals */}
         <AcademicDevelopment />
+
+        {/* 9b. Beyond the Horizon — Interactive 3D Travel & Terrestrial Experience */}
+        <BeyondTheHorizon />
       </main>
 
       {/* 10. Contact and Footer */}

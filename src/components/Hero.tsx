@@ -31,6 +31,7 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
     { name: "Research", href: "#research" },
     { name: "Projects", href: "#projects" },
     { name: "Skills", href: "#skills" },
+    { name: "Travel", href: "#travel" },
     { name: "Contact", href: "#contact" },
   ];
 
