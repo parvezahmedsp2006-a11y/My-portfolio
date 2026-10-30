@@ -6,9 +6,9 @@ import {
   Layers,
   ArrowUpRight,
   Database,
-  FileText,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/GithubIcon";
+import { GeoMineGallery } from "@/components/ui/GeoMineGallery";
 import { ProjectCaseStudy } from "@/data/portfolioData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
@@ -131,7 +131,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           {/* Action Row & Deployment Transparency */}
           <div className="pt-2 space-y-3.5">
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
@@ -143,6 +143,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   <GithubIcon className="w-4 h-4 text-[#000000]" />
                   <span>GitHub Repository</span>
                   <ArrowUpRight className="w-4 h-4 text-[#000000] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              )}
+
+              {/* Live Demo button — rendered only when NEXT_PUBLIC_GEOMINE_DEMO_URL is set */}
+              {project.demoUrl && (
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-xs sm:text-sm font-sans font-medium text-[#FAF8F5] bg-white/[0.04] border border-white/15 hover:border-[#D4AF37]/50 hover:bg-white/[0.08] rounded-full transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                  aria-label="Launch GeoMine Resource Hub live demo (opens in new tab)"
+                >
+                  <span>Live Demo</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
                 </a>
               )}
             </div>
@@ -158,123 +172,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Right Column (lg:col-span-6): Large Editorial Architectural Interface Preview */}
+        {/* Right Column (lg:col-span-6): Screenshot Gallery & Interface Views */}
         <div className="lg:col-span-6 space-y-3.5 lg:sticky lg:top-24">
-          <div className="relative group">
-            {/* Ambient Background Aura */}
-            <div
-              className="absolute -inset-1.5 bg-gradient-to-tr from-[#D4AF37]/15 via-transparent to-[#D4AF37]/5 rounded-2xl blur-xl opacity-40 group-hover:opacity-70 transition duration-700 pointer-events-none"
-              aria-hidden="true"
-            />
-
-            {/* Architectural Interface Container */}
-            <div className="relative rounded-xl border border-white/[0.12] bg-[#0A0A0A] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-300 group-hover:border-[#D4AF37]/45">
-              {/* Window Bar Header */}
-              <div className="px-4 py-3 bg-[#050505] border-b border-white/[0.08] flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                  <span className="ml-2 font-mono text-[10.5px] text-[#9C988F] tracking-wider uppercase select-none">
-                    geomine.portal.internal / v1.0.0
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono text-[9.5px] text-[#D4AF37] bg-[#D4AF37]/10 px-2.5 py-0.5 rounded-full border border-[#D4AF37]/25">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-                  <span>20/20 Suites (153 Tests)</span>
-                </div>
-              </div>
-
-              {/* Interface Body */}
-              <div className="p-4 sm:p-5 bg-gradient-to-b from-[#0A0A0A] to-[#040404] space-y-4">
-                {/* Search & Academic Context Header */}
-                <div className="p-3 rounded-lg bg-black/60 border border-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#E6E1D3]">
-                    <span className="w-2 h-2 rounded-xs bg-[#D4AF37]" />
-                    <span className="font-medium">Undergraduate Course Catalog</span>
-                    <span className="text-white/20">/</span>
-                    <span className="text-[#D4AF37]">Year 03 · Semester 05</span>
-                  </div>
-                  <div className="font-mono text-[9.5px] text-[#9C988F] bg-white/[0.04] px-2.5 py-1 rounded border border-white/5">
-                    Curriculum Portal Archive
-                  </div>
-                </div>
-
-                {/* 2-Column Split: Curriculum Tree & Course Card Preview */}
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                  {/* Left Column: 8-Semester Hierarchy Tree */}
-                  <div className="sm:col-span-4 p-3 rounded-lg bg-black/45 border border-white/[0.06] space-y-2 font-mono">
-                    <div className="text-[9.5px] uppercase tracking-wider text-[#9C988F]">
-                      Curriculum Tree
-                    </div>
-                    <div className="space-y-1 text-white/50 text-[10px]">
-                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 1 (Sem 1–2)</div>
-                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 2 (Sem 3–4)</div>
-                      <div className="px-2 py-1 rounded bg-[#D4AF37]/15 text-[#D4AF37] font-medium border border-[#D4AF37]/35 flex items-center justify-between">
-                        <span>Year 3 (Sem 5–6)</span>
-                        <span className="text-[8px]">●</span>
-                      </div>
-                      <div className="px-2 py-1 rounded bg-white/[0.02]">Year 4 (Sem 7–8)</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Active Course Resource Card Simulation */}
-                  <div className="sm:col-span-8 p-3.5 rounded-lg bg-black/70 border border-white/[0.08] space-y-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <span className="font-mono text-[9.5px] text-[#D4AF37] tracking-wider uppercase block">
-                          Course Module · G&amp;M 301
-                        </span>
-                        <h5 className="font-serif text-sm sm:text-base text-[#F3F0E8] font-normal leading-snug">
-                          Hydrogeology &amp; Aquifer Dynamics
-                        </h5>
-                      </div>
-                      <span className="font-mono text-[9px] text-[#9C988F] bg-white/[0.04] px-2 py-0.5 rounded border border-white/5 shrink-0">
-                        14 Course Files
-                      </span>
-                    </div>
-
-                    {/* In-Browser PDF Document Slice */}
-                    <div className="p-2.5 rounded bg-[#060606] border border-white/[0.07] flex items-center justify-between text-[10.5px] font-mono text-[#E6E1D3]">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <FileText className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
-                        <span className="truncate">Hydrogeology_Aquifer_Pumping.pdf</span>
-                      </div>
-                      <span className="text-[#D4AF37] text-[9px] uppercase tracking-wider shrink-0 ml-2">
-                        In-Browser Viewer
-                      </span>
-                    </div>
-
-                    {/* Architecture Feature Chips */}
-                    <div className="grid grid-cols-2 gap-2 text-[9px] font-mono text-[#9C988F]">
-                      <div className="p-2 rounded bg-white/[0.02] border border-white/5">
-                        <span className="text-[#E6E1D3] block font-medium">CR Upload Workflow</span>
-                        Role-scoped validation
-                      </div>
-                      <div className="p-2 rounded bg-white/[0.02] border border-white/5">
-                        <span className="text-[#E6E1D3] block font-medium">Dual DB Architecture</span>
-                        SQLite local · Postgres prod
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Technical Architecture Footnote */}
-                <div className="pt-2.5 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-[#9C988F]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                    <span>Next.js 16 (App Router) · React 19 · Prisma</span>
-                  </div>
-                  <span className="text-[9.5px] text-[#D4AF37]/80">Zero-Friction Document Navigation</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Project Preview Caption */}
-          <p className="text-center sm:text-right font-mono text-[10px] tracking-[0.16em] uppercase text-[#9C988F]/70 select-none">
-            [ GeoMine Application Interface Preview ]
-          </p>
+          <GeoMineGallery />
         </div>
       </div>
     </article>
