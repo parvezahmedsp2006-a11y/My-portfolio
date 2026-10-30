@@ -93,7 +93,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
     name: "Parvez Ahmed",
     headline: "Undergraduate in Geology & Mining · Aspiring Full-Stack Developer",
     subheadline:
-      "Undergraduate student in Geology & Mining at the University of Rajshahi with a keen interest in earth processes and modern web development. Building practical tools and working toward becoming a full-stack developer.",
+      "Undergraduate student in Geology & Mining with a keen interest in earth processes and modern web development. Building practical tools and working toward becoming a full-stack developer.",
     department: "Department of Geology and Mining",
     institution: "University of Rajshahi",
     program: "B.Sc. (Hons.) in Geology and Mining",
@@ -184,13 +184,13 @@ export const PORTFOLIO_DATA: PortfolioData = {
       id: "geomine",
       title: "GeoMine Resource Hub",
       category: "Full-Stack Web Application · Educational Platform",
-      subtitle: "Departmental Academic Resource Platform for Geology & Mining Students",
+      subtitle: "Academic Resource Platform for Coursework & Materials",
       description:
-        "A full-stack web application designed to help geology and mining students easily access course materials, lecture notes, syllabi, and academic resources in one organized portal.",
+        "A full-stack web application designed to help students easily access course materials, lecture notes, syllabi, and academic resources in one organized portal.",
       role: "Creator & Developer",
       timeline: "Personal Project · Ongoing Development",
       problemStatement:
-        "Departmental study materials, past exam questions, and lecture slides were often scattered across informal chat groups and unorganized personal drives. GeoMine Resource Hub centralizes these resources into a structured, searchable catalog aligned with the department's syllabus.",
+        "Course study materials, past exam questions, and lecture slides were often scattered across informal chat groups and unorganized personal drives. GeoMine Resource Hub centralizes these resources into a structured, searchable catalog aligned with the curriculum syllabus.",
       verifiedContributions: [
         {
           title: "Full-Stack Application Architecture",
@@ -395,7 +395,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         {
           name: "Geological Field Measurement",
           level: "Familiar With",
-          note: "Practicing compass use, strike and dip measurements, and outcrop observations in departmental excursions.",
+          note: "Practicing compass use, strike and dip measurements, and outcrop observations in field excursions.",
         },
         {
           name: "GIS & Remote Sensing",
@@ -437,9 +437,9 @@ export const PORTFOLIO_DATA: PortfolioData = {
       stage: "Undergraduate Studies & Web Foundations",
       title: "Completing Undergraduate Studies & Strengthening Web Foundations",
       description:
-        "Focusing on completing coursework in Geology & Mining at the University of Rajshahi while consistently building hands-on web projects using Next.js, React, and TypeScript.",
+        "Focusing on completing undergraduate coursework while consistently building hands-on web projects using Next.js, React, and TypeScript.",
       keyDeliverables: [
-        "Complete departmental coursework in hydrogeology, structural geology, and mineral resources.",
+        "Complete advanced coursework in hydrogeology, structural geology, and mineral resources.",
         "Maintain and refine the GeoMine Resource Hub repository with clean documentation and tests.",
         "Deepen practical understanding of backend development, API design, and database workflows.",
       ],

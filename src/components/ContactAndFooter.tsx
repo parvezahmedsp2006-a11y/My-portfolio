@@ -9,7 +9,6 @@ import {
   ArrowUp,
   Compass,
   ArrowUpRight,
-  Landmark,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
@@ -68,34 +67,34 @@ export function ContactAndFooter() {
 
         {/* Editorial Contact Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left Column: Departmental Affiliation & Academic Base */}
+          {/* Left Column: Location & Academic Profile */}
           <div className="lg:col-span-5">
             <ScrollReveal>
               <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 space-y-5 transition-colors duration-300 hover:border-white/[0.14]">
                 <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-wider text-[#D4AF37] font-medium">
-                  <Landmark className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
-                  <span>Academic Base &amp; Studies</span>
+                  <MapPin className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
+                  <span>Location &amp; Availability</span>
                 </div>
 
                 <div className="space-y-2">
                   <LetterBounceHeading
                     as="h3"
-                    text={personal.institution}
+                    text={personal.location}
                     className="font-serif text-2xl text-[#FAF8F5] font-medium sm:font-semibold leading-snug"
                     staggerMs={38}
                   />
                   <p className="text-sm sm:text-[14.5px] font-sans text-[#D4CDBC] font-normal leading-relaxed">
-                    {personal.department}
+                    Undergraduate Student &amp; Web Developer
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/[0.06] flex items-center gap-2.5 text-sm font-sans text-[#FAF8F5]">
-                  <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0" aria-hidden="true" />
-                  <span>{personal.location}</span>
+                  <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" aria-hidden="true" />
+                  <span>Open to discussions &amp; collaborations</span>
                 </div>
 
                 <p className="pt-2 text-xs sm:text-[13px] font-sans text-[#9C988F] leading-relaxed font-normal">
-                  Undergraduate student in Geology &amp; Mining at the University of Rajshahi. Always happy to discuss technology, earth sciences, and practical software projects.
+                  Always open to conversations about web development, technology, and practical digital projects.
                 </p>
               </div>
             </ScrollReveal>
@@ -195,7 +194,7 @@ export function ContactAndFooter() {
           <div className="flex items-center gap-2.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="font-normal">
-              &copy; {new Date().getFullYear()} {personal.name}. Personal portfolio · Department of Geology and Mining, University of Rajshahi.
+              &copy; {new Date().getFullYear()} {personal.name}. Personal portfolio · All rights reserved.
             </span>
           </div>
 

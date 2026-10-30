@@ -191,7 +191,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <div className="p-3 rounded-lg bg-black/60 border border-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                   <div className="flex items-center gap-2 text-xs font-mono text-[#E6E1D3]">
                     <span className="w-2 h-2 rounded-xs bg-[#D4AF37]" />
-                    <span className="font-medium">B.Sc. (Hons.) Geology &amp; Mining</span>
+                    <span className="font-medium">Undergraduate Course Catalog</span>
                     <span className="text-white/20">/</span>
                     <span className="text-[#D4AF37]">Year 03 · Semester 05</span>
                   </div>

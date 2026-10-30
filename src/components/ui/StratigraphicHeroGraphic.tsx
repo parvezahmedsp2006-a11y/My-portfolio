@@ -20,7 +20,7 @@ export function StratigraphicHeroGraphic() {
               FIGURE 01 • LITHOLOGIC PROFILE
             </span>
             <span className="hidden sm:inline-block text-[9.5px] font-sans px-1.5 py-0.2 rounded-xs bg-sage-100/80 text-sage-800 border border-sage-200/60">
-              Rajshahi Basin
+              Sedimentary Basin
             </span>
           </div>
 

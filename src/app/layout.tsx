@@ -12,11 +12,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://parvezahmed.dev"),
   title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
   description:
-    "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining at the University of Rajshahi with interests in earth processes, mineral systems, and modern web development.",
+    "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining with interests in earth processes, mineral systems, and modern web development.",
   keywords: [
     "Parvez Ahmed",
     "Geology and Mining",
-    "University of Rajshahi",
     "Earth Sciences",
     "Web Development",
     "Full-Stack Developer",
@@ -34,14 +33,14 @@ export const metadata: Metadata = {
     url: "https://parvezahmed.dev",
     title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
     description:
-      "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining at the University of Rajshahi with interests in earth processes, mineral systems, and modern web development.",
+      "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining with interests in earth processes, mineral systems, and modern web development.",
     siteName: "Parvez Ahmed Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
     description:
-      "Undergraduate student in Geology & Mining at the University of Rajshahi. Exploring earth science and modern web development.",
+      "Undergraduate student in Geology & Mining. Exploring earth science and modern web development.",
   },
   robots: {
     index: true,

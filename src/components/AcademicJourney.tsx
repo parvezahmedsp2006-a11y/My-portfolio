@@ -7,7 +7,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 export function AcademicJourney() {
-  const { personal, coursework } = PORTFOLIO_DATA;
+  const { coursework } = PORTFOLIO_DATA;
 
   return (
     <section
@@ -36,7 +36,7 @@ export function AcademicJourney() {
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Four-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, outlining foundational coursework and ongoing academic subjects.
+            Four-year undergraduate degree curriculum, outlining foundational coursework, laboratory training, and ongoing academic subjects.
           </p>
         </div>
 
@@ -47,11 +47,11 @@ export function AcademicJourney() {
               <div className="space-y-2.5">
                 <div className="inline-flex items-center gap-2 text-xs font-mono text-[#D4AF37] uppercase tracking-wider font-medium">
                   <Landmark className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" aria-hidden="true" />
-                  <span>{personal.institution} · {personal.department}</span>
+                  <span>Undergraduate Degree Foundation</span>
                 </div>
                 <LetterBounceHeading
                   as="h3"
-                  text={personal.program}
+                  text="B.Sc. (Hons.) Curriculum"
                   className="font-serif text-2xl sm:text-3xl text-[#FAF8F5] font-medium sm:font-semibold tracking-tight"
                   staggerMs={38}
                 />
@@ -120,7 +120,7 @@ export function AcademicJourney() {
                         </span>
 
                         <span className="text-[11px] font-sans text-[#7E7A72] mt-2 hidden md:block font-light">
-                          {isCompleted ? "Departmental Labs & Theory" : "In Active Progression"}
+                          {isCompleted ? "Laboratory & Theory" : "In Active Progression"}
                         </span>
                       </div>
                     </div>
@@ -183,15 +183,15 @@ export function AcademicJourney() {
                           ))}
                         </ul>
 
-                        {/* Departmental Assessment Strip */}
+                        {/* Assessment Strip */}
                         <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-[#9C988F]">
                           <span>
                             {isCompleted
-                              ? "Completed and assessed via departmental laboratory & theory examinations."
+                              ? "Completed and assessed via laboratory & theory examinations."
                               : "Core curriculum currently undertaken in active semester coursework."}
                           </span>
                           <span className="font-mono text-xs text-[#7E7A72] shrink-0 font-medium">
-                            Dept. of Geology &amp; Mining
+                            Undergraduate Program
                           </span>
                         </div>
                       </div>

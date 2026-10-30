@@ -14,7 +14,7 @@ const CATEGORY_ICONS: Record<number, React.ComponentType<{ className?: string }>
 
 const CATEGORY_FOOTERS: Record<number, string> = {
   0: "Demonstrated in the architecture and codebase of GeoMine Resource Hub and personal projects.",
-  1: "Studied through departmental lectures, laboratory practicals, and field sessions.",
+  1: "Studied through academic lectures, laboratory practicals, and field sessions.",
   2: "Practiced during ongoing development, testing, and technical documentation.",
 };
 

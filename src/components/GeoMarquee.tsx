@@ -13,7 +13,7 @@
  */
 
 const TERMS = [
-  { text: "GEOLOGY & MINING", outlined: false },
+  { text: "GEOSCIENCE", outlined: false },
   { text: "·", outlined: false, isSep: true },
   { text: "EARTH SYSTEMS", outlined: true },
   { text: "·", outlined: false, isSep: true },
