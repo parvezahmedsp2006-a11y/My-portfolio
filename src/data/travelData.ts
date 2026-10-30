@@ -33,6 +33,23 @@ export interface GalleryImage {
   height?: number;
 }
 
+export interface TravelPhoto {
+  id: string;
+  destinationId: string;
+  image: string;
+  alt: string;
+  caption: string;
+  featured: boolean;
+  visitDate?: string | null;
+}
+
+/**
+ * Featured Travel Photographs
+ * Configured authentic personal travel photography collection.
+ * When real personal photographs are added to public/images/travel/, register them here.
+ */
+export const FEATURED_TRAVEL_PHOTOS: TravelPhoto[] = [];
+
 export interface TravelStory {
   introduction: string;
   narrative: string[];

@@ -182,7 +182,8 @@ export function JourneyStatistics({ destinations }: JourneyStatisticsProps) {
   return (
     <div
       ref={containerRef}
-      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-10 sm:my-14"
+      data-testid="journey-statistics"
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-8 sm:my-10"
       aria-label="Verified Travel Statistics Summary"
     >
       {items.map((item, idx) => (

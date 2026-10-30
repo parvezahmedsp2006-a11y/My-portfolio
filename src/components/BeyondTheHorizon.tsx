@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { MapPin, ChevronRight, Plane, ArrowRight } from "lucide-react";
+import { MapPin, ChevronRight, Plane } from "lucide-react";
 import { TRAVEL_DESTINATIONS, HOME_BASE, Destination } from "@/data/travelData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 import { InteractiveEarthGlobe } from "@/components/travel/InteractiveEarthGlobe";
 import { JourneyStatistics } from "@/components/travel/JourneyStatistics";
-import { FeaturedDestinations } from "@/components/travel/FeaturedDestinations";
-import { PhotographyArchive } from "@/components/travel/PhotographyArchive";
+import { FeaturedTravelMemoriesCard } from "@/components/travel/FeaturedTravelMemoriesCard";
 import { TravelJournalModal } from "@/components/travel/TravelJournalModal";
 
-// Scenic editorial imagery themes for destination previews matching the reference image
+// Scenic editorial imagery themes for destination previews matching natural geological palettes
 const DESTINATION_THEMES: Record<
   string,
   { gradient: string; accentColor: string; fallbackImg?: string }
@@ -68,13 +67,6 @@ export function BeyondTheHorizon() {
     setActiveJournalDest(dest);
   };
 
-  const activeTheme = selectedDestination
-    ? DESTINATION_THEMES[selectedDestination.id] || {
-        gradient: "from-[#2a2216] via-[#483925] to-[#735b3c]",
-        accentColor: "#D4AF37",
-      }
-    : null;
-
   return (
     <section
       id="travel"
@@ -119,7 +111,7 @@ export function BeyondTheHorizon() {
             </p>
           </div>
 
-          {/* Cards Area: Destination List + Selected Destination Card ───────── */}
+          {/* Cards Area: Destination List + Upgraded Featured Travel Memories Card */}
           {/* Side-by-side on wide desktop (xl), stacked on narrower viewports */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 flex-1 items-start">
             {/* Card 1: My Destinations (9) List */}
@@ -188,46 +180,14 @@ export function BeyondTheHorizon() {
               </div>
             </div>
 
-            {/* Card 2: Selected Destination Showcase Card */}
-            {selectedDestination && (
-              <div className="rounded-2xl bg-[#070707] border border-white/[0.08] p-4 shadow-xl flex flex-col justify-between h-full min-h-[360px] max-h-[460px]">
-                {/* Thematic Banner / Photo Preview */}
-                <div
-                  className={`w-full h-36 rounded-xl overflow-hidden relative flex flex-col justify-end p-3.5 bg-gradient-to-br ${activeTheme?.gradient} border border-white/15 shadow-inner`}
-                >
-                  <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px]" />
-                  <div className="relative z-10">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-[#FFF4D0] border border-white/15">
-                      <MapPin className="w-2.5 h-2.5 text-[#D4AF37]" />
-                      <span>{selectedDestination.district}</span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="my-3 flex-1 flex flex-col justify-center">
-                  <h4 className="font-serif text-lg sm:text-xl text-[#FAF8F5] font-semibold leading-tight">
-                    {selectedDestination.name.replace(" (Chattogram)", "")}
-                  </h4>
-                  <p className="text-[11.5px] font-sans text-[#D4AF37] mt-0.5 mb-2 font-medium">
-                    {selectedDestination.region}, Bangladesh
-                  </p>
-                  <p className="text-xs font-sans text-[#B5ADA3] leading-relaxed line-clamp-3">
-                    {selectedDestination.shortDescription}
-                  </p>
-                </div>
-
-                {/* Explore Journey Action */}
-                <button
-                  type="button"
-                  onClick={() => handleOpenJournal(selectedDestination)}
-                  className="w-full py-2.5 px-4 rounded-xl border border-[#D4AF37]/70 text-[#FAF8F5] bg-[#D4AF37]/10 hover:bg-[#D4AF37] hover:text-black font-mono text-xs font-medium tracking-wide transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group shadow-md"
-                >
-                  <span>Explore Journey</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                </button>
-              </div>
-            )}
+            {/* Card 2: Upgraded Featured Travel Memories Card */}
+            <FeaturedTravelMemoriesCard
+              destinations={TRAVEL_DESTINATIONS}
+              selectedDestination={selectedDestination}
+              onSelectDestination={handleSelectDestination}
+              onOpenJournal={handleOpenJournal}
+              activeJournalDest={activeJournalDest}
+            />
           </div>
 
           {/* Editorial Tagline Footer */}
@@ -242,20 +202,10 @@ export function BeyondTheHorizon() {
         </div>
       </div>
 
-      {/* ── LOWER SECTIONS: Statistics + Featured Destinations + Photography ── */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 relative z-10">
-        {/* Journey Statistics */}
+      {/* ── LOWER SECTION: Journey Statistics ─────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-10 sm:py-14 relative z-10 border-t border-white/[0.04]">
+        {/* Journey Statistics (Preserved) */}
         <JourneyStatistics destinations={TRAVEL_DESTINATIONS} />
-
-        {/* Featured Destinations Showcase */}
-        <FeaturedDestinations
-          destinations={TRAVEL_DESTINATIONS}
-          onSelectDestination={handleSelectDestination}
-          onOpenJournal={handleOpenJournal}
-        />
-
-        {/* Travel Photography Archive */}
-        <PhotographyArchive destinations={TRAVEL_DESTINATIONS} />
       </div>
 
       {/* Personal Travel Journal Modal */}
