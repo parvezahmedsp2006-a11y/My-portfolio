@@ -47,16 +47,16 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p1",
     fullText:
-      "I am an undergraduate in Geology and Mining at the University of Rajshahi, studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
+      "I am an undergraduate student in Geology and Mining at the University of Rajshahi. I am drawn to understanding the Earth's physical processes, geological formations, and natural resources.",
     startDelayDesktop: 100,
     startDelayMobile: 80,
     segments: [
-      { text: "I am an undergraduate in", highlight: false },
+      { text: "I am an undergraduate student in", highlight: false },
       { text: "Geology and Mining", highlight: true },
       { text: "at the", highlight: false },
-      { text: "University of Rajshahi", highlight: true, trailingPunctuation: "," },
+      { text: "University of Rajshahi", highlight: true, trailingPunctuation: "." },
       {
-        text: "studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
+        text: "I am drawn to understanding the Earth's physical processes, geological formations, and natural resources.",
         highlight: false,
       },
     ],
@@ -64,16 +64,16 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p2",
     fullText:
-      "Alongside field mapping and laboratory petrography, I built the GeoMine Resource Hub — a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
+      "Alongside earth science, I have developed a strong passion for web development. I enjoy building practical digital products, including the GeoMine Resource Hub, an educational platform I designed to organize departmental materials for students.",
     startDelayDesktop: 650,
     startDelayMobile: 440,
     segments: [
-      { text: "Alongside field mapping and", highlight: false },
-      { text: "laboratory petrography", highlight: true, trailingPunctuation: "," },
-      { text: "I built the", highlight: false },
-      { text: "GeoMine Resource Hub", highlight: true },
+      { text: "Alongside earth science, I have developed a strong passion for", highlight: false },
+      { text: "web development", highlight: true, trailingPunctuation: "." },
+      { text: "I enjoy building practical digital products, including the", highlight: false },
+      { text: "GeoMine Resource Hub", highlight: true, trailingPunctuation: "," },
       {
-        text: "— a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
+        text: "an educational platform I designed to organize departmental materials for students.",
         highlight: false,
       },
     ],
@@ -81,22 +81,21 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p3",
     fullText:
-      "My goal is to graduate with strong foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing for competitive international MSc scholarships and graduate research.",
+      "My long-term goal is to grow into a skilled full-stack developer and build my own web development business. I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
     startDelayDesktop: 1150,
     startDelayMobile: 780,
     segments: [
       {
-        text: "My goal is to graduate with strong foundations across",
+        text: "My long-term goal is to grow into a skilled",
         highlight: false,
       },
-      { text: "hydrogeology", highlight: true, trailingPunctuation: "," },
-      { text: "mineral systems", highlight: true, trailingPunctuation: "," },
-      { text: "petroleum geology", highlight: true, trailingPunctuation: "," },
-      { text: "and", highlight: false },
-      { text: "GIS", highlight: true, trailingPunctuation: "," },
-      { text: "preparing for competitive", highlight: false },
-      { text: "international MSc scholarships", highlight: true },
-      { text: "and graduate research.", highlight: false },
+      { text: "full-stack developer", highlight: true },
+      { text: "and build my own", highlight: false },
+      { text: "web development business", highlight: true, trailingPunctuation: "." },
+      {
+        text: "I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
+        highlight: false,
+      },
     ],
   },
 ];

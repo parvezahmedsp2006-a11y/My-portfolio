@@ -13,17 +13,17 @@
  */
 
 const TERMS = [
-  { text: "GEOLOGY", outlined: false },
+  { text: "GEOLOGY & MINING", outlined: false },
   { text: "·", outlined: false, isSep: true },
   { text: "EARTH SYSTEMS", outlined: true },
   { text: "·", outlined: false, isSep: true },
-  { text: "MINERAL RESOURCES", outlined: false },
+  { text: "FULL-STACK DEVELOPMENT", outlined: false },
   { text: "·", outlined: false, isSep: true },
   { text: "HYDROGEOLOGY", outlined: true },
   { text: "·", outlined: false, isSep: true },
-  { text: "GIS & REMOTE SENSING", outlined: false },
+  { text: "MINERAL RESOURCES", outlined: false },
   { text: "·", outlined: false, isSep: true },
-  { text: "FIELD TO DATA", outlined: true },
+  { text: "PRACTICAL DIGITAL TOOLS", outlined: true },
   { text: "·", outlined: false, isSep: true },
 ];
 

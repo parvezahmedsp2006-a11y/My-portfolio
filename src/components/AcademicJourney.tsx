@@ -21,7 +21,7 @@ export function AcademicJourney() {
           <div className="inline-flex items-center gap-2 mb-3.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              Curriculum Structure &amp; Progress
+              Academic Journey &amp; Curriculum
             </span>
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
@@ -36,7 +36,7 @@ export function AcademicJourney() {
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Four-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, charting completed foundational disciplines and current advanced coursework.
+            Four-year B.Sc. (Hons.) curriculum in Geology and Mining at the University of Rajshahi, outlining foundational coursework and ongoing academic subjects.
           </p>
         </div>
 
@@ -56,7 +56,7 @@ export function AcademicJourney() {
                   staggerMs={38}
                 />
                 <p className="text-[14px] sm:text-[15px] font-sans text-[#D4CDBC] font-normal max-w-2xl leading-[1.6]">
-                  Honours curriculum integrating geological field mapping, laboratory mineralogy, and computational methods for earth and resource evaluation.
+                  Undergraduate curriculum integrating geological field observation, laboratory mineralogy, and physical earth processes.
                 </p>
               </div>
 
@@ -67,7 +67,7 @@ export function AcademicJourney() {
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" aria-hidden="true" />
-                  <span className="font-semibold">Active Undergraduate Candidate</span>
+                  <span className="font-semibold">Undergraduate Student</span>
                 </div>
               </div>
             </div>

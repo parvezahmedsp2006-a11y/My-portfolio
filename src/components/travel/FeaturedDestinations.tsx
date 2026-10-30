@@ -37,13 +37,13 @@ export function FeaturedDestinations({
           />
 
           <p className="mt-2 text-sm sm:text-base font-sans text-[#D4CDBC] max-w-xl font-normal leading-relaxed">
-            Nine verified personal journeys across Bangladesh, from coastal littoral horizons to ancient Barind terraces and riverine floodplains.
+            Nine destinations visited across Bangladesh, documented through photography and travel notes from my home base in Narsingdi.
           </p>
         </div>
 
         {destinations.length > 0 && (
           <div className="text-xs font-mono text-[#9C988F] bg-white/[0.04] px-3.5 py-1.5 rounded-full border border-white/10 shrink-0 self-start sm:self-auto">
-            {destinations.length} Verified Destinations
+            {destinations.length} Destinations
           </div>
         )}
       </div>

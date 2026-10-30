@@ -47,14 +47,14 @@ export function ContactAndFooter() {
           <div className="inline-flex items-center gap-2 mb-3.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              Inquiries &amp; Collaboration
+              Get in Touch
             </span>
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
 
           <LetterBounceHeading
             id="contact-heading"
-            text="Academic Dialogue & Opportunities"
+            text="Contact & Collaboration"
             className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
             staggerMs={42}
           />
@@ -62,7 +62,7 @@ export function ContactAndFooter() {
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            I welcome academic correspondence from faculty mentors, prospective MSc research supervisors, and fellow geoscientists regarding graduate inquiry and open software collaboration.
+            I am always open to conversations about web development, academic studies in geology, practical digital tools, or collaborative opportunities.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export function ContactAndFooter() {
               <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 space-y-5 transition-colors duration-300 hover:border-white/[0.14]">
                 <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-wider text-[#D4AF37] font-medium">
                   <Landmark className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
-                  <span>Institutional Affiliation &amp; Base</span>
+                  <span>Academic Base &amp; Studies</span>
                 </div>
 
                 <div className="space-y-2">
@@ -95,7 +95,7 @@ export function ContactAndFooter() {
                 </div>
 
                 <p className="pt-2 text-xs sm:text-[13px] font-sans text-[#9C988F] leading-relaxed font-normal">
-                  Active B.Sc. (Hons.) candidate connecting observational field geology with computational research. Available for research inquiries and academic correspondence.
+                  Undergraduate student in Geology &amp; Mining at the University of Rajshahi. Always happy to discuss technology, earth sciences, and practical software projects.
                 </p>
               </div>
             </ScrollReveal>
@@ -109,7 +109,7 @@ export function ContactAndFooter() {
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="space-y-1.5">
                     <span className="block text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
-                      Direct Academic Email
+                      Direct Email
                     </span>
                     <a
                       href={`mailto:${personal.email}`}
@@ -118,7 +118,7 @@ export function ContactAndFooter() {
                       {personal.email}
                     </a>
                     <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] font-normal leading-relaxed pt-1">
-                      Direct channel for MSc scholarship inquiries, graduate research opportunities, and academic collaboration.
+                      Direct channel for inquiries about web development, academic studies, or project collaborations.
                     </p>
                   </div>
 
@@ -161,13 +161,13 @@ export function ContactAndFooter() {
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="space-y-1.5">
                     <span className="block text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
-                      Verified Source &amp; Codebase
+                      GitHub &amp; Code Repositories
                     </span>
                     <span className="text-[15px] sm:text-base font-mono text-[#FAF8F5] font-medium">
                       {personal.githubUsername}
                     </span>
                     <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] font-normal leading-relaxed pt-1">
-                      Public repositories, test suites, and source code for GeoMine Resource Hub and academic tooling.
+                      Public repositories, test suites, and source code for GeoMine Resource Hub and personal projects.
                     </p>
                   </div>
 
@@ -195,7 +195,7 @@ export function ContactAndFooter() {
           <div className="flex items-center gap-2.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="font-normal">
-              &copy; {new Date().getFullYear()} {personal.name}. Verified academic &amp; research portfolio · {personal.department}.
+              &copy; {new Date().getFullYear()} {personal.name}. Personal portfolio · Department of Geology and Mining, University of Rajshahi.
             </span>
           </div>
 

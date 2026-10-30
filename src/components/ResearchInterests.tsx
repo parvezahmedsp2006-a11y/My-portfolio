@@ -31,13 +31,13 @@ export function ResearchInterests() {
             </p>
             <LetterBounceHeading
               id="research-heading"
-              text="Research Interests"
+              text="Academic & Research Interests"
               className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
               staggerMs={42}
             />
             <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
             <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-              Prospective research directions grounded in undergraduate geology and mining coursework, formulated for international MSc scholarship applications and graduate inquiry.
+              Key areas of interest explored through undergraduate studies in Geology &amp; Mining, focusing on groundwater systems, mineral resources, petroleum geology, and spatial earth observation.
             </p>
           </div>
 
@@ -107,7 +107,7 @@ export function ResearchInterests() {
                       <HelpCircle className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>
                         <span className="font-mono text-[#D4AF37] uppercase tracking-wider block mb-1 text-[11px] font-medium">
-                          Target Scientific Question:
+                          Scientific Inquiry:
                         </span>
                         <span className="font-serif italic text-[#FAF8F5] text-[15px] sm:text-base leading-relaxed block font-normal">
                           &ldquo;{interest.scientificInquiry}&rdquo;

@@ -19,7 +19,7 @@ export function TechnicalProjects() {
         {/* Section Header */}
         <div className="max-w-2xl mb-14 sm:mb-18">
           <p className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold mb-2.5">
-            Software Architecture &amp; Engineering
+            Web Development &amp; Practical Projects
           </p>
           <LetterBounceHeading
             id="projects-heading"
@@ -29,7 +29,7 @@ export function TechnicalProjects() {
           />
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" />
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Full-stack software engineering demonstrating system architecture, relational database design, accessible UI engineering, and automated test coverage.
+            Practical web applications built to address real academic challenges and strengthen my full-stack programming skills, using modern web technologies and structured data design.
           </p>
         </div>
 

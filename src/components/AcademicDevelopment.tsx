@@ -7,9 +7,9 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 const HORIZON_LABELS: Record<number, string> = {
-  0: "Active Undergraduate Stage · University of Rajshahi",
-  1: "Targeting International MSc Research Groups",
-  2: "Long-Range Trajectory & Scientific Publication",
+  0: "Current Focus · Undergraduate Studies & Web Foundations",
+  1: "Next Steps · Full-Stack Competencies & Practical Tools",
+  2: "Long-Term Vision · Digital Products & Web Business",
 };
 
 export function AcademicDevelopment() {
@@ -27,14 +27,14 @@ export function AcademicDevelopment() {
           <div className="inline-flex items-center gap-2 mb-3.5">
             <Compass className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              Strategic Roadmap &amp; Scholarship Preparation
+              Learning Journey &amp; Goals
             </span>
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
 
           <LetterBounceHeading
             id="goals-heading"
-            text="Academic Development & Future Goals"
+            text="Learning & Development Roadmap"
             className="font-serif text-3xl sm:text-4xl lg:text-[48px] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.15]"
             staggerMs={42}
           />
@@ -42,7 +42,7 @@ export function AcademicDevelopment() {
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Academic roadmap outlining near-term undergraduate milestones, international MSc scholarship targets, and long-term scientific objectives.
+            A clear roadmap detailing what I am currently studying, what I am learning in web development, and my long-term goals for building practical digital products.
           </p>
         </div>
 

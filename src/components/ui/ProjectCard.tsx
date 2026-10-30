@@ -27,7 +27,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div>
             <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
               <span className="font-mono text-[11px] text-[#D4AF37] tracking-[0.2em] uppercase font-medium bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/30">
-                01 · Featured Architecture
+                01 · Featured Project
               </span>
               <span className="text-xs font-sans text-[#E6E1D3] bg-white/[0.04] px-3 py-1 rounded-full border border-white/10 font-medium">
                 {project.status}
@@ -69,7 +69,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="space-y-3 pt-1">
             <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2 font-medium">
               <Layers className="w-4 h-4 text-[#D4AF37]" />
-              <span>Verified Engineering Contributions</span>
+              <span>Key Implemented Features</span>
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {project.verifiedContributions.slice(0, 4).map((contrib, idx) => (
@@ -97,7 +97,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="space-y-3 pt-1">
             <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] flex items-center gap-2 font-medium">
               <Database className="w-4 h-4 text-[#D4AF37]" />
-              <span>Verified Technology Stack</span>
+              <span>Technologies Used</span>
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.technologies.flatMap((t) => t.stack).map((tech, idx) => (
@@ -147,11 +147,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </div>
 
-            {/* Deployment Transparency Disclosure */}
+            {/* Deployment Status Disclosure */}
             <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs font-sans text-[#D4CDBC] flex items-start gap-2.5">
               <Info className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
               <p className="font-normal leading-relaxed text-xs sm:text-[13px]">
-                <strong className="text-[#FAF8F5] font-medium mr-1.5">Deployment Transparency:</strong>
+                <strong className="text-[#FAF8F5] font-medium mr-1.5">Project Status:</strong>
                 {project.statusNote}
               </p>
             </div>
@@ -230,7 +230,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         </h5>
                       </div>
                       <span className="font-mono text-[9px] text-[#9C988F] bg-white/[0.04] px-2 py-0.5 rounded border border-white/5 shrink-0">
-                        14 Verified Files
+                        14 Course Files
                       </span>
                     </div>
 
@@ -271,9 +271,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
 
-          {/* Truthful Architectural Caption */}
+          {/* Project Preview Caption */}
           <p className="text-center sm:text-right font-mono text-[10px] tracking-[0.16em] uppercase text-[#9C988F]/70 select-none">
-            [ Architectural Interface Schematic · Repository Verified ]
+            [ GeoMine Application Interface Preview ]
           </p>
         </div>
       </div>

@@ -7,15 +7,15 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 
 const CATEGORY_ICONS: Record<number, React.ComponentType<{ className?: string }>> = {
-  0: Compass,
-  1: Code,
+  0: Code,
+  1: Compass,
   2: BookOpen,
 };
 
 const CATEGORY_FOOTERS: Record<number, string> = {
-  0: "Evaluated via university laboratories and geological field excursions.",
-  1: "Demonstrated in the architecture and codebase of GeoMine Hub.",
-  2: "Practiced in academic coursework, seminars, and technical documentation.",
+  0: "Demonstrated in the architecture and codebase of GeoMine Resource Hub and personal projects.",
+  1: "Studied through departmental lectures, laboratory practicals, and field sessions.",
+  2: "Practiced during ongoing development, testing, and technical documentation.",
 };
 
 export function SkillsAndLearning() {
@@ -33,7 +33,7 @@ export function SkillsAndLearning() {
           <div className="inline-flex items-center gap-2 mb-3.5">
             <Layers className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              Technical &amp; Methodological Competencies
+              Technical &amp; Academic Skills
             </span>
             <div className="w-10 h-px bg-white/15" aria-hidden="true" />
           </div>
@@ -48,7 +48,7 @@ export function SkillsAndLearning() {
           <div className="w-14 h-0.5 bg-[#D4AF37] mt-4" aria-hidden="true" />
 
           <p className="mt-4 text-[15px] sm:text-base lg:text-[17px] font-sans text-[#D4CDBC] leading-[1.65] font-normal">
-            Technical inventory distinguishing established field competencies and software engineering capabilities from skills in active development.
+            An honest overview of technologies I actively use in web development, concepts studied in my geology degree, and areas under current exploration.
           </p>
         </div>
 
@@ -56,19 +56,23 @@ export function SkillsAndLearning() {
         <ScrollReveal>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2.5 pb-6 mb-12 sm:mb-14 border-b border-white/[0.08] text-xs font-mono">
             <span className="text-[#D4AF37] uppercase tracking-wider font-semibold text-[11px]">
-              Proficiency Framework:
+              Status Framework:
             </span>
             <div className="inline-flex items-center gap-2 text-[#FAF8F5] font-medium">
               <span className="w-1.5 h-1.5 rotate-45 bg-[#D4AF37]" aria-hidden="true" />
-              <span>Core Foundation (Fieldwork &amp; Curriculum)</span>
+              <span>Currently Using (Active stack)</span>
             </div>
             <div className="inline-flex items-center gap-2 text-[#FAF8F5] font-medium">
               <span className="w-1.5 h-1.5 rotate-45 bg-[#E5C378]" aria-hidden="true" />
-              <span>Proficient (Solid implementation capability)</span>
+              <span>Learning (Active study)</span>
+            </div>
+            <div className="inline-flex items-center gap-2 text-[#FAF8F5] font-medium">
+              <span className="w-1.5 h-1.5 rotate-45 bg-white/60" aria-hidden="true" />
+              <span>Familiar With (Coursework &amp; theory)</span>
             </div>
             <div className="inline-flex items-center gap-2 text-[#D4CDBC]">
               <span className="w-1.5 h-1.5 rotate-45 border border-white/40 bg-transparent" aria-hidden="true" />
-              <span>Developing (Ongoing study &amp; refinement)</span>
+              <span>Planning to Explore (Upcoming)</span>
             </div>
           </div>
         </ScrollReveal>
@@ -105,10 +109,14 @@ export function SkillsAndLearning() {
                     <ul className="space-y-4" role="list">
                       {skillGroup.items.map((item, sIdx) => {
                         let badgeClass = "text-[#9C988F] bg-white/[0.03] border-white/10";
-                        if (item.level === "Core Foundation") {
+                        if (item.level === "Currently Using") {
                           badgeClass = "text-[#D4AF37] bg-[#D4AF37]/10 border-[#D4AF37]/30 font-medium";
-                        } else if (item.level === "Proficient") {
+                        } else if (item.level === "Learning") {
                           badgeClass = "text-[#E5C378] bg-[#E5C378]/10 border-[#E5C378]/30 font-medium";
+                        } else if (item.level === "Familiar With") {
+                          badgeClass = "text-[#FAF8F5] bg-white/[0.05] border-white/15 font-medium";
+                        } else if (item.level === "Planning to Explore") {
+                          badgeClass = "text-[#9C988F] bg-white/[0.02] border-white/10";
                         }
 
                         return (

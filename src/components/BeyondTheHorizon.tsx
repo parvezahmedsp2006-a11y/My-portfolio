@@ -109,7 +109,7 @@ export function BeyondTheHorizon() {
             </div>
 
             <p className="text-xs sm:text-[13.5px] font-sans text-[#A8A09A] leading-relaxed max-w-xl">
-              Exploring new places, embracing new stories, and collecting memories across Bangladesh.
+              A personal record of places visited across Bangladesh, documented through photography and memories from my home base in Narsingdi.
             </p>
           </div>
 

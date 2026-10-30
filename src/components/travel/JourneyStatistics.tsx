@@ -160,14 +160,14 @@ export function JourneyStatistics({ destinations }: JourneyStatisticsProps) {
       label: "Travel Stories",
       value: stats.travelStories,
       icon: BookOpen,
-      subtext: "0 Published · Stories coming soon",
+      subtext: stats.travelStories > 0 ? `${stats.travelStories} Published` : "Stories in curation",
       highlight: "gold" as const,
     },
     {
       label: "Photographs",
       value: stats.photographs,
       icon: Camera,
-      subtext: "0 Uploaded · Photos coming soon",
+      subtext: stats.photographs > 0 ? `${stats.photographs} Personal Photos` : "Photos coming soon",
       highlight: "gold" as const,
     },
     {
@@ -184,7 +184,7 @@ export function JourneyStatistics({ destinations }: JourneyStatisticsProps) {
       ref={containerRef}
       data-testid="journey-statistics"
       className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-8 sm:my-10"
-      aria-label="Verified Travel Statistics Summary"
+      aria-label="Travel Statistics Summary"
     >
       {items.map((item, idx) => (
         <div

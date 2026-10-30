@@ -10,21 +10,21 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://parvezahmed.dev"),
-  title: "Parvez Ahmed | Geology & Mining Undergraduate & Aspiring Researcher",
+  title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
   description:
-    "Personal academic and research portfolio of Parvez Ahmed, an undergraduate Geology & Mining student at University of Rajshahi with interests in hydrogeology, mineral resources, petroleum geology, and GIS & remote sensing.",
+    "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining at the University of Rajshahi with interests in earth processes, mineral systems, and modern web development.",
   keywords: [
     "Parvez Ahmed",
     "Geology and Mining",
     "University of Rajshahi",
     "Earth Sciences",
-    "Hydrogeology",
-    "Mineral Resources",
-    "Petroleum Geology",
-    "GIS and Remote Sensing",
+    "Web Development",
+    "Full-Stack Developer",
+    "Next.js",
+    "React",
+    "TypeScript",
     "GeoMine Resource Hub",
-    "Academic Portfolio",
-    "MSc Candidate"
+    "Personal Portfolio",
   ],
   authors: [{ name: "Parvez Ahmed", url: "https://github.com/parvezahmedsp2006-a11y" }],
   creator: "Parvez Ahmed",
@@ -32,16 +32,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://parvezahmed.dev",
-    title: "Parvez Ahmed | Geology & Mining Undergraduate & Aspiring Researcher",
+    title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
     description:
-      "Academic identity, scientific research interests in hydrogeology, mineral & petroleum systems, GIS, and open academic software development by Parvez Ahmed.",
+      "Personal portfolio of Parvez Ahmed, an undergraduate student in Geology & Mining at the University of Rajshahi with interests in earth processes, mineral systems, and modern web development.",
     siteName: "Parvez Ahmed Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Parvez Ahmed | Geology & Mining Academic Portfolio",
+    title: "Parvez Ahmed | Geology & Mining Undergraduate & Web Developer",
     description:
-      "Undergraduate Geology & Mining student at University of Rajshahi. Exploring the Earth. Understanding Our Resources.",
+      "Undergraduate student in Geology & Mining at the University of Rajshahi. Exploring earth science and modern web development.",
   },
   robots: {
     index: true,

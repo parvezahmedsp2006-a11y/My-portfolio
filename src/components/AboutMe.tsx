@@ -54,9 +54,9 @@ export function AboutMe() {
   }, []);
 
   const infoMetadata = [
-    { icon: MapPin, label: "Field & Study Location", text: PORTFOLIO_DATA.personal.location },
+    { icon: MapPin, label: "Study Location", text: PORTFOLIO_DATA.personal.location },
     { icon: GraduationCap, label: "Academic Institution", text: PORTFOLIO_DATA.personal.institution },
-    { icon: Compass, label: "Academic Identity", text: "Undergraduate Earth Scientist" },
+    { icon: Compass, label: "Academic Focus", text: "Undergraduate · Geology & Mining" },
   ];
 
   const metadataDelay = isMobile ? 1100 : 1500;
@@ -78,7 +78,7 @@ export function AboutMe() {
           >
             <Compass className="w-4 h-4 text-[#D4AF37]" />
             <span className="text-xs font-sans uppercase tracking-[0.25em] text-[#D4AF37] font-semibold">
-              About The Researcher
+              Personal Introduction
             </span>
             <div className="w-10 h-px bg-white/15" />
           </div>

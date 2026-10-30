@@ -1,8 +1,9 @@
 /**
- * Academic & Research Portfolio Data
- * Centralized, verifiable data source designed for easy beginner editing.
- * Strictly reflects verified details from Parvez Ahmed's academic journey
- * and development repositories.
+ * Academic & Personal Portfolio Data
+ * Centralized, verifiable data source designed for clear, authentic presentation.
+ * Reflects verified details from Parvez Ahmed's undergraduate studies
+ * in Geology & Mining at the University of Rajshahi, personal web development
+ * projects, and future learning goals.
  */
 
 export interface ProjectCaseStudy {
@@ -46,6 +47,17 @@ export interface CourseworkPhase {
   description: string;
 }
 
+export interface SkillItem {
+  name: string;
+  level: "Currently Using" | "Learning" | "Familiar With" | "Planning to Explore";
+  note: string;
+}
+
+export interface SkillCategory {
+  category: string;
+  items: SkillItem[];
+}
+
 export interface PortfolioData {
   personal: {
     name: string;
@@ -66,14 +78,7 @@ export interface PortfolioData {
   technicalProjects: ProjectCaseStudy[];
   featuredProject: ProjectCaseStudy;
   coursework: CourseworkPhase[];
-  skills: {
-    category: string;
-    items: {
-      name: string;
-      level: "Core Foundation" | "Proficient" | "Developing";
-      note: string;
-    }[];
-  }[];
+  skills: SkillCategory[];
   futureGoals: {
     timeframe: string;
     stage: string;
@@ -86,9 +91,9 @@ export interface PortfolioData {
 export const PORTFOLIO_DATA: PortfolioData = {
   personal: {
     name: "Parvez Ahmed",
-    headline: "Exploring the Earth. Understanding Our Resources.",
+    headline: "Undergraduate in Geology & Mining · Aspiring Full-Stack Developer",
     subheadline:
-      "Undergraduate student in Geology & Mining at the University of Rajshahi, bridging field geoscience with computational problem-solving to prepare for graduate research in earth and resource sciences.",
+      "Undergraduate student in Geology & Mining at the University of Rajshahi with a keen interest in earth processes and modern web development. Building practical tools and working toward becoming a full-stack developer.",
     department: "Department of Geology and Mining",
     institution: "University of Rajshahi",
     program: "B.Sc. (Hons.) in Geology and Mining",
@@ -98,78 +103,78 @@ export const PORTFOLIO_DATA: PortfolioData = {
     location: "Rajshahi, Bangladesh",
     portraitImage: "/images/portrait/hero-portrait.png",
     portraitAlt:
-      "Artistic portrait illustration of Parvez Ahmed against a warm golden-orange sunset sphere and foliage silhouette",
+      "Portrait illustration of Parvez Ahmed against a warm sunset aesthetic",
     bioOverview: [
-      "I am an undergraduate in Geology and Mining at the University of Rajshahi, studying subsurface systems, mineral formation, and quantitative methods in earth sciences.",
-      "Alongside field mapping and laboratory petrography, I built the GeoMine Resource Hub—a full-stack platform organizing departmental curricula into a searchable, accessible digital archive.",
-      "My goal is to graduate with strong foundations across hydrogeology, mineral systems, petroleum geology, and GIS, preparing for competitive international MSc scholarships and graduate research.",
+      "I am an undergraduate student in Geology and Mining at the University of Rajshahi. I am drawn to understanding the Earth's physical processes, geological formations, and natural resources.",
+      "Alongside earth science, I have developed a strong passion for web development. I enjoy building practical digital products, including the GeoMine Resource Hub, an educational platform I designed to organize departmental materials for students.",
+      "My long-term goal is to grow into a skilled full-stack developer and build my own web development business. I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
     ],
   },
 
-  // Exactly matches the user's 4 confirmed research interests
+  // 4 Academic Interests grounded in undergraduate studies
   researchInterests: [
     {
       title: "Hydrogeology",
       shortDesc:
-        "Aquifer characterization, groundwater flow dynamics, and regional water resource sustainability.",
+        "Aquifer characteristics, groundwater flow, and regional water resource sustainability.",
       extendedDesc:
-        "Investigating aquifer hydrodynamics, recharge patterns, and hydrogeochemical factors that govern groundwater availability in alluvial basins.",
+        "Studying aquifer dynamics, recharge mechanisms, and groundwater behavior in alluvial plains to understand water sustainability.",
       focusTopics: [
-        "Sedimentary Aquifer Hydrodynamics",
-        "Groundwater Recharge & Vulnerability",
-        "Hydrogeochemical Evolution",
+        "Sedimentary Aquifer Systems",
+        "Groundwater Recharge & Flow",
+        "Water Quality & Hydrogeochemistry",
         "Alluvial Basin Water Balance",
       ],
       scientificInquiry:
-        "How do seasonal recharge variations and sediment heterogeneities control groundwater storage and quality in alluvial basins?",
+        "How do seasonal recharge variations and sediment layering influence groundwater availability and quality in alluvial basins?",
       iconName: "Droplets",
     },
     {
       title: "Mineral Resources",
       shortDesc:
-        "Economic geology, ore petrogenesis, and responsible extraction of critical minerals.",
+        "Economic geology, mineral formation, and responsible resource extraction.",
       extendedDesc:
-        "Examining the genesis, structural controls, and mineralogy of metallic and industrial deposits, balancing resource potential with environmental stewardship.",
+        "Examining the geological processes behind metallic and industrial mineral deposits, emphasizing sustainable exploration practices.",
       focusTopics: [
-        "Economic Mineralogy & Ore Petrology",
-        "Placer & Sedimentary Deposit Systems",
-        "Hydrothermal & Metamorphic Mineralization",
-        "Environmental Remediation in Mining",
+        "Economic Mineralogy & Rock Types",
+        "Placer & Sedimentary Deposits",
+        "Mineral Identification & Ore Petrology",
+        "Responsible Mineral Exploration",
       ],
       scientificInquiry:
-        "What geological and hydrodynamic mechanisms govern the concentration of heavy mineral sands in fluvial-alluvial systems?",
+        "What geological conditions and hydrodynamic processes lead to the concentration of valuable heavy minerals in river systems?",
       iconName: "Pickaxe",
     },
     {
       title: "Petroleum Geology",
       shortDesc:
-        "Sedimentary basin analysis, source rock maturation, and reservoir characterization.",
+        "Sedimentary basin formation, reservoir rocks, and subsurface energy systems.",
       extendedDesc:
-        "Analyzing petroleum system components: source-rock maturation, reservoir porosity-permeability relationships, and structural/stratigraphic trapping mechanisms.",
+        "Exploring how sedimentary basins evolve over time, how source rocks mature, and what factors determine reservoir porosity and permeability.",
       focusTopics: [
         "Sedimentary Basin Evolution",
-        "Reservoir Petrophysics & Lithofacies",
-        "Structural & Stratigraphic Trapping",
-        "Well-Log Interpretation Fundamentals",
+        "Reservoir Rocks & Porosity",
+        "Stratigraphic & Structural Trapping",
+        "Basic Well-Log Principles",
       ],
       scientificInquiry:
-        "How do diagenetic compaction and cementation govern secondary porosity and permeability in deltaic sandstones?",
+        "How do sediment compaction and mineral cementation influence fluid storage and movement in sandstone reservoirs?",
       iconName: "Flame",
     },
     {
       title: "GIS & Remote Sensing",
       shortDesc:
-        "Satellite image interpretation, digital elevation models, and spatial geoscience analysis.",
+        "Satellite imagery, digital elevation models, and spatial geological mapping.",
       extendedDesc:
-        "Applying multispectral satellite imagery, DEM surface analysis, and spatial mapping to extract structural lineaments and monitor surface changes.",
+        "Learning to use satellite imagery and digital elevation data to analyze surface landforms, structural lineaments, and geological features.",
       focusTopics: [
-        "Multispectral Geological Mapping",
-        "DEM Geomorphological Analysis",
-        "Structural Lineament Extraction",
-        "Spatial Hydrological Modeling",
+        "Satellite Image Interpretation",
+        "Digital Elevation Model (DEM) Analysis",
+        "Geological Surface Mapping",
+        "Spatial Data for Water & Land",
       ],
       scientificInquiry:
-        "How effectively can automated lineament extraction from multispectral imagery and DEMs improve structural mapping in sediment-covered plains?",
+        "How effectively can digital elevation models and satellite data assist in mapping geological structures across flat plains?",
       iconName: "Compass",
     },
   ],
@@ -178,49 +183,48 @@ export const PORTFOLIO_DATA: PortfolioData = {
     {
       id: "geomine",
       title: "GeoMine Resource Hub",
-      category: "Full-Stack Web Application · Educational Technology",
-      subtitle: "Departmental Academic Resource Platform & Document Portal",
+      category: "Full-Stack Web Application · Educational Platform",
+      subtitle: "Departmental Academic Resource Platform for Geology & Mining Students",
       description:
-        "A full-stack departmental platform that organizes geology and mining course materials, syllabi, and academic archives into an accessible digital portal.",
-      role: "Sole Creator & Full-Stack Developer",
-      timeline: "2024 – Present (Active MVP)",
+        "A full-stack web application designed to help geology and mining students easily access course materials, lecture notes, syllabi, and academic resources in one organized portal.",
+      role: "Creator & Developer",
+      timeline: "Personal Project · Ongoing Development",
       problemStatement:
-        "Course materials, examination archives, and syllabi were scattered across informal messaging groups and disconnected drives. GeoMine provides a single, searchable archive structured by official curriculum.",
+        "Departmental study materials, past exam questions, and lecture slides were often scattered across informal chat groups and unorganized personal drives. GeoMine Resource Hub centralizes these resources into a structured, searchable catalog aligned with the department's syllabus.",
       verifiedContributions: [
         {
-          title: "Full-stack application architecture",
+          title: "Full-Stack Application Architecture",
           description:
-            "Engineered with Next.js 16 App Router, React 19, TypeScript, and Prisma ORM for type-safe rendering and schema management.",
+            "Built using Next.js 16 App Router, React 19, TypeScript, and Prisma ORM for a type-safe and modular web application.",
         },
         {
-          title: "Curriculum navigation hierarchy",
+          title: "Curriculum Navigation Hierarchy",
           description:
-            "Designed an 8-semester curriculum structure (Year → Semester → Course → Resources) aligned with departmental syllabi.",
+            "Structured an 8-semester course navigation (Year → Semester → Course → Resources) mirroring the official B.Sc. (Hons.) curriculum.",
         },
         {
-          title: "In-browser PDF viewing",
+          title: "In-Browser PDF Document Viewing",
           description:
-            "Integrated zero-friction PDF previewing with zoom, fit-to-width, pagination, and direct downloading.",
+            "Integrated document previewing with zoom, page navigation, fit-to-width, and direct download capabilities.",
         },
         {
-          title: "Role-scoped upload workflow",
+          title: "Role-Based Upload Pipeline",
           description:
-            "Developed authentication allowing Course Representatives (CR) to contribute materials with administrative audit oversight.",
+            "Implemented an upload workflow allowing student Course Representatives to submit materials for administrative review.",
         },
         {
-          title: "Automated test verification",
+          title: "Automated Testing Suite",
           description:
-            "Authored 20 automated Vitest regression and unit test suites (153 passing tests) covering schema compatibility, CR authorization, and route security.",
+            "Wrote 20 Vitest test suites (153 tests) verifying database schemas, role authorization, and API route security.",
         },
       ],
       myContribution: [
-        "Engineered the full-stack web application using Next.js 16 App Router and TypeScript.",
-        "Designed normalized Prisma schemas supporting SQLite in development and PostgreSQL in production.",
-        "Built the 8-semester curriculum navigation hierarchy matching the B.Sc. (Hons.) syllabus.",
-        "Integrated an in-browser PDF viewer with instant preview, zoom, page navigation, and download.",
-        "Implemented role-aware Course Representative (CR) upload workflows with administrative controls.",
-        "Configured Google Gemini AI assistant for curriculum-grounded queries.",
-        "Authored 20 Vitest test suites (153 passing tests) covering schema, auth, and API routes.",
+        "Built the full-stack web application using Next.js 16 App Router and TypeScript.",
+        "Created normalized Prisma schemas supporting SQLite in local development and PostgreSQL for production.",
+        "Designed the 8-semester curriculum navigation matching the B.Sc. (Hons.) syllabus.",
+        "Integrated an in-browser PDF viewer with preview, zoom, page controls, and download options.",
+        "Implemented Course Representative upload workflows with administrative controls.",
+        "Wrote 20 Vitest test suites (153 passing tests) covering data models, permissions, and API endpoints.",
       ],
       technologies: [
         {
@@ -232,14 +236,14 @@ export const PORTFOLIO_DATA: PortfolioData = {
           stack: ["TypeScript", "Prisma ORM", "SQLite (Local)", "PostgreSQL (Production)"],
         },
         {
-          category: "Security & AI",
-          stack: ["Jose / JWT Authentication", "Bcrypt.js", "Google Gemini AI API"],
+          category: "Security & Testing",
+          stack: ["JWT Authentication", "Bcrypt.js", "Vitest (153 Tests)"],
         },
       ],
       status: "Completed MVP",
       statusNote:
-        "Verified local MVP with 20 automated test suites (153 passing tests) passing cleanly; active open-source repository on GitHub. Tested in local development; cloud deployment pending institutional server allocation.",
-      testSuiteEvidence: "20 passing regression and unit test suites (153 tests) across schema, auth, and API routes",
+        "Developed and verified in local development with 20 Vitest test suites (153 tests). The complete source code is maintained on GitHub; live server deployment is planned.",
+      testSuiteEvidence: "20 passing test suites (153 unit and integration tests) verifying database models, authentication, and API endpoints",
       githubUrl: "https://github.com/parvezahmedsp2006-a11y/geo-mine-resource-hub",
       keyFeatures: [
         {
@@ -250,34 +254,34 @@ export const PORTFOLIO_DATA: PortfolioData = {
         {
           title: "In-Browser PDF Viewer",
           description:
-            "Zero-friction document preview with zoom, fit-to-width, pagination, and direct download capabilities.",
+            "Direct document preview with zoom, fit-to-width, pagination, and downloading options.",
         },
         {
-          title: "Course Representative Upload Pipeline",
+          title: "Course Representative Upload Workflow",
           description:
-            "Semester-scoped upload permissions allowing student CRs to upload course slides with admin review.",
+            "Allows student representatives to submit slides and lecture notes with administrative review.",
         },
         {
-          title: "Multi-Facet Resource Filtering",
+          title: "Structured Resource Search",
           description:
-            "Real-time search across course codes, categories (Lecture Notes, Exam Questions, Lab Manuals), and file formats.",
+            "Filter materials by course code, material type (Notes, Questions, Lab Guides), and file format.",
         },
       ],
       technicalDecisions: [
         {
           title: "Dual Database Strategy",
           detail:
-            "Designed Prisma schemas for local SQLite zero-friction development alongside idempotent PostgreSQL production migrations.",
+            "Configured Prisma schemas for fast local development with SQLite and reproducible PostgreSQL migrations for production.",
         },
         {
-          title: "Granular Role-Based Access",
+          title: "Role-Scoped Access Control",
           detail:
-            "Enforced strict server-side role validation preventing author spoofing and scoping CR file management strictly to their assigned academic semester.",
+            "Enforced server-side checks so student representatives can only upload to their assigned semesters, preventing unauthorized edits.",
         },
         {
-          title: "Accessible Editorial Aesthetic",
+          title: "Accessible and Clean Interface",
           detail:
-            "Developed mineral-toned accessible design tokens achieving WCAG 2.1 AA compliance with high-contrast typography and keyboard navigation.",
+            "Designed a clean, readable user interface with strong contrast, clear typography, and keyboard navigation.",
         },
       ],
     },
@@ -293,7 +297,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
       academicYear: "1st Year Undergraduate",
       status: "Completed Coursework",
       description:
-        "Established core observational and physical principles of planetary systems, crystal structures, and geomorphic landforms.",
+        "Built core foundational knowledge of physical geological processes, landform development, and mineral crystal structures.",
       topics: [
         "Physical & General Geology",
         "Mineralogy & Crystallography",
@@ -306,7 +310,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
       academicYear: "2nd Year Undergraduate",
       status: "Completed Coursework",
       description:
-        "Deepened understanding of rock formations, deformation tectonics, sedimentary history, and fossil records.",
+        "Deepened understanding of rock formations, deformation tectonics, sedimentary layering, and fossil records.",
       topics: [
         "Sedimentary & Metamorphic Petrology",
         "Structural Geology & Tectonics",
@@ -315,11 +319,11 @@ export const PORTFOLIO_DATA: PortfolioData = {
       ],
     },
     {
-      category: "Applied & Quantitative Geosciences",
+      category: "Applied & Practical Geosciences",
       academicYear: "3rd & 4th Year Undergraduate",
       status: "Current / Upcoming Coursework",
       description:
-        "Applying geological principles to subsurface fluid dynamics, energy exploration, spatial mapping, and mining operations.",
+        "Applying geological principles to groundwater systems, energy resources, spatial mapping, and mining operations.",
       topics: [
         "Hydrogeology & Groundwater Resources",
         "Mining Geology & Mineral Economics",
@@ -331,97 +335,97 @@ export const PORTFOLIO_DATA: PortfolioData = {
 
   skills: [
     {
-      category: "Geological Field & Laboratory Competencies",
+      category: "Web Development & Programming",
       items: [
         {
-          name: "Strike & Dip Measurement (Brunton Compass)",
-          level: "Core Foundation",
-          note: "Regularly practiced during departmental field mapping and strike/dip exercises.",
+          name: "Next.js 16 & React 19",
+          level: "Currently Using",
+          note: "Building full-stack projects using the App Router, server components, and responsive layouts.",
         },
         {
-          name: "Hand-Specimen Mineral & Rock Identification",
-          level: "Core Foundation",
-          note: "Trained on physical diagnostic properties: hardness, streak, cleavage, and luster.",
+          name: "TypeScript & JavaScript",
+          level: "Currently Using",
+          note: "Writing type-safe code, explicit interfaces, and asynchronous functions.",
         },
         {
-          name: "Stratigraphic Column & Litholog Preparation",
-          level: "Proficient",
-          note: "Prepared sedimentary lithologs recording grain size, bedding, and sedimentary structures.",
+          name: "Tailwind CSS",
+          level: "Currently Using",
+          note: "Creating responsive, accessible, and clean user interfaces with modern styling.",
         },
         {
-          name: "Geological Field Mapping & Traverse Recording",
-          level: "Core Foundation",
-          note: "Field excursion documentation, outcrop observation, and spatial traverse recording.",
+          name: "Prisma ORM & SQL Databases",
+          level: "Currently Using",
+          note: "Defining database schemas, handling relationships, and running migrations with SQLite and PostgreSQL.",
         },
         {
-          name: "Petrographic Microscope Inspection",
-          level: "Developing",
-          note: "Examining thin-sections under plane-polarized and cross-polarized light.",
+          name: "Git & GitHub",
+          level: "Currently Using",
+          note: "Managing version control, branches, atomic commits, and maintaining open-source code.",
         },
         {
-          name: "GIS & Remote Sensing Spatial Analysis",
-          level: "Developing",
-          note: "Active study of satellite imagery band combinations and digital elevation models.",
+          name: "Python",
+          level: "Learning",
+          note: "Studying basic scripting and data manipulation for geological and computational datasets.",
         },
       ],
     },
     {
-      category: "Computational & Software Engineering",
+      category: "Geological Knowledge & Fieldwork",
       items: [
         {
-          name: "Next.js 16 & React 19 (App Router)",
-          level: "Proficient",
-          note: "Primary stack used in building GeoMine Resource Hub and personal academic platforms.",
+          name: "Physical Geology & Geomorphology",
+          level: "Familiar With",
+          note: "Understanding earth surface dynamics, weathering processes, and landscape evolution.",
         },
         {
-          name: "TypeScript & Modern JavaScript",
-          level: "Proficient",
-          note: "Strong typing, interfaces, and strict type safety across full-stack applications.",
+          name: "Mineralogy & Optical Petrology",
+          level: "Familiar With",
+          note: "Identifying hand-specimen minerals and examining rock thin-sections under petrographic microscopes.",
         },
         {
-          name: "Tailwind CSS & Accessible UI Systems",
-          level: "Proficient",
-          note: "Building editorial, responsive, WCAG-compliant design systems with high contrast.",
+          name: "Structural Geology & Stratigraphy",
+          level: "Familiar With",
+          note: "Studying rock deformation, faults, folds, and sedimentary layer sequences.",
         },
         {
-          name: "Prisma ORM & SQL Database Modeling",
-          level: "Proficient",
-          note: "Relational database schema normalization, indexing, and migration pipelines.",
+          name: "Hydrogeology & Water Resources",
+          level: "Learning",
+          note: "Studying aquifer properties, groundwater flow mechanisms, and water resource management.",
         },
         {
-          name: "Git Version Control & GitHub Workflows",
-          level: "Core Foundation",
-          note: "Branching, atomic commits, pull requests, and open-source project maintenance.",
+          name: "Geological Field Measurement",
+          level: "Familiar With",
+          note: "Practicing compass use, strike and dip measurements, and outcrop observations in departmental excursions.",
         },
         {
-          name: "Python for Geoscience Data Handling",
-          level: "Developing",
-          note: "Learning data manipulation libraries (NumPy, Pandas) for geological datasets.",
+          name: "GIS & Remote Sensing",
+          level: "Planning to Explore",
+          note: "Exploring satellite imagery and spatial data tools for geological mapping and environmental monitoring.",
         },
       ],
     },
     {
-      category: "Academic & Communication Competencies",
+      category: "Tools & Working Practices",
       items: [
         {
-          name: "Academic Curriculum Organization",
-          level: "Core Foundation",
-          note: "Proven by structuring the 8-semester Geology & Mining syllabus into GeoMine Hub.",
+          name: "VS Code & Development Tools",
+          level: "Currently Using",
+          note: "Primary working environment for TypeScript, React, and Next.js development.",
         },
         {
-          name: "Technical Documentation & Markdown",
-          level: "Core Foundation",
-          note: "Authoring comprehensive READMEs, schema documentation, and technical case studies.",
+          name: "Automated Testing (Vitest)",
+          level: "Currently Using",
+          note: "Writing unit and integration test suites to verify database queries and API endpoints.",
         },
         {
-          name: "Scientific Literature Review",
-          level: "Proficient",
-          note: "Reading and summarizing peer-reviewed papers in hydrogeology and basin geology.",
+          name: "Technical Documentation",
+          level: "Currently Using",
+          note: "Documenting application architecture, setup guides, and repository READMEs clearly.",
         },
         {
-          name: "Peer Seminar & Academic Presentations",
-          level: "Proficient",
-          note: "Delivering clear departmental seminar presentations on earth-science topics.",
+          name: "Curriculum Organization",
+          level: "Currently Using",
+          note: "Structuring complex academic course materials logically, demonstrated in the GeoMine Resource Hub.",
         },
       ],
     },
@@ -430,37 +434,38 @@ export const PORTFOLIO_DATA: PortfolioData = {
   futureGoals: [
     {
       timeframe: "Near-Term",
-      stage: "Undergraduate Completion",
-      title: "Undergraduate Completion & Field Capstone",
+      stage: "Undergraduate Studies & Web Foundations",
+      title: "Completing Undergraduate Studies & Strengthening Web Foundations",
       description:
-        "Complete upper-level coursework in hydrogeology, petroleum systems, and mining geology while conducting departmental field mapping.",
+        "Focusing on completing coursework in Geology & Mining at the University of Rajshahi while consistently building hands-on web projects using Next.js, React, and TypeScript.",
       keyDeliverables: [
-        "Complete geological mapping report with cross-sections.",
-        "Maintain strong academic standing for graduate admissions.",
-        "Finalize documentation and open-source release of GeoMine Resource Hub.",
+        "Complete departmental coursework in hydrogeology, structural geology, and mineral resources.",
+        "Maintain and refine the GeoMine Resource Hub repository with clean documentation and tests.",
+        "Deepen practical understanding of backend development, API design, and database workflows.",
       ],
     },
     {
       timeframe: "Medium-Term",
-      stage: "MSc Scholarship Applications",
-      title: "Graduate Admissions & MSc Scholarships",
+      stage: "Full-Stack Development & Practical Tools",
+      title: "Full-Stack Competencies & Practical Digital Products",
       description:
-        "Apply for international MSc scholarship programs in Earth Sciences and Hydrogeology with dedicated subsurface research groups.",
+        "Advancing toward becoming a full-stack developer by building practical digital products, mastering backend architecture, and understanding production deployments.",
       keyDeliverables: [
-        "Develop a focused research proposal in basin hydrogeology.",
-        "Connect with prospective graduate research supervisors.",
-        "Complete graduate admissions requirements (IELTS/GRE).",
+        "Master advanced full-stack concepts, including serverless architecture, authentication, and caching.",
+        "Build and deploy practical web applications that solve specific problems for students and everyday users.",
+        "Gain experience with cloud hosting platforms and automated continuous integration workflows.",
       ],
     },
     {
       timeframe: "Long-Term",
-      stage: "Scientific Research Career",
-      title: "Scientific Research & Academic Contribution",
+      stage: "Digital Products & Web Development Business",
+      title: "Building Practical Products & Developing a Web Business",
       description:
-        "Contribute to international research on groundwater sustainability, sedimentary basin dynamics, and computational geoscience tools.",
+        "Applying combined problem-solving skills to build sustainable digital products and establish an independent web development business, alongside a lifelong appreciation for earth sciences.",
       keyDeliverables: [
-        "Publish findings in peer-reviewed geological and hydrological journals.",
-        "Develop open-access software tools for geoscience education.",
+        "Develop independent web products that provide tangible value to clients and communities.",
+        "Establish an independent web development business focused on modern, accessible, and reliable software.",
+        "Continue connecting real-world problem solving with modern software engineering.",
       ],
     },
   ],
