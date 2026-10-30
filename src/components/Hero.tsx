@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ArrowDown, FileDown } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
 import { Hero3DPortrait } from "@/components/ui/Hero3DPortrait";
@@ -31,7 +32,7 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
     { name: "Research", href: "#research" },
     { name: "Projects", href: "#projects" },
     { name: "Skills", href: "#skills" },
-    { name: "Travel", href: "#travel" },
+    { name: "Field Journey", href: "#field-journey" },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -41,7 +42,7 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
       aria-label="Portfolio Introduction and Identity"
       className="relative min-h-0 lg:min-h-screen bg-[#000000] text-[#F3F0E8] flex flex-col justify-start lg:justify-between pt-6 sm:pt-11 lg:pt-14 pb-10 sm:pb-16 lg:pb-20 overflow-hidden"
     >
-      {/* Top Header Region (Matching Reference Layout) */}
+      {/* Top Header Region */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full">
         {/* Enormous Gold Calligraphic Wordmark (Centered in Upper Region with Letter Bounce) */}
         <div className="text-center pt-1 sm:pt-4 pointer-events-none select-none">
@@ -54,10 +55,48 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
           />
         </div>
 
-        {/* Small, Discreet Horizontal Navigation Row (Below Wordmark, Aligned Right) */}
+        {/* One-Line Academic Introduction (Under Name) */}
+        <p className="mt-3.5 sm:mt-4 text-center text-sm sm:text-base lg:text-[16.5px] font-sans text-[#D4CDBC] max-w-2xl mx-auto leading-relaxed font-normal">
+          {PORTFOLIO_DATA.personal.academicIntro}
+        </p>
+
+        {/* Hero Academic CTA Buttons: View Research & Projects + Download CV */}
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-5 sm:mt-6">
+          <a
+            href="#research"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-sans font-semibold bg-[#D4AF37] text-black hover:bg-[#E5C378] transition-colors shadow-md focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+          >
+            <span>View Research &amp; Projects</span>
+            <ArrowDown className="w-3.5 h-3.5" aria-hidden="true" />
+          </a>
+
+          {PORTFOLIO_DATA.personal.cvAvailable ? (
+            <a
+              href={PORTFOLIO_DATA.personal.cvUrl}
+              download
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-sans font-medium border border-white/15 bg-white/[0.04] text-[#FAF8F5] hover:bg-white/[0.08] hover:border-[#D4AF37]/50 transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+            >
+              <FileDown className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
+              <span>Download CV</span>
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              title="Academic CV being prepared — coming soon"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-sans font-medium border border-white/10 bg-white/[0.02] text-[#9C988F] opacity-75 cursor-not-allowed"
+              aria-label="Download CV (CV coming soon)"
+            >
+              <FileDown className="w-3.5 h-3.5 text-[#9C988F]" aria-hidden="true" />
+              <span>Download CV (Coming Soon)</span>
+            </button>
+          )}
+        </div>
+
+        {/* Small, Discreet Horizontal Navigation Row (Below Wordmark & CTAs, Aligned Right) */}
         <nav
           aria-label="Hero Navigation"
-          className="relative z-30 pointer-events-auto flex flex-wrap justify-center sm:justify-end items-center gap-x-2.5 sm:gap-x-7 lg:gap-x-8 gap-y-1.5 sm:gap-y-2 mt-3 sm:mt-6 text-xs sm:text-[13.5px] font-sans font-medium"
+          className="relative z-30 pointer-events-auto flex flex-wrap justify-center sm:justify-end items-center gap-x-2.5 sm:gap-x-7 lg:gap-x-8 gap-y-1.5 sm:gap-y-2 mt-5 sm:mt-7 text-xs sm:text-[13.5px] font-sans font-medium"
         >
           {navItems.map((item, idx) => {
             const isHome = idx === 0;

@@ -17,7 +17,7 @@ const NAV_LINKS: NavLinkItem[] = [
   { name: "Research", href: "#research", id: "research" },
   { name: "Projects", href: "#projects", id: "projects" },
   { name: "Skills", href: "#skills", id: "skills" },
-  { name: "Travel", href: "#travel", id: "travel" },
+  { name: "Field Journey", href: "#field-journey", id: "field-journey" },
   { name: "Contact", href: "#contact", id: "contact" },
 ];
 
@@ -97,7 +97,7 @@ export function Navbar() {
 
   // IntersectionObserver for reliable active section tracking
   useEffect(() => {
-    const sectionIds = ["hero", "about", "journey", "research", "projects", "skills", "goals", "travel", "contact"];
+    const sectionIds = ["hero", "about", "journey", "research", "projects", "skills", "goals", "field-journey", "travel", "contact"];
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
       const visibleEntries = entries.filter((entry) => entry.isIntersecting);

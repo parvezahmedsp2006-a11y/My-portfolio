@@ -5,12 +5,12 @@ import Image from "next/image";
 
 interface Hero3DPortraitProps {
   className?: string;
-  priority?: boolean;
+  preload?: boolean;
 }
 
 export function Hero3DPortrait({
   className = "",
-  priority = true,
+  preload = true,
 }: Hero3DPortraitProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -133,7 +133,7 @@ export function Hero3DPortrait({
               src="/images/portrait/hero-portrait.png"
               alt="Artistic portrait illustration of Parvez Ahmed against a warm golden-orange sunset sphere and foliage silhouette"
               fill
-              priority={priority}
+              preload={preload}
               className="object-contain object-center"
               sizes="(max-width: 640px) 180px, (max-width: 1024px) 280px, 390px"
             />
