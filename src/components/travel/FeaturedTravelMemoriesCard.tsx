@@ -98,7 +98,10 @@ export function FeaturedTravelMemoriesCard({
     if (selectedDestination) {
       // Direct destination photos
       const fromFeatured = FEATURED_TRAVEL_PHOTOS.filter(
-        (p) => p.destinationId === selectedDestination.id
+        (p) =>
+          p.destinationId === selectedDestination.id ||
+          p.destinationId === selectedDestination.slug ||
+          (p.destinationId === "dest-coxs-bazar" && selectedDestination.slug === "coxs-bazar")
       );
       if (fromFeatured.length > 0) return fromFeatured;
 
@@ -191,16 +194,19 @@ export function FeaturedTravelMemoriesCard({
       if (
         nextPhoto &&
         nextPhoto.destinationId &&
-        nextPhoto.destinationId !== selectedDestination?.id
+        nextPhoto.destinationId !== selectedDestination?.id &&
+        nextPhoto.destinationId !== selectedDestination?.slug
       ) {
-        const matchingDest = destinations.find((d) => d.id === nextPhoto.destinationId);
+        const matchingDest = destinations.find(
+          (d) => d.id === nextPhoto.destinationId || d.slug === nextPhoto.destinationId
+        );
         if (matchingDest) {
           isInternalChangeRef.current = true;
           onSelectDestination(matchingDest);
         }
       }
     },
-    [availablePhotos, destinations, selectedDestination?.id, onSelectDestination]
+    [availablePhotos, destinations, selectedDestination?.id, selectedDestination?.slug, onSelectDestination]
   );
 
   const handleNext = useCallback(() => {

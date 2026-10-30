@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { MapPin, ChevronRight, Plane } from "lucide-react";
 import { TRAVEL_DESTINATIONS, HOME_BASE, Destination } from "@/data/travelData";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
@@ -145,12 +146,24 @@ export function BeyondTheHorizon() {
                       }`}
                       aria-pressed={isSelected}
                     >
-                      {/* Thumbnail with thematic gradient */}
-                      <div
-                        className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] font-mono font-bold bg-gradient-to-br ${theme.gradient} border border-white/15 shadow-sm transition-transform group-hover:scale-105`}
-                      >
-                        <MapPin className="w-4 h-4 text-white/90 drop-shadow" />
-                      </div>
+                      {/* Thumbnail with authentic photograph or thematic gradient */}
+                      {dest.coverImage ? (
+                        <div className="relative w-9 h-9 rounded-lg flex-shrink-0 overflow-hidden border border-white/15 shadow-sm group-hover:scale-105 transition-transform bg-[#0a0a0a]">
+                          <Image
+                            src={dest.coverImage}
+                            alt={shortName}
+                            fill
+                            sizes="36px"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] font-mono font-bold bg-gradient-to-br ${theme.gradient} border border-white/15 shadow-sm transition-transform group-hover:scale-105`}
+                        >
+                          <MapPin className="w-4 h-4 text-white/90 drop-shadow" />
+                        </div>
+                      )}
 
                       {/* Name & Tagline */}
                       <div className="flex-1 min-w-0">

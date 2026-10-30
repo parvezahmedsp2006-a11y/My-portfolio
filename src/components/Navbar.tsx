@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
@@ -26,6 +26,9 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
 
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressTrackRef = useRef<HTMLDivElement>(null);
+
   // Track scroll position to show sticky navigation after scrolling past hero
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +37,62 @@ export function Navbar() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // High-performance document scroll progress indicator
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const updateProgress = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+      const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+      const winHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      const maxScroll = docHeight - winHeight;
+      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, scrollTop / maxScroll)) : 0;
+
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleX(${progress})`;
+      }
+      if (progressTrackRef.current) {
+        progressTrackRef.current.setAttribute("aria-valuenow", Math.round(progress * 100).toString());
+      }
+    };
+
+    const handleScrollOrResize = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        updateProgress();
+        rafId = null;
+      });
+    };
+
+    // Calculate immediately on mount
+    updateProgress();
+
+    window.addEventListener("scroll", handleScrollOrResize, { passive: true });
+    window.addEventListener("resize", handleScrollOrResize, { passive: true });
+    window.addEventListener("orientationchange", handleScrollOrResize, { passive: true });
+
+    // Handle dynamic DOM height updates (e.g., dynamic content, images loading)
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && document.body) {
+      resizeObserver = new ResizeObserver(() => {
+        handleScrollOrResize();
+      });
+      resizeObserver.observe(document.body);
+    }
+
+    return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener("scroll", handleScrollOrResize);
+      window.removeEventListener("resize", handleScrollOrResize);
+      window.removeEventListener("orientationchange", handleScrollOrResize);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
   }, []);
 
   // IntersectionObserver for reliable active section tracking
@@ -78,58 +137,83 @@ export function Navbar() {
 
   return (
     <>
-      {/* Sticky Top Header (fades in smoothly when scrolled down past hero) */}
-      <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "opacity-100 translate-y-0 bg-[#000000]/95 backdrop-blur-md border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.8)] pointer-events-auto"
-            : "opacity-0 -translate-y-2 pointer-events-none"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto px-6 lg:px-12 h-16 sm:h-18 flex items-center justify-between">
-          {/* Brand Wordmark (Small script in sticky state) */}
-          <Link
-            href="#"
-            className="calligraphic-wordmark text-2xl sm:text-3xl leading-none select-none hover:opacity-85 transition-opacity"
-            aria-label="Parvez Ahmed Homepage"
-          >
-            Parvez Ahmed
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <nav aria-label="Sticky Navigation" className="hidden md:flex items-center gap-6 lg:gap-8">
-            {NAV_LINKS.map((link) => {
-              const isActive = (link.id === "hero" && activeSection === "hero") || activeSection === link.id;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`text-xs sm:text-[13.5px] font-sans tracking-wide transition-colors duration-200 select-none font-medium ${
-                    isActive
-                      ? "text-[#D4AF37]"
-                      : "text-[#D4CDBC] hover:text-[#FAF8F5]"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {link.name}
-                </a>
-              );
-            })}
-          </nav>
-
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center md:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-sm text-[#D4AF37] hover:text-[#FFF4D0] focus-visible:outline-2 focus-visible:outline-[#D4AF37] transition-colors"
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-menu"
-              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+      {/* Sticky Top Header Container */}
+      <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
+        {/* Navigation Bar Content (fades in smoothly when scrolled down past hero) */}
+        <div
+          className={`transition-all duration-300 bg-[#000000]/95 backdrop-blur-md border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.8)] ${
+            scrolled
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-2 pointer-events-none"
+          }`}
+        >
+          <div className="max-w-6xl mx-auto px-6 lg:px-12 h-16 sm:h-18 flex items-center justify-between">
+            {/* Brand Wordmark (Small script in sticky state) */}
+            <Link
+              href="#"
+              className="calligraphic-wordmark text-2xl sm:text-3xl leading-none select-none hover:opacity-85 transition-opacity"
+              aria-label="Parvez Ahmed Homepage"
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+              Parvez Ahmed
+            </Link>
+
+            {/* Desktop Navigation Links */}
+            <nav aria-label="Sticky Navigation" className="hidden md:flex items-center gap-6 lg:gap-8">
+              {NAV_LINKS.map((link) => {
+                const isActive = (link.id === "hero" && activeSection === "hero") || activeSection === link.id;
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className={`text-xs sm:text-[13.5px] font-sans tracking-wide transition-colors duration-200 select-none font-medium ${
+                      isActive
+                        ? "text-[#D4AF37]"
+                        : "text-[#D4CDBC] hover:text-[#FAF8F5]"
+                    }`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.name}
+                  </a>
+                );
+              })}
+            </nav>
+
+            {/* Mobile Menu Toggle Button */}
+            <div className="flex items-center md:hidden">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-sm text-[#D4AF37] hover:text-[#FFF4D0] focus-visible:outline-2 focus-visible:outline-[#D4AF37] transition-colors"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu"
+                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              >
+                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Horizontal Scroll Progress Indicator (Directly underneath the navbar) */}
+        <div
+          id="scroll-progress"
+          ref={progressTrackRef}
+          data-scroll-progress-track="true"
+          role="progressbar"
+          aria-label="Page scroll progress"
+          aria-valuenow={0}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className={`absolute inset-x-0 pointer-events-none transition-[top] duration-300 ease-out h-[2px] sm:h-[2.5px] bg-[#1c1812] overflow-hidden ${
+            scrolled ? "top-16 sm:top-18" : "top-0"
+          }`}
+        >
+          <div
+            ref={progressBarRef}
+            data-scroll-progress-bar="true"
+            className="h-full w-full bg-gradient-to-r from-[#B89635] via-[#D4AF37] to-[#F3E5AB] origin-left will-change-transform shadow-[0_0_8px_rgba(212,175,55,0.4)]"
+            style={{ transform: "scaleX(0)", transformOrigin: "left center" }}
+          />
         </div>
       </header>
 

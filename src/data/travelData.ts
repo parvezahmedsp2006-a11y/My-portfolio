@@ -46,9 +46,55 @@ export interface TravelPhoto {
 /**
  * Featured Travel Photographs
  * Configured authentic personal travel photography collection.
- * When real personal photographs are added to public/images/travel/, register them here.
+ * Registered personal photographs from public/images/travel/.
  */
-export const FEATURED_TRAVEL_PHOTOS: TravelPhoto[] = [];
+export const FEATURED_TRAVEL_PHOTOS: TravelPhoto[] = [
+  {
+    id: "cb-photo-1",
+    destinationId: "dest-coxs-bazar",
+    image: "/images/travel/coxs-bazar/coxs-bazar-sunset-horizon.jpg",
+    alt: "Parvez Ahmed looking toward the sunset over the Cox's Bazar coastline and sea horizon",
+    caption: "Golden sunset over the Bay of Bengal horizon at Cox's Bazar",
+    featured: true,
+    visitDate: null,
+  },
+  {
+    id: "cb-photo-2",
+    destinationId: "dest-coxs-bazar",
+    image: "/images/travel/coxs-bazar/coxs-bazar-sea-beach-waves.jpg",
+    alt: "Parvez Ahmed with arms outstretched at the shoreline of Cox's Bazar sea beach with breaking ocean waves",
+    caption: "Ocean waves rolling onto the natural sand shore at Cox's Bazar sea beach",
+    featured: true,
+    visitDate: null,
+  },
+  {
+    id: "cb-photo-3",
+    destinationId: "dest-coxs-bazar",
+    image: "/images/travel/coxs-bazar/coxs-bazar-coastal-overlook.jpg",
+    alt: "Parvez Ahmed standing at an elevated coastal overlook overlooking the sea at Cox's Bazar",
+    caption: "Panoramic overlook of the coastline and hills in Cox's Bazar",
+    featured: true,
+    visitDate: null,
+  },
+  {
+    id: "cb-photo-4",
+    destinationId: "dest-coxs-bazar",
+    image: "/images/travel/coxs-bazar/coxs-bazar-coastal-pier.jpg",
+    alt: "Parvez Ahmed observing the waves and open sea from a coastal pier in Cox's Bazar",
+    caption: "Observing coastal waves and tides along the Bay of Bengal",
+    featured: true,
+    visitDate: null,
+  },
+  {
+    id: "cb-photo-5",
+    destinationId: "dest-coxs-bazar",
+    image: "/images/travel/coxs-bazar/coxs-bazar-cruise-deck.jpg",
+    alt: "Parvez Ahmed seated on a coastal vessel deck during a sea journey in Cox's Bazar",
+    caption: "Maritime coastal journey along the Cox's Bazar shoreline",
+    featured: true,
+    visitDate: null,
+  },
+];
 
 export interface TravelStory {
   introduction: string;
@@ -133,9 +179,40 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "The Longest Sea Beach",
     shortDescription:
       "The world's longest unbroken natural sandy sea beach, characterized by dynamic marine littoral processes and coastal cliffs along the Bay of Bengal.",
-    coverImage: null,
+    coverImage: "/images/travel/coxs-bazar/coxs-bazar-sunset-horizon.jpg",
     story: null,
-    galleryImages: [],
+    galleryImages: [
+      {
+        id: "cb-gallery-1",
+        url: "/images/travel/coxs-bazar/coxs-bazar-sunset-horizon.jpg",
+        caption: "Golden sunset over the Bay of Bengal horizon at Cox's Bazar",
+        category: "Beaches",
+      },
+      {
+        id: "cb-gallery-2",
+        url: "/images/travel/coxs-bazar/coxs-bazar-sea-beach-waves.jpg",
+        caption: "Ocean waves rolling onto the natural sand shore at Cox's Bazar sea beach",
+        category: "Beaches",
+      },
+      {
+        id: "cb-gallery-3",
+        url: "/images/travel/coxs-bazar/coxs-bazar-coastal-overlook.jpg",
+        caption: "Panoramic overlook of the coastline and hills in Cox's Bazar",
+        category: "Nature",
+      },
+      {
+        id: "cb-gallery-4",
+        url: "/images/travel/coxs-bazar/coxs-bazar-coastal-pier.jpg",
+        caption: "Observing coastal waves and tides along the Bay of Bengal",
+        category: "Beaches",
+      },
+      {
+        id: "cb-gallery-5",
+        url: "/images/travel/coxs-bazar/coxs-bazar-cruise-deck.jpg",
+        caption: "Maritime coastal journey along the Cox's Bazar shoreline",
+        category: "Adventure",
+      },
+    ],
     categories: ["Beaches", "Nature"],
     journalPublished: false,
   },
