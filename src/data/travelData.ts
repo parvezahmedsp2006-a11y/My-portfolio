@@ -115,6 +115,7 @@ export interface Destination {
   visitDate: string | null;
   tagline: string;
   shortDescription: string;
+  geologicalNote?: string; // Optional geological observation notes (marked TODO until user verification)
   coverImage: string | null;
   story: TravelStory | null;
   galleryImages: GalleryImage[];
@@ -179,6 +180,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "The Longest Sea Beach",
     shortDescription:
       "The world's longest unbroken natural sandy sea beach, characterized by dynamic marine littoral processes and coastal cliffs along the Bay of Bengal.",
+    // TODO: Verify personal coastal landform observations (marine littoral sands and coastal cliff morphology)
+    geologicalNote: "TODO: Coastal landforms, marine littoral sand dynamics, and Tertiary cliff sections along the Bay of Bengal shoreline.",
     coverImage: "/images/travel/coxs-bazar/coxs-bazar-sunset-horizon.jpg",
     story: null,
     galleryImages: [
@@ -229,6 +232,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Tea Garden Paradise",
     shortDescription:
       "The tea capital of Bangladesh, defined by rolling terraced tea estates, Lawachara rainforest ecosystems, and humid sub-tropical microclimates.",
+    // TODO: Verify geological observations on Dupi Tila formation sandstone and tea garden terracing
+    geologicalNote: "TODO: Dupi Tila sandstone formation, rolling anticlinal hillocks, and acidic permeable tea soils.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -248,6 +253,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Land of Natural Beauty",
     shortDescription:
       "Surma River basin plain bounded by the Meghalaya plateau foothills, featuring wetland haors, gravel riverbeds, and heavy monsoon runoff channels.",
+    // TODO: Verify observations on Surma basin sediments and Meghalaya piedmont gravels
+    geologicalNote: "TODO: Surma basin fluvio-deltaic sediments, wetland depression geomorphology, and piedmont alluvial gravel beds.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -267,6 +274,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "The Port City",
     shortDescription:
       "Historic maritime gateway and primary port city, uniquely situated between the tertiary anticlines of the Chittagong Hill Tracts and the Karnaphuli estuary.",
+    // TODO: Verify observations on folded Tertiary anticlinal ridges and Karnaphuli estuary
+    geologicalNote: "TODO: Folded Tertiary sandstone-shale sequences of Chittagong hills and estuarine tidal siltation.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -286,6 +295,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Where Sea Meets Sky",
     shortDescription:
       "Distinct coastal shore located 14 km south of Chattogram city center at the mouth of the Karnaphuli River meeting the open marine waters of the Bay of Bengal.",
+    // TODO: Verify coastal wave interaction and river-mouth sediment deposition
+    geologicalNote: "TODO: River-mouth deltaic deposition, coastal rip-rap stabilization, and tidal range observations.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -305,6 +316,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Land of Rivers",
     shortDescription:
       "Southern Rajshahi division plain situated along the northern banks of the Padma River, marked by expansive active river floodplains and fertile alluvial silt.",
+    // TODO: Verify observations on active Padma River braid bars and alluvial siltation
+    geologicalNote: "TODO: Active channel bar (char) morphodynamics, floodplain alluvium, and sand-silt stratification along the Padma River.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -324,6 +337,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Historical Heritage",
     shortDescription:
       "Historic Barind tract region bordering the vast Chalan Beel depression, characterized by older Pleistocene pleistocene clay terraces and inland wetland systems.",
+    // TODO: Verify Barind clay observations and Chalan Beel depression hydrology
+    geologicalNote: "TODO: Pleistocene Madhupur/Barind red-brown clay terrace soils and inland depression (beel) hydrology.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -343,6 +358,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "The Cultural City",
     shortDescription:
       "Old Brahmaputra river terrace landscape situated in north-central Bangladesh, transitioning towards the Piedmont alluvial fans beneath the Garo Hills borderland.",
+    // TODO: Verify Old Brahmaputra river terrace soils and sediment horizons
+    geologicalNote: "TODO: Old Brahmaputra floodplain terrace sequence, sandy-loam soil profiles, and regional river diversion history.",
     coverImage: null,
     story: null,
     galleryImages: [],
@@ -362,6 +379,8 @@ export const TRAVEL_DESTINATIONS: Destination[] = [
     tagline: "Rich in Heritage",
     shortDescription:
       "Eastern Bangladesh floodplain region featuring the prominent Lalmai-Mainamati anticline ridge, with uplifted red Pleistocene sediments rich in weathered iron minerals.",
+    // TODO: Verify Lalmai anticline ridge observations, weathered iron-rich clay, and terrace deposits
+    geologicalNote: "TODO: Lalmai Hills uplifted Pleistocene terrace sediments, ferricrete weathering zones, and structural anticlinal axis.",
     coverImage: null,
     story: null,
     galleryImages: [],

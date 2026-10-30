@@ -70,10 +70,13 @@ export function BeyondTheHorizon() {
 
   return (
     <section
-      id="travel"
-      aria-labelledby="travel-heading"
+      id="field-journey"
+      aria-labelledby="field-journey-heading"
       className="relative border-t border-white/[0.08] bg-[#000000] scroll-mt-16 sm:scroll-mt-20 overflow-hidden"
     >
+      {/* Anchor alias for existing #travel links */}
+      <div id="travel" className="absolute -top-20" aria-hidden="true" />
+
       {/* ── TOP SECTION: Globe (Left) + Travel Journey Atlas (Right) ─────────── */}
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
         <div className="flex flex-col lg:flex-row min-h-[580px] lg:min-h-[640px] xl:min-h-[680px] rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#020202] overflow-hidden shadow-2xl">
@@ -94,22 +97,22 @@ export function BeyondTheHorizon() {
           {/* Header Block */}
           <div className="mb-6">
             <LetterBounceHeading
-              id="travel-heading"
-              text="Beyond the Horizon"
+              id="field-journey-heading"
+              text="Field Journey"
               className="font-serif text-3xl sm:text-4xl xl:text-[42px] text-[#FAF8F5] font-semibold tracking-tight leading-tight"
               staggerMs={38}
             />
 
             <div className="flex items-center gap-3 mt-1.5 mb-3">
               <p className="font-serif italic text-lg sm:text-xl text-[#D4AF37] leading-tight">
-                My Travel Journey
+                Geological &amp; Regional Exploration
               </p>
               <div className="h-px bg-[#D4AF37]/50 flex-1 max-w-[80px]" aria-hidden="true" />
               <Plane className="w-4 h-4 text-[#D4AF37]" aria-hidden="true" />
             </div>
 
             <p className="text-xs sm:text-[13.5px] font-sans text-[#A8A09A] leading-relaxed max-w-xl">
-              A personal record of places visited across Bangladesh, documented through photography and memories from my home base in Narsingdi.
+              A personal record of places visited across Bangladesh from my home base in Narsingdi, documenting coastal landforms, regional terrain, and field memories.
             </p>
           </div>
 

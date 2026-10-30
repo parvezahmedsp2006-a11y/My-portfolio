@@ -357,7 +357,6 @@ export function FeaturedTravelMemoriesCard({
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
                 className="object-cover transition-all duration-700 ease-out transform scale-100 group-hover/photo:scale-105 animate-hero-fade"
-                priority={currentPhotoIndex === 0}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
             </div>
@@ -468,6 +467,12 @@ export function FeaturedTravelMemoriesCard({
             activeDestination?.shortDescription ||
             "Documented visited journey across Bangladesh."}
         </p>
+        {activeDestination?.geologicalNote && (
+          <div className="mt-1.5 p-1.5 px-2 rounded bg-white/[0.02] border border-white/[0.05] text-[10.5px] font-mono text-[#D4AF37]/90 leading-tight">
+            <span className="text-[#9C988F] uppercase mr-1">Field Note:</span>
+            <span>{activeDestination.geologicalNote}</span>
+          </div>
+        )}
       </div>
 
       {/* ── ACTION BUTTON: Connect to Travel Journal ───────────────────────── */}

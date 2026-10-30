@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { Globe, BookOpen, Camera, MapPin, Home } from "lucide-react";
+import { Globe, Camera, MapPin, Home } from "lucide-react";
 import { Destination, getTravelStatistics, HOME_BASE } from "@/data/travelData";
 
 interface JourneyStatisticsProps {
@@ -30,7 +30,8 @@ function StatCard({
   highlight = "gold",
 }: StatItemProps) {
   const isNumber = typeof value === "number";
-  const [displayValue, setDisplayValue] = useState<number>(0);
+  // Initialize with actual value so if JS is slow or disabled, it shows the real value immediately (no "0" glitch)
+  const [displayValue, setDisplayValue] = useState<number>(isNumber ? (value as number) : 0);
 
   useEffect(() => {
     if (!isTriggered || !isNumber) return;
@@ -157,13 +158,6 @@ export function JourneyStatistics({ destinations }: JourneyStatisticsProps) {
       highlight: "cyan" as const,
     },
     {
-      label: "Travel Stories",
-      value: stats.travelStories,
-      icon: BookOpen,
-      subtext: stats.travelStories > 0 ? `${stats.travelStories} Published` : "Stories in curation",
-      highlight: "gold" as const,
-    },
-    {
       label: "Photographs",
       value: stats.photographs,
       icon: Camera,
@@ -183,14 +177,11 @@ export function JourneyStatistics({ destinations }: JourneyStatisticsProps) {
     <div
       ref={containerRef}
       data-testid="journey-statistics"
-      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-8 sm:my-10"
-      aria-label="Travel Statistics Summary"
+      className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-8 sm:my-10"
+      aria-label="Field Journey Statistics Summary"
     >
-      {items.map((item, idx) => (
-        <div
-          key={item.label}
-          className={idx === 4 ? "col-span-2 sm:col-span-1" : ""}
-        >
+      {items.map((item) => (
+        <div key={item.label}>
           <StatCard
             label={item.label}
             value={item.value}
