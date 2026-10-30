@@ -69,6 +69,8 @@ export interface PortfolioData {
     email: string;
     githubUsername: string;
     githubUrl: string;
+    facebookUrl: string;
+    linkedinUrl: string;
     location: string;
     portraitImage: string;
     portraitAlt: string;
@@ -100,6 +102,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
     email: "parvezahmed.sp2006@gmail.com",
     githubUsername: "parvezahmedsp2006-a11y",
     githubUrl: "https://github.com/parvezahmedsp2006-a11y",
+    facebookUrl: "https://www.facebook.com/fouad.hasan.52493",
+    linkedinUrl: "https://www.linkedin.com/in/parvez-ahmed-5b66a3355/",
     location: "Rajshahi, Bangladesh",
     portraitImage: "/images/portrait/hero-portrait.png",
     portraitAlt:

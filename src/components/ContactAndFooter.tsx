@@ -11,6 +11,8 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/GithubIcon";
+import { FacebookIcon } from "@/components/ui/FacebookIcon";
+import { LinkedinIcon } from "@/components/ui/LinkedinIcon";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { LetterBounceHeading } from "@/components/ui/LetterBounceHeading";
@@ -96,6 +98,42 @@ export function ContactAndFooter() {
                 <p className="pt-2 text-xs sm:text-[13px] font-sans text-[#9C988F] leading-relaxed font-normal">
                   Always open to conversations about web development, technology, and practical digital projects.
                 </p>
+
+                {/* Quick Social Connect Bar */}
+                <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#9C988F]">
+                    Social Connect
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={personal.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded border border-white/10 bg-white/[0.02] text-[#D4CDBC] hover:text-[#D4AF37] hover:border-[#D4AF37]/50 transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                      aria-label="Visit LinkedIn profile (opens in new tab)"
+                    >
+                      <LinkedinIcon className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href={personal.facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded border border-white/10 bg-white/[0.02] text-[#D4CDBC] hover:text-[#D4AF37] hover:border-[#D4AF37]/50 transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                      aria-label="Visit Facebook profile (opens in new tab)"
+                    >
+                      <FacebookIcon className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href={personal.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded border border-white/10 bg-white/[0.02] text-[#D4CDBC] hover:text-[#D4AF37] hover:border-[#D4AF37]/50 transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                      aria-label="Visit GitHub profile (opens in new tab)"
+                    >
+                      <GithubIcon className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -174,13 +212,59 @@ export function ContactAndFooter() {
                     href={personal.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center min-h-[36px] gap-1.5 px-3.5 py-1.5 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-[#FAF8F5] transition-colors shrink-0 pt-2 sm:pt-0"
+                    className="inline-flex items-center justify-center min-h-[44px] gap-1.5 px-3.5 py-1.5 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-[#D4AF37]/50 text-[#FAF8F5] transition-colors shrink-0 pt-2 sm:pt-0"
                     aria-label="Visit GitHub Profile (opens in new tab)"
                   >
                     <GithubIcon className="w-3.5 h-3.5 text-[#FAF8F5]" />
                     <span>Visit Profile</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
                   </a>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Social & Professional Profiles Card */}
+            <ScrollReveal delayMs={240}>
+              <div className="bg-[#050505] border border-white/[0.08] p-6 sm:p-7 transition-colors duration-300 hover:border-white/[0.14]">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <span className="block text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
+                      Social &amp; Professional Profiles
+                    </span>
+                    <span className="text-[15px] sm:text-base font-serif text-[#FAF8F5] font-medium">
+                      LinkedIn &amp; Facebook
+                    </span>
+                    <p className="text-xs sm:text-[13px] font-sans text-[#D4CDBC] font-normal leading-relaxed pt-1">
+                      Connect for professional networking, career updates, and social connections.
+                    </p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0 pt-2 sm:pt-0">
+                    <a
+                      href={personal.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center min-h-[44px] gap-2 px-3.5 py-2 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-[#D4AF37]/50 text-[#FAF8F5] transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37] group"
+                      aria-label="Visit my LinkedIn profile (opens in new tab)"
+                    >
+                      <LinkedinIcon className="w-3.5 h-3.5 text-[#D4AF37] group-hover:text-[#FAF8F5] transition-colors" />
+                      <span>LinkedIn</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
+                    </a>
+
+                    <a
+                      href={personal.facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center min-h-[44px] gap-2 px-3.5 py-2 text-xs font-sans font-medium border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-[#D4AF37]/50 text-[#FAF8F5] transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37] group"
+                      aria-label="Visit my Facebook profile (opens in new tab)"
+                    >
+                      <FacebookIcon className="w-3.5 h-3.5 text-[#D4AF37] group-hover:text-[#FAF8F5] transition-colors" />
+                      <span>Facebook</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -198,11 +282,42 @@ export function ContactAndFooter() {
             </span>
           </div>
 
+          {/* Footer Social Profiles */}
+          <div className="flex items-center gap-1.5" aria-label="Social and professional profiles">
+            <a
+              href={personal.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit my LinkedIn profile (opens in new tab)"
+              className="p-2.5 min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-[#9C988F] hover:text-[#D4AF37] hover:bg-white/[0.04] rounded transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+            >
+              <LinkedinIcon className="w-4 h-4" />
+            </a>
+            <a
+              href={personal.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit my Facebook profile (opens in new tab)"
+              className="p-2.5 min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-[#9C988F] hover:text-[#D4AF37] hover:bg-white/[0.04] rounded transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+            >
+              <FacebookIcon className="w-4 h-4" />
+            </a>
+            <a
+              href={personal.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit my GitHub profile (opens in new tab)"
+              className="p-2.5 min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-[#9C988F] hover:text-[#D4AF37] hover:bg-white/[0.04] rounded transition-colors focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+            >
+              <GithubIcon className="w-4 h-4" />
+            </a>
+          </div>
+
           <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 text-[#D4CDBC] hover:text-[#D4AF37] transition-colors p-1.5 rounded focus-visible:outline-2 focus-visible:outline-[#D4AF37] cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-[#D4CDBC] hover:text-[#D4AF37] transition-colors p-2 min-h-[44px] rounded focus-visible:outline-2 focus-visible:outline-[#D4AF37] cursor-pointer"
               aria-label="Scroll back to top of page"
             >
               <span className="font-normal">Back to Top</span>
