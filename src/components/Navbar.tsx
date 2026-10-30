@@ -204,9 +204,7 @@ export function Navbar() {
           aria-valuenow={0}
           aria-valuemin={0}
           aria-valuemax={100}
-          className={`absolute inset-x-0 pointer-events-none transition-[top] duration-300 ease-out h-[2px] sm:h-[2.5px] bg-[#1c1812] overflow-hidden ${
-            scrolled ? "top-16 sm:top-18" : "top-0"
-          }`}
+          className="fixed inset-x-0 top-16 sm:top-18 pointer-events-none h-[2px] sm:h-[2.5px] bg-[#1c1812] overflow-hidden"
         >
           <div
             ref={progressBarRef}

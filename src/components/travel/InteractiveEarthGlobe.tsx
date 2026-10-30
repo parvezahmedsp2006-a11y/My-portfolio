@@ -188,6 +188,19 @@ const INITIAL_ROTATION_X = 0.417;
 const INITIAL_ROTATION_Y = Math.PI - ((90.7177 - 90) * Math.PI) / 180;
 const INITIAL_CAMERA_DISTANCE = 4.6;
 
+/**
+ * Calculates responsive base camera distance to guarantee the 3D Earth remains
+ * centered and stays within its container bounds on all aspect ratios.
+ */
+export function getResponsiveBaseZoom(w: number, h: number): number {
+  if (w <= 0 || h <= 0) return INITIAL_CAMERA_DISTANCE;
+  const aspect = w / h;
+  if (aspect >= 1.2) return INITIAL_CAMERA_DISTANCE;
+  if (aspect >= 1.0) return 4.75;
+  if (aspect >= 0.82) return 5.1;
+  return 5.45;
+}
+
 interface RouteEntry {
   destinationId: string;
   line: THREE.Line;
@@ -312,11 +325,12 @@ export function InteractiveEarthGlobe({
 
     const width = container.clientWidth || 640;
     const height = container.clientHeight || 640;
+    const baseZoom = getResponsiveBaseZoom(width, height);
 
     // 1. Scene & Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 1000);
-    camera.position.set(0, 0, INITIAL_CAMERA_DISTANCE);
+    camera.position.set(0, 0, baseZoom);
 
     // 2. Renderer with proper color management
     let renderer: THREE.WebGLRenderer;
@@ -465,8 +479,8 @@ export function InteractiveEarthGlobe({
       routeEntries: [],
       targetRotation: { x: INITIAL_ROTATION_X, y: INITIAL_ROTATION_Y },
       currentRotation: { x: INITIAL_ROTATION_X, y: INITIAL_ROTATION_Y },
-      targetZoom: INITIAL_CAMERA_DISTANCE,
-      currentZoom: INITIAL_CAMERA_DISTANCE,
+      targetZoom: baseZoom,
+      currentZoom: baseZoom,
       isUserInteracting: false,
       lastMouseX: 0,
       lastMouseY: 0,
@@ -622,6 +636,10 @@ export function InteractiveEarthGlobe({
           camera.aspect = w / h;
           camera.updateProjectionMatrix();
           renderer.setSize(w, h);
+
+          if (threeRefs.current) {
+            threeRefs.current.targetZoom = getResponsiveBaseZoom(w, h);
+          }
         }
       }
     });
@@ -1030,9 +1048,11 @@ export function InteractiveEarthGlobe({
   // Reset View Control — Restores Bangladesh front & center
   const handleResetView = () => {
     if (threeRefs.current) {
+      const w = containerRef.current?.clientWidth || 640;
+      const h = containerRef.current?.clientHeight || 640;
       threeRefs.current.targetRotation.x = INITIAL_ROTATION_X;
       threeRefs.current.targetRotation.y = INITIAL_ROTATION_Y;
-      threeRefs.current.targetZoom = INITIAL_CAMERA_DISTANCE;
+      threeRefs.current.targetZoom = getResponsiveBaseZoom(w, h);
       threeRefs.current.dragVelocity = { x: 0, y: 0 };
     }
     setZoomLevel(1);
@@ -1047,7 +1067,7 @@ export function InteractiveEarthGlobe({
       {/* ─── 3D Globe Canvas Container ───────────────────────────────────────── */}
       <div
         ref={containerRef}
-        className="relative w-full h-full min-h-[440px] sm:min-h-[520px] lg:min-h-[640px] bg-[#020202] overflow-hidden"
+        className="relative w-full h-full min-h-[440px] sm:min-h-[500px] lg:min-h-0 bg-[#020202] overflow-hidden"
         aria-label="Interactive 3D Earth Globe showing personal travel network from Narsingdi Home Base"
       >
         <canvas

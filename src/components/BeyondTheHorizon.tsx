@@ -75,21 +75,22 @@ export function BeyondTheHorizon() {
       className="relative border-t border-white/[0.08] bg-[#000000] scroll-mt-16 sm:scroll-mt-20 overflow-hidden"
     >
       {/* ── TOP SECTION: Globe (Left) + Travel Journey Atlas (Right) ─────────── */}
-      <div className="flex flex-col lg:flex-row min-h-[640px] xl:min-h-[720px] border-b border-white/[0.08]">
-        {/* ── LEFT COLUMN: 3D Earth Globe ─────────────────────────────────────── */}
-        <div className="relative w-full lg:w-[54%] xl:w-[56%] lg:flex-shrink-0 bg-[#000000] border-b lg:border-b-0 lg:border-r border-white/[0.08] flex items-center justify-center">
-          <InteractiveEarthGlobe
-            destinations={TRAVEL_DESTINATIONS}
-            homeBase={HOME_BASE}
-            selectedDestination={selectedDestination}
-            onSelectDestination={handleSelectDestination}
-            onOpenJournal={handleOpenJournal}
-            className="w-full h-full"
-          />
-        </div>
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
+        <div className="flex flex-col lg:flex-row min-h-[580px] lg:min-h-[640px] xl:min-h-[680px] rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#020202] overflow-hidden shadow-2xl">
+          {/* ── LEFT COLUMN: 3D Earth Globe ─────────────────────────────────────── */}
+          <div className="relative w-full lg:w-[50%] xl:w-[52%] lg:flex-shrink-0 bg-[#000000] border-b lg:border-b-0 lg:border-r border-white/[0.08] flex items-center justify-center min-h-[460px] sm:min-h-[520px] lg:min-h-0">
+            <InteractiveEarthGlobe
+              destinations={TRAVEL_DESTINATIONS}
+              homeBase={HOME_BASE}
+              selectedDestination={selectedDestination}
+              onSelectDestination={handleSelectDestination}
+              onOpenJournal={handleOpenJournal}
+              className="w-full h-full"
+            />
+          </div>
 
-        {/* ── RIGHT COLUMN: Editorial Travel Journey Panel ────────────────────── */}
-        <div className="relative w-full lg:w-[46%] xl:w-[44%] lg:flex-shrink-0 flex flex-col justify-between bg-[#000000] p-6 sm:p-8 xl:p-10">
+          {/* ── RIGHT COLUMN: Editorial Travel Journey Panel ────────────────────── */}
+          <div className="relative w-full lg:w-[50%] xl:w-[48%] lg:flex-shrink-0 flex flex-col justify-between bg-[#000000] p-5 sm:p-7 xl:p-8">
           {/* Header Block */}
           <div className="mb-6">
             <LetterBounceHeading
@@ -214,9 +215,10 @@ export function BeyondTheHorizon() {
           </div>
         </div>
       </div>
+    </div>
 
       {/* ── LOWER SECTION: Journey Statistics ─────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-10 sm:py-14 relative z-10 border-t border-white/[0.04]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 pb-10 sm:pb-14 relative z-10 border-t border-white/[0.04]">
         {/* Journey Statistics (Preserved) */}
         <JourneyStatistics destinations={TRAVEL_DESTINATIONS} />
       </div>
