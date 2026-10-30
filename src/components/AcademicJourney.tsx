@@ -154,37 +154,82 @@ export function AcademicJourney() {
                       </p>
 
                       {/* Curricular Modules Box */}
-                      <div className="mt-5 p-5 sm:p-6 bg-[#070707] border border-white/[0.07] transition-all duration-300 hover:border-white/[0.14] hover:bg-[#090909]">
-                        <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-white/[0.06]">
+                      <div className="mt-4 p-4 sm:p-5 bg-[#070707] border border-white/[0.07] transition-all duration-300 hover:border-white/[0.14] hover:bg-[#090909]">
+                        <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-white/[0.06]">
                           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-medium">
                             <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" aria-hidden="true" />
-                            <span>Curricular Modules &amp; Laboratories</span>
+                            <span>Curricular Modules &amp; Labs</span>
                           </div>
                           <span className="text-xs font-mono text-[#9C988F]">
-                            {group.topics.length} Courses
+                            {group.topics.length} Subjects
                           </span>
                         </div>
 
-                        {/* Topics Grid */}
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
+                        {/* Compact Topics Grid */}
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-[13.5px] font-sans text-[#FAF8F5]" role="list">
                           {group.topics.map((topic, tIdx) => (
                             <li
                               key={tIdx}
-                              className="text-sm sm:text-[14.5px] font-sans text-[#FAF8F5] flex items-start gap-2.5 font-normal"
+                              className="flex items-center gap-2 font-normal"
                             >
                               <span
-                                className={`w-1.5 h-1.5 rotate-45 shrink-0 mt-1.5 ${
+                                className={`w-1.5 h-1.5 rotate-45 shrink-0 ${
                                   isCompleted ? "bg-[#D4AF37]" : "bg-white/40"
                                 }`}
                                 aria-hidden="true"
                               />
-                              <span className="leading-snug">{topic}</span>
+                              <span className="leading-snug truncate">{topic}</span>
                             </li>
                           ))}
                         </ul>
 
+                        {/* Optional Fields: Notable Projects, Field Trips, Awards, CGPA — only rendered if present */}
+                        {((group.notableProjects && group.notableProjects.length > 0) ||
+                          (group.fieldTrips && group.fieldTrips.length > 0) ||
+                          (group.awards && group.awards.length > 0) ||
+                          group.cgpaOrResult) && (
+                          <div className="mt-4 pt-3 border-t border-white/[0.06] space-y-2 text-xs font-sans">
+                            {group.cgpaOrResult && (
+                              <div className="flex items-center gap-2 text-[#FAF8F5]">
+                                <span className="font-mono text-[#D4AF37] uppercase tracking-wider text-[11px]">Academic Result:</span>
+                                <span>{group.cgpaOrResult}</span>
+                              </div>
+                            )}
+                            {group.notableProjects && group.notableProjects.length > 0 && (
+                              <div className="space-y-1">
+                                <span className="font-mono text-[#D4AF37] uppercase tracking-wider text-[11px] block">Notable Projects:</span>
+                                <ul className="list-disc list-inside text-[#D4CDBC] space-y-0.5">
+                                  {group.notableProjects.map((p, pIdx) => (
+                                    <li key={pIdx}>{p}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {group.fieldTrips && group.fieldTrips.length > 0 && (
+                              <div className="space-y-1">
+                                <span className="font-mono text-[#D4AF37] uppercase tracking-wider text-[11px] block">Field Excursions:</span>
+                                <ul className="list-disc list-inside text-[#D4CDBC] space-y-0.5">
+                                  {group.fieldTrips.map((ft, ftIdx) => (
+                                    <li key={ftIdx}>{ft}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {group.awards && group.awards.length > 0 && (
+                              <div className="space-y-1">
+                                <span className="font-mono text-[#D4AF37] uppercase tracking-wider text-[11px] block">Honors &amp; Awards:</span>
+                                <ul className="list-disc list-inside text-[#D4CDBC] space-y-0.5">
+                                  {group.awards.map((aw, awIdx) => (
+                                    <li key={awIdx}>{aw}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         {/* Assessment Strip */}
-                        <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-[#9C988F]">
+                        <div className="mt-4 pt-3 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-[#9C988F]">
                           <span>
                             {isCompleted
                               ? "Completed and assessed via laboratory & theory examinations."

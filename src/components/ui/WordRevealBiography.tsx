@@ -81,20 +81,21 @@ export const BIOGRAPHY_PARAGRAPHS: ParagraphConfig[] = [
   {
     id: "bio-p3",
     fullText:
-      "My long-term goal is to grow into a skilled full-stack developer and build my own web development business. I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
+      "Alongside my studies, I am continually exploring how modern web technologies and digital tools can support geological data analysis and educational applications.",
     startDelayDesktop: 1150,
     startDelayMobile: 780,
     segments: [
       {
-        text: "My long-term goal is to grow into a skilled",
+        text: "Alongside my studies, I am continually exploring how",
         highlight: false,
       },
-      { text: "full-stack developer", highlight: true },
-      { text: "and build my own", highlight: false },
-      { text: "web development business", highlight: true, trailingPunctuation: "." },
+      { text: "digital tools", highlight: true },
+      { text: "and modern web technologies can support", highlight: false },
+      { text: "geological data analysis", highlight: true },
       {
-        text: "I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
+        text: "and educational applications.",
         highlight: false,
+        trailingPunctuation: ".",
       },
     ],
   },

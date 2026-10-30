@@ -21,11 +21,12 @@ export interface ProjectCaseStudy {
   }[];
   myContribution: string[];
   technologies: { category: string; stack: string[] }[];
-  status: "Completed MVP" | "Ongoing Development" | "Research Prototype";
+  status: "MVP completed, deployment planned" | "Completed MVP" | "Ongoing Development" | "Research Prototype";
   statusNote: string;
   testSuiteEvidence: string;
   githubUrl: string;
   liveUrl?: string;
+  demoUrl?: string;
   keyFeatures: { title: string; description: string }[];
   technicalDecisions: { title: string; detail: string }[];
 }
@@ -39,12 +40,28 @@ export interface ResearchInterest {
   iconName: string;
 }
 
+export interface SelectedWorkItem {
+  id: string;
+  title: string;
+  description: string;
+  courseOrContext: string;
+  year: string;
+  category: "field-report" | "laboratory" | "term-paper" | "gis-map";
+  categoryLabel: string;
+  fileOrLink?: string;
+  isPlaceholder?: boolean;
+}
+
 export interface CourseworkPhase {
   category: string;
   academicYear: string;
   status: "Completed Coursework" | "Current / Upcoming Coursework";
   topics: string[];
   description: string;
+  notableProjects?: string[];
+  fieldTrips?: string[];
+  awards?: string[];
+  cgpaOrResult?: string;
 }
 
 export interface SkillItem {
@@ -63,20 +80,26 @@ export interface PortfolioData {
     name: string;
     headline: string;
     subheadline: string;
+    academicIntro: string;
     department: string;
     institution: string;
     program: string;
     email: string;
+    cvUrl: string;
+    cvAvailable: boolean;
+    orcidUrl?: string;
+    researchGateUrl?: string;
     githubUsername: string;
     githubUrl: string;
-    facebookUrl: string;
     linkedinUrl: string;
     location: string;
     portraitImage: string;
     portraitAlt: string;
     bioOverview: string[];
   };
+  researchStatement: string;
   researchInterests: ResearchInterest[];
+  selectedWork: SelectedWorkItem[];
   technicalProjects: ProjectCaseStudy[];
   featuredProject: ProjectCaseStudy;
   coursework: CourseworkPhase[];
@@ -96,13 +119,24 @@ export const PORTFOLIO_DATA: PortfolioData = {
     headline: "Undergraduate in Geology & Mining · Aspiring Full-Stack Developer",
     subheadline:
       "Undergraduate student in Geology & Mining with a keen interest in earth processes and modern web development. Building practical tools and working toward becoming a full-stack developer.",
+    academicIntro:
+      "Undergraduate student in Geology & Mining, interested in hydrogeology, mineral resources, and GIS, who also builds educational web tools.",
     department: "Department of Geology and Mining",
     institution: "University of Rajshahi",
     program: "B.Sc. (Hons.) in Geology and Mining",
-    email: "parvezahmed.sp2006@gmail.com",
+    // Configurable email — defaults to personal email, can be overridden with university email
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "parvezahmed.sp2006@gmail.com",
+    // Academic CV download path — defaults to /cv.pdf
+    // TODO: Place your verified academic CV file at /public/cv.pdf and set cvAvailable: true
+    cvUrl: "/cv.pdf",
+    cvAvailable: false,
+    // Optional academic research profile links — hidden when empty
+    // TODO: Add your ORCID identifier URL (e.g. https://orcid.org/0000-0000-0000-0000)
+    orcidUrl: process.env.NEXT_PUBLIC_ORCID_URL || "",
+    // TODO: Add your ResearchGate profile URL if established
+    researchGateUrl: process.env.NEXT_PUBLIC_RESEARCHGATE_URL || "",
     githubUsername: "parvezahmedsp2006-a11y",
     githubUrl: "https://github.com/parvezahmedsp2006-a11y",
-    facebookUrl: "https://www.facebook.com/fouad.hasan.52493",
     linkedinUrl: "https://www.linkedin.com/in/parvez-ahmed-5b66a3355/",
     location: "Rajshahi, Bangladesh",
     portraitImage: "/images/portrait/hero-portrait.png",
@@ -111,9 +145,14 @@ export const PORTFOLIO_DATA: PortfolioData = {
     bioOverview: [
       "I am an undergraduate student in Geology and Mining at the University of Rajshahi. I am drawn to understanding the Earth's physical processes, geological formations, and natural resources.",
       "Alongside earth science, I have developed a strong passion for web development. I enjoy building practical digital products, including the GeoMine Resource Hub, an educational platform I designed to organize departmental materials for students.",
-      "My long-term goal is to grow into a skilled full-stack developer and build my own web development business. I am continually learning modern web technologies and creating digital tools that solve everyday problems.",
+      "My academic focus is on earth sciences, and I am continually exploring how modern web technologies and digital tools can support geological data analysis and educational applications.",
     ],
   },
+
+  // Research Statement Block
+  // TODO: Refine this personal statement with your exact prospective research questions
+  researchStatement:
+    "My academic inquiry focuses on the intersection of hydrogeology and spatial analysis, exploring how sediment layering governs regional aquifer dynamics and water sustainability in alluvial plains. I aim to apply computational tools and field-verified datasets to investigate groundwater recharge vulnerability and natural resource management.",
 
   // 4 Academic Interests grounded in undergraduate studies
   researchInterests: [
@@ -183,16 +222,65 @@ export const PORTFOLIO_DATA: PortfolioData = {
     },
   ],
 
+  // Selected Academic Work: Field Reports, Laboratory Practicals, Term Papers & Spatial Maps
+  // TODO: Add genuine field trip reports, mineralogy lab observations, seminar papers, and GIS maps when completed.
+  selectedWork: [
+    {
+      id: "work-field-report",
+      title: "Geological Field Reconnaissance & Mapping Report",
+      description: "Lithological mapping, strike and dip measurements, and structural analysis of rock outcrops during academic fieldwork.",
+      courseOrContext: "Field Geology Coursework",
+      year: "2024",
+      category: "field-report",
+      categoryLabel: "Field Report",
+      fileOrLink: undefined, // TODO: Link to real report PDF when completed
+      isPlaceholder: true, // Marked as placeholder: not rendered as completed work until verified
+    },
+    {
+      id: "work-petrology-lab",
+      title: "Optical Mineralogy & Petrological Laboratory Analysis",
+      description: "Petrographic microscope examination of mineral interference figures, pleochroism, and extinction angles in rock thin sections.",
+      courseOrContext: "Mineralogy & Optical Petrology Lab",
+      year: "2024",
+      category: "laboratory",
+      categoryLabel: "Laboratory Work",
+      fileOrLink: undefined, // TODO: Link to lab notebook or documentation
+      isPlaceholder: true,
+    },
+    {
+      id: "work-term-paper",
+      title: "Sedimentary Basin & Groundwater Systems Seminar",
+      description: "Academic literature review and seminar presentation on sedimentary depositional environments and aquifer vulnerability.",
+      courseOrContext: "Academic Seminar Presentation",
+      year: "2024",
+      category: "term-paper",
+      categoryLabel: "Term Paper / Seminar",
+      fileOrLink: undefined, // TODO: Link to presentation slides or paper PDF
+      isPlaceholder: true,
+    },
+    {
+      id: "work-gis-dem",
+      title: "Digital Elevation Model (DEM) & Spatial Mapping",
+      description: "Spatial terrain analysis and stream order delineation using digital elevation models (DEM) and GIS tools.",
+      courseOrContext: "Spatial Earth Observation",
+      year: "2024",
+      category: "gis-map",
+      categoryLabel: "GIS / DEM Map",
+      fileOrLink: undefined, // TODO: Link to map image or GIS project
+      isPlaceholder: true,
+    },
+  ],
+
   technicalProjects: [
     {
       id: "geomine",
       title: "GeoMine Resource Hub",
       category: "Full-Stack Web Application · Educational Platform",
-      subtitle: "Academic Resource Platform for Coursework & Materials",
+      subtitle: "Academic Resource Platform for Departmental Students",
       description:
-        "A full-stack web application designed to help students easily access course materials, lecture notes, syllabi, and academic resources in one organized portal.",
+        "An educational platform built for departmental students to organize and access coursework materials, lecture slides, and curriculum syllabi in one structured portal.",
       role: "Creator & Developer",
-      timeline: "Personal Project · Ongoing Development",
+      timeline: "Educational Platform",
       problemStatement:
         "Course study materials, past exam questions, and lecture slides were often scattered across informal chat groups and unorganized personal drives. GeoMine Resource Hub centralizes these resources into a structured, searchable catalog aligned with the curriculum syllabus.",
       verifiedContributions: [
@@ -244,11 +332,12 @@ export const PORTFOLIO_DATA: PortfolioData = {
           stack: ["JWT Authentication", "Bcrypt.js", "Vitest (153 Tests)"],
         },
       ],
-      status: "Completed MVP",
+      status: "MVP completed, deployment planned",
       statusNote:
-        "Developed and verified in local development with 20 Vitest test suites (153 tests). The complete source code is maintained on GitHub; live server deployment is planned.",
+        "Developed and verified in local development with 20 Vitest test suites (153 tests). Complete source code is maintained on GitHub; live server deployment is planned.",
       testSuiteEvidence: "20 passing test suites (153 unit and integration tests) verifying database models, authentication, and API endpoints",
       githubUrl: "https://github.com/parvezahmedsp2006-a11y/geo-mine-resource-hub",
+      demoUrl: process.env.NEXT_PUBLIC_GEOMINE_DEMO_URL || undefined,
       keyFeatures: [
         {
           title: "8-Semester Curriculum Hierarchy",
@@ -308,6 +397,15 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Geomorphology & Surface Dynamics",
         "Optical Mineralogy & Petrology Labs",
       ],
+      // Optional fields: hidden if empty
+      // TODO: Add notable course projects if applicable
+      notableProjects: [],
+      // TODO: Add field trips if applicable
+      fieldTrips: [],
+      // TODO: Add academic awards or scholarships if applicable
+      awards: [],
+      // TODO: Add CGPA or examination results when available
+      cgpaOrResult: undefined,
     },
     {
       category: "Core Geological Disciplines",
@@ -321,6 +419,11 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Stratigraphy & Historical Geology",
         "Invertebrate Paleontology",
       ],
+      // Optional fields: hidden if empty
+      notableProjects: [],
+      fieldTrips: [],
+      awards: [],
+      cgpaOrResult: undefined,
     },
     {
       category: "Applied & Practical Geosciences",
@@ -334,6 +437,11 @@ export const PORTFOLIO_DATA: PortfolioData = {
         "Petroleum Geology & Basin Evaluation",
         "Geophysics & Remote Sensing / GIS",
       ],
+      // Optional fields: hidden if empty
+      notableProjects: [],
+      fieldTrips: [],
+      awards: [],
+      cgpaOrResult: undefined,
     },
   ],
 
@@ -369,7 +477,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         {
           name: "Python",
           level: "Learning",
-          note: "Studying basic scripting and data manipulation for geological and computational datasets.",
+          note: "Studying Python scripting and scientific data manipulation (NumPy, Pandas) for geological and hydrological data analysis.",
         },
       ],
     },
@@ -403,8 +511,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
         },
         {
           name: "GIS & Remote Sensing",
-          level: "Planning to Explore",
-          note: "Exploring satellite imagery and spatial data tools for geological mapping and environmental monitoring.",
+          level: "Learning",
+          note: "Learning digital elevation models (DEM) and spatial mapping tools for geological observation.",
         },
       ],
     },
@@ -462,14 +570,14 @@ export const PORTFOLIO_DATA: PortfolioData = {
     },
     {
       timeframe: "Long-Term",
-      stage: "Digital Products & Web Development Business",
-      title: "Building Practical Products & Developing a Web Business",
+      stage: "Earth Science & Digital Scientific Tools",
+      title: "Scientific Software & Digital Earth Science Tools",
       description:
-        "Applying combined problem-solving skills to build sustainable digital products and establish an independent web development business, alongside a lifelong appreciation for earth sciences.",
+        "Applying combined problem-solving skills to develop robust scientific software, educational platforms, and digital tools that support geological research and community education.",
       keyDeliverables: [
-        "Develop independent web products that provide tangible value to clients and communities.",
-        "Establish an independent web development business focused on modern, accessible, and reliable software.",
-        "Continue connecting real-world problem solving with modern software engineering.",
+        "Develop open-source digital tools that facilitate geological study and academic resource sharing.",
+        "Integrate geospatial data processing with modern, accessible web interfaces.",
+        "Pursue advanced academic studies and collaborative geoscience initiatives.",
       ],
     },
   ],
