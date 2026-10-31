@@ -1,5 +1,28 @@
 import type { Metadata, Viewport } from "next";
+import { Newsreader, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-newsreader",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-geist-mono",
+});
 
 function getSiteUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
@@ -98,14 +121,17 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="h-full scroll-smooth">
+    <html
+      lang="en"
+      className={`h-full scroll-smooth ${newsreader.variable} ${inter.variable} ${geistMono.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#000000] text-[#F3F0E8] selection:bg-[#D4AF37]/30 selection:text-[#FFF4D0]">
+      <body className="min-h-screen flex flex-col bg-[#000000] text-[#F3F0E8] font-sans selection:bg-[#D4AF37]/30 selection:text-[#FFF4D0]">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

@@ -163,7 +163,7 @@ export function BeyondTheHorizon() {
                         </div>
                       ) : (
                         <div
-                          className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] font-mono font-bold bg-gradient-to-br ${theme.gradient} border border-white/15 shadow-sm transition-transform group-hover:scale-105`}
+                          className={`w-9 h-9 rounded-lg flex-shrink-0 flex items-center justify-center text-[10px] font-mono font-semibold bg-gradient-to-br ${theme.gradient} border border-white/15 shadow-sm transition-transform group-hover:scale-105`}
                         >
                           <MapPin className="w-4 h-4 text-white/90 drop-shadow" />
                         </div>

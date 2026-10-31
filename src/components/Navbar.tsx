@@ -148,10 +148,10 @@ export function Navbar() {
           }`}
         >
           <div className="max-w-6xl mx-auto px-6 lg:px-12 h-16 sm:h-18 flex items-center justify-between">
-            {/* Brand Wordmark (Small script in sticky state) */}
+            {/* Brand Wordmark (Newsreader Editorial Serif) */}
             <Link
               href="#"
-              className="calligraphic-wordmark text-2xl sm:text-3xl leading-none select-none hover:opacity-85 transition-opacity"
+              className="font-serif text-xl sm:text-2xl tracking-tight text-[#FAF8F5] hover:text-[#D4AF37] transition-colors leading-none select-none font-medium"
               aria-label="Parvez Ahmed Homepage"
             >
               Parvez Ahmed

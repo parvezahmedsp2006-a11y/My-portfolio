@@ -1084,7 +1084,7 @@ export function InteractiveEarthGlobe({
         {/* ─── Top Left: Compass Rose (Matches Reference Image) ───────────────── */}
         <div className="absolute top-5 left-5 z-20 pointer-events-none flex flex-col items-center">
           <div className="w-10 h-10 rounded-full border border-[#D4AF37]/50 bg-black/60 backdrop-blur-md flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.15)]">
-            <span className="text-[11px] font-serif font-bold text-[#D4AF37]">N</span>
+            <span className="text-[11px] font-serif font-semibold text-[#D4AF37]">N</span>
           </div>
           <div className="w-px h-2.5 bg-[#D4AF37]/40 mt-0.5" />
         </div>

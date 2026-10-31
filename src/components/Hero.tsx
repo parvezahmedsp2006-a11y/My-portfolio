@@ -44,12 +44,12 @@ export function Hero({ initialSlideIndex: _initialSlideIndex }: HeroProps = {}) 
     >
       {/* Top Header Region */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full">
-        {/* Enormous Gold Calligraphic Wordmark (Centered in Upper Region with Letter Bounce) */}
+        {/* Primary Hero Name Heading in Newsreader (Centered in Upper Region with Letter Bounce) */}
         <div className="text-center pt-1 sm:pt-4 pointer-events-none select-none">
           <LetterBounceHeading
             as="h1"
             text={PORTFOLIO_DATA.personal.name}
-            className="calligraphic-wordmark text-[clamp(2.6rem,8.6vw,7.6rem)] leading-[0.94] tracking-wide inline-block pointer-events-none select-text"
+            className="font-serif text-[clamp(2.75rem,8vw,5.75rem)] text-[#FAF8F5] font-medium sm:font-semibold tracking-tight leading-[1.04] inline-block pointer-events-none select-text"
             staggerMs={45}
             baseDelayMs={80}
           />
