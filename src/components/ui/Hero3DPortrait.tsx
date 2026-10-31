@@ -78,7 +78,7 @@ export function Hero3DPortrait({
 
   return (
     <div
-      className={`relative w-full max-w-[150px] min-[360px]:max-w-[165px] min-[390px]:max-w-[180px] sm:max-w-[280px] lg:max-w-[370px] xl:max-w-[390px] select-none ${className}`}
+      className={`relative w-[72%] min-[360px]:w-[74%] max-w-[215px] min-[360px]:max-w-[230px] min-[400px]:max-w-[250px] sm:w-full sm:max-w-[280px] md:max-w-[330px] lg:max-w-[390px] xl:max-w-[420px] select-none ${className}`}
       style={{
         perspective: isReducedMotion ? "none" : "1200px",
       }}
@@ -97,7 +97,7 @@ export function Hero3DPortrait({
           ref={cardRef}
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
-          className="relative aspect-[3/4] w-full rounded-xl sm:rounded-2xl transition-all duration-300 cursor-pointer group"
+          className="relative aspect-[3/4] w-full rounded-2xl sm:rounded-3xl p-1 sm:p-1.5 border border-[#D4AF37]/25 bg-gradient-to-b from-[#18140E]/80 to-[#0A0704]/90 backdrop-blur-xs transition-all duration-300 cursor-pointer group shadow-[0_16px_48px_rgba(0,0,0,0.9),0_0_28px_rgba(212,175,55,0.1)]"
           style={{
             transform: isReducedMotion
               ? "none"
@@ -113,13 +113,13 @@ export function Hero3DPortrait({
             Radiates softly behind the portrait, echoing the warm golden-orange backdrop of the artwork.
           */}
           <div
-            className="absolute -inset-3 sm:-inset-5 rounded-2xl bg-gradient-to-tr from-[#D95B1E]/30 via-[#F58220]/20 to-amber-500/10 blur-xl sm:blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
+            className="absolute -inset-3 sm:-inset-5 rounded-3xl bg-gradient-to-tr from-[#D4AF37]/25 via-[#F58220]/25 to-amber-500/10 blur-xl sm:blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
             aria-hidden="true"
           />
 
           {/* Secondary deep focus shadow */}
           <div
-            className="absolute -inset-1 rounded-xl sm:rounded-2xl bg-[#D95B1E]/15 blur-md opacity-60 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none -z-10"
+            className="absolute -inset-1 rounded-2xl sm:rounded-3xl bg-[#D4AF37]/15 blur-md opacity-60 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none -z-10"
             aria-hidden="true"
           />
 
@@ -128,14 +128,14 @@ export function Hero3DPortrait({
             Preserves 100% of the original illustration, foliage silhouette, warm sunset backdrop, 
             and lighting without destructive cropping or background stripping.
           */}
-          <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border border-[#F58220]/25 group-hover:border-[#F58220]/45 shadow-[0_12px_40px_rgba(0,0,0,0.85)] bg-[#0A0704] transition-colors duration-300">
+          <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border border-[#D4AF37]/35 group-hover:border-[#D4AF37]/60 shadow-[0_8px_30px_rgba(0,0,0,0.85)] bg-[#0A0704] transition-colors duration-300">
             <Image
               src="/images/portrait/hero-portrait.png"
-              alt="Artistic portrait illustration of Parvez Ahmed against a warm golden-orange sunset sphere and foliage silhouette"
+              alt="Portrait illustration of Parvez Ahmed against a warm sunset aesthetic"
               fill
-              preload={preload}
+              priority={preload}
               className="object-contain object-center"
-              sizes="(max-width: 640px) 180px, (max-width: 1024px) 280px, 390px"
+              sizes="(max-width: 640px) 300px, (max-width: 1024px) 380px, 440px"
             />
 
             {/* Subtle dynamic specular light sheen following cursor */}
@@ -143,7 +143,7 @@ export function Hero3DPortrait({
               <div
                 className="absolute inset-0 pointer-events-none transition-opacity duration-200"
                 style={{
-                  background: `radial-gradient(circle at ${glow.x}% ${glow.y}%, rgba(255, 200, 120, 0.14) 0%, rgba(245, 130, 32, 0.05) 35%, transparent 65%)`,
+                  background: `radial-gradient(circle at ${glow.x}% ${glow.y}%, rgba(255, 215, 120, 0.16) 0%, rgba(245, 130, 32, 0.06) 35%, transparent 65%)`,
                 }}
                 aria-hidden="true"
               />
